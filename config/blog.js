@@ -1,11 +1,11 @@
 const CONFIG = {
   BLOG_TITLE: 'interittus13',
-  link: 'https://morethanmin.com',
+  link: 'https://interittus.in',
   NOTION_PAGE_ID: '',
   UTTERANCES: {
     ENABLE: true,
     CONFIG: {
-      repo: 'morethanmin/morethanmin.com',
+      repo: 'interittus13/interittus.in',
       'issue-term': 'og:title',
       label: '💬 Utterances',
     },
