@@ -2,6 +2,7 @@ const CONFIG = {
   BLOG_TITLE: 'interittus13',
   link: 'https://interittus.in',
   NOTION_PAGE_ID: process.env.NOTION_PAGE_ID,
+  GA_TRACKING_ID: process.env.GOOGLE_ANALYTICS_VIEW_ID || 'G-HGPG08YYC4',
   UTTERANCES: {
     ENABLE: true,
     CONFIG: {
