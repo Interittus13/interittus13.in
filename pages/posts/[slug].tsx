@@ -98,7 +98,7 @@ const PostPage: NextPage<{
               </a>
             </Link>
             <div className="flex flex-row items-center mt-2 space-x-2 text-sm font-semibold text-true-gray-600 dark:text-true-gray-400">
-              <Moment date={post.date} fromNow format="yyyy.MM.DD" local />
+              <Moment date={post.date} fromNow format="DD MMM yyyy" local />
               <p>·</p>
               <p>{text}</p>
               <p>·</p>

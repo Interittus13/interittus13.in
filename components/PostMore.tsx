@@ -68,7 +68,7 @@ const PostMore: FC<{ posts: TPost[] }> = ({ posts }) => {
                     date={post.date}
                     fromNow
                     // format="MMM DD, yy"
-                    format="DD MM yyyy"
+                    format="DD MMM yyyy"
                     local
                   />
                 </div>
