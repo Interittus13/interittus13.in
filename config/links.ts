@@ -50,7 +50,6 @@ export const links: readonly [
   },
   {
     url: 'https://www.facebook.com/people/%EC%9D%B4%EC%83%81%EB%AF%BC/pfbid0B4L2YBvSqKVkJ5JKGcUeJTGMhRj8puad8dAnbtKAVbZC7Y1zHnbLGAnym6P6thsxl/',
-    // icon: SiGoogle,
     icon: SiFacebook,
     fill: 'fill-[#1877F2]',
     border: 'border-[#1877F2]',

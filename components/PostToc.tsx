@@ -45,10 +45,7 @@ const PostToc: FC<PostTocProps> = ({ blocks }) => {
           return (
             <a
               key={heading.id}
-              href={`#${slugify(heading.content).replace(
-                /[^A-Za-z0-9]/g,
-                '-'
-              )}`}
+              href={`#${slugify(heading.content).replace(/[^A-Za-z0-9]/g, '-')}`}
               onClick={(e) => {
                 e.preventDefault()
                 document

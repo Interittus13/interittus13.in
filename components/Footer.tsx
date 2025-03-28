@@ -88,7 +88,7 @@ const Footer = () => {
                   by{' '}
                   <a
                     className="text-true-gray-600 hover:underline"
-                    href="https://github.com/morethanmin/morethan-log"
+                    href="https://github.com/interittus13"
                     target="_blank"
                     rel="noopener noreferrer"
                     dark="text-true-gray-400"

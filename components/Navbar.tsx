@@ -7,7 +7,10 @@ import CategoriesIcon from '../assets/categories.svg'
 import FriendsIcon from '../assets/friends.svg'
 import MeIcon from '../assets/me.svg'
 import MenuIcon from '../assets/menu.svg'
+import TocIcon from '../assets/toc.svg'
+import TocFillIcon from '../assets/toc_fill.svg'
 
+import PostToc from '../components/PostToc'
 import { Colors } from '../lib/colors'
 import { useRouter } from 'next/router'
 import { CONFIG } from '../config/blog'
@@ -58,6 +61,7 @@ const MenuItemLink = (props: {
 
 const Navbar = ({ toc }: { toc: any }) => {
   const path = useRouter().asPath
+  const isPost = path.startsWith('/post/')
   return (
     <header
       className="sticky top-0 z-50 font-bold bg-white bg-opacity-70 backdrop-filter backdrop-blur-lg backdrop-saturate-200 border-b-[0.5px] border-b-true-gray-100"
@@ -71,7 +75,7 @@ const Navbar = ({ toc }: { toc: any }) => {
         </div>
         <div className="flex items-center">
           {/* // TODO: TOC */}
-          {/* {isPost ? (
+          {isPost ? (
             <Menu>
               <Menu.Button className="flex items-center px-0 m-0 mr-6 z-50">
                 {({ open }) => (!open && <TocIcon />) || <TocFillIcon />}
@@ -102,7 +106,7 @@ const Navbar = ({ toc }: { toc: any }) => {
                 </Menu.Items>
               </Transition>
             </Menu>
-          ) : null} */}
+          ) : null}
           <nav className="flex items-center justify-center hidden space-x-5 sm:flex">
             {navigations.map((n, i) => (
               <Link href={n.link} key={i}>

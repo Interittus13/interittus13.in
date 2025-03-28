@@ -25,7 +25,7 @@ import {
 } from "@icons-pack/react-simple-icons";
 
 export const me = {
-  site: "https://www.morethanmin.com",
+  site: "https://www.interittus.in",
   name: "Arpit Gupta",
   nickname: "interittus13",
   image: "/static/images/portrait.png",
