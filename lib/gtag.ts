@@ -1,7 +1,7 @@
-import { CONFIG } from '../config/blog'
+export const GA_TRACKING_ID = process.env.GOOGLE_ANALYTICS_VIEW_ID || "G-HGPG08YYC4"
 
 export const pageview = (url: string, title: string) => {
-  window.gtag('config', CONFIG.GA_TRACKING_ID, {
+  window.gtag('config', GA_TRACKING_ID, {
     page_location: url,
     page_title: title,
   })
