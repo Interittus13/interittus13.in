@@ -1,43 +1,46 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { SiTwitter } from '@icons-pack/react-simple-icons'
 import { faLink } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { InlineShareButtons } from 'sharethis-reactjs'
+import { InlineShareButtons, SharingNetwork } from 'sharethis-reactjs'
 import { useRouter } from 'next/router'
 import { me } from '../config/me'
 
 export const Share = () => {
-  const share: any[] = []
-  const [shares, setShares] = useState(share)
-  const router = useRouter()
+  const router = useRouter();
   const [copied, setCopied] = useState(false)
 
-  useEffect(() => {
-    const twitterShare = document.querySelector(
-      '#sharethis [data-network="twitter"]'
-    ) as HTMLElement
+  const handleCopy = () => {
+    navigator.clipboard.writeText(me.site + router.asPath);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  }
 
-    setShares([
-      {
-        name: 'link',
-        icon: <FontAwesomeIcon icon={faLink} />,
-        color: 'hover:text-orange-400',
-        onClick: () => {
-          navigator.clipboard.writeText(me.site + router.asPath)
-          setCopied(true)
-          setTimeout(() => {
-            setCopied(false)
-          }, 2000)
-        },
-      },
-      {
-        name: 'twitter',
-        icon: <SiTwitter size="20" />,
-        color: 'hover:text-blue-400',
-        onClick: () => twitterShare.click(),
-      },
-    ])
-  }, [router.asPath])
+  const handleShareClick = (network: string) => {
+    setTimeout(() => {
+      const shareButton = document.querySelector(
+        `#sharethis [data-network="${network}"]`
+      ) as HTMLElement | null;
+      if (shareButton) shareButton.click()
+      else console.error(`${network} share button not found!`);
+    }, 1000);
+  };
+
+  // Share Buttons configuration
+  const shareButtons = [
+    {
+      name: "link",
+      icon: <FontAwesomeIcon icon={faLink} />,
+      color: "hover:text-orange-400",
+      action: handleCopy,
+    },
+    {
+      name: "twitter",
+      icon: <SiTwitter size="20" />,
+      color: "hover:text-blue-400",
+      action: () => handleShareClick("twitter"),
+    },
+  ]
 
   return (
     <>
@@ -50,7 +53,10 @@ export const Share = () => {
             font_size: 16,
             labels: null,
             language: 'en',
-            networks: ['twitter', 'weibo', 'wechat'],
+            networks: shareButtons
+              .filter((btn) => btn.name !== "link")
+              .map((btn) => btn.name as SharingNetwork), 
+            url: me.site + router.asPath,
             padding: 7,
             radius: 9,
             show_total: false,
@@ -58,12 +64,13 @@ export const Share = () => {
           }}
         />
       </div>
+
       <div className="flex items-center space-x-5 text-true-gray-400 mt-4 relative">
-        {shares.map((share) => (
+        {shareButtons.map((share) => (
           <button
             key={share.name}
             className={`leading-0 ${share.color}`}
-            onClick={share.onClick}
+            onClick={share.action}
           >
             {share.icon}
           </button>
