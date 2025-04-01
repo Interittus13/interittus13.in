@@ -11,8 +11,8 @@ export const friends: FriendType[] = [
     img: 'https://avatars.githubusercontent.com/u/96572268?v=4',
   },
   {
-    url: 'https://blog.sikiy.com',
+    url: 'https://github.com/divyanshu-arya',
     name: 'Divyanshu',
-    img: 'https://avatars.githubusercontent.com/u/46680792?v=4',
+    img: 'https://avatars.githubusercontent.com/u/128089048?v=4',
   },
 ]
