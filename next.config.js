@@ -25,13 +25,13 @@ module.exports = withPWA(
       disable: process.env.NODE_ENV === "development",
     },
 
-    async redirects() {
-      return [
-        {
-          source: '/:path((?!me|tags|friends|archive|categories)[^/]+)',
-          destination: '/posts/:path*',
-          permanent: true,
-        },
-      ]
-    },
+    // async redirects() {
+    //   return [
+    //     {
+    //       source: '/:path((?!me|tags|friends|archive|categories)[^/]+)',
+    //       destination: '/posts/:path*',
+    //       permanent: true,
+    //     },
+    //   ]
+    // },
   }))
