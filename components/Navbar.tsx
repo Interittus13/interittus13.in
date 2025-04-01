@@ -30,13 +30,13 @@ const navigations = [
     color: Colors['orange'].text.normal,
     width: 'group-hover:w-21.5',
   },
-  {
-    name: 'Friends',
-    link: '/friends',
-    icon: <FriendsIcon />,
-    color: Colors['blue'].text.normal,
-    width: 'group-hover:w-15.5',
-  },
+  // {
+  //   name: 'Friends',
+  //   link: '/friends',
+  //   icon: <FriendsIcon />,
+  //   color: Colors['blue'].text.normal,
+  //   width: 'group-hover:w-15.5',
+  // },
   {
     name: 'Me',
     link: '/me',
