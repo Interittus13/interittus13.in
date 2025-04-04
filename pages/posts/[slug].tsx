@@ -30,24 +30,26 @@ const ContentRenderer = dynamic(
   { ssr: false }
 )
 
-const PostPage: NextPage<{
+interface PostPageProps {
   post: TPost
   posts: TPost[]
   recordMap: ExtendedRecordMap
-  pagination: any
-}> = ({ post, recordMap, pagination, posts }) => {
-  const { text } = readingTime(
-    Object.values(recordMap.block)
-      .map((b) => b?.value?.properties?.title?.flat())
-      .flat()
-      .join('')
-  )
+  pagination: {
+    prev: TPost | null
+    next: TPost | null
+  }
+}
 
+// const PostPage: NextPage<{
+//   post: TPost
+//   posts: TPost[]
+//   recordMap: ExtendedRecordMap
+//   pagination: any
+// }> = ({ post, recordMap, pagination, posts }) => {
+const PostPage: NextPage<PostPageProps> = ({ post, recordMap, pagination, posts }) => {
   const router = useRouter()
   const { locale } = router
-
-  // TODO: https://github.com/NotionX/react-notion-x#supported-blocks
-
+  
   // setToc(blocks)
   if (!post || !recordMap) {
     return (
@@ -59,6 +61,14 @@ const PostPage: NextPage<{
       </>
     )
   }
+
+  // Calculate estimated reading time
+  const { text } = readingTime(
+    Object.values(recordMap.block)
+      .map((b) => b?.value?.properties?.title?.flat())
+      .flat()
+      .join('')
+  )
 
   return (
     <>
@@ -72,47 +82,36 @@ const PostPage: NextPage<{
         url={router.asPath}
       />
       <ContentLayout>
-        <header
-          className="flex flex-col text-left break-word"
-          data-aos="fade-down"
-        >
+        <header className="flex flex-col text-left break-word" data-aos="fade-down">
           <div className="mt-3 md:mt-6">
-            <Link
-              href="/category/[{Category}]"
-              as={`/category/${post.category?.[0]}`}
-            >
-              <a>
+            {post.category?.[0] && (
+              <Link href={`/category/${post.category?.[0]}`}>
                 <p
                   className={`inline-block mb-2 text-xs font-bold text-true-gray-600 leading-2 ${
-                    Colors[getColorClassByName(post.category?.[0] || '')].text
-                      .normal
+                    Colors[getColorClassByName(post.category?.[0])].text.normal
                   } `}
                 >
                   {post.category?.[0]}
                 </p>
-              </a>
             </Link>
+            )}
             <div className="flex flex-row items-center mt-2 space-x-2 text-sm font-semibold text-true-gray-600 dark:text-true-gray-400">
               <Moment date={post.date} fromNow format="DD MMM yyyy" local />
-              <p>·</p>
-              <p>{text}</p>
-              <p>·</p>
-              <p>
-                <span id="twikoo_visitors">
-                  <span className="animate-pulse">-</span>
-                </span>{' '}
-                Views
-              </p>
+              <span>·</span>
+              <span>{text}</span>
+              <span>·</span>
+              <span id="twikoo_visitors" className="animate-pulse">-</span> Views
             </div>
           </div>
-          <p
+
+          <h1
             className={`my-6 text-4xl font-bold whitespace-pre-wrap lg:text-5xl ${
-              // post.colorTitle ? `${Colors[post.category.color]?.bg.gradient} bg-gradient-to-r text-transparent bg-clip-text` : '' // TODO: default 를 category 에 따라 색상 변경
-              ''
+              post.title && post.category ? `${Colors[getColorClassByName(post.category?.[0])]?.bg.gradient} bg-gradient-to-r text-transparent bg-clip-text` : '' // TODO: default 를 category 에 따라 색상 변경
+              // ''
             } relative z-0`}
           >
             {post.title}
-          </p>
+          </h1>
           <p
             className="mb-4 text-xl font-medium text-true-gray-600 lg:text-2xl"
             dark="text-true-gray-400"
