@@ -112,15 +112,16 @@ const PostPage: NextPage<PostPageProps> = ({ post, recordMap, pagination, posts 
           >
             {post.title}
           </h1>
-          <p
-            className="mb-4 text-xl font-medium text-true-gray-600 lg:text-2xl"
-            dark="text-true-gray-400"
-          >
+          {post.summary && (
+            <p className="mb-4 text-xl font-medium text-true-gray-600 lg:text-2xl" dark="text-true-gray-400">
             {post.summary}
           </p>
+          )}
           <Share />
         </header>
       </ContentLayout>
+
+      {/* Cover Image */}
       <CoverLayout>
         <div
           className="relative w-full h-full md:rounded-3xl"
@@ -133,6 +134,8 @@ const PostPage: NextPage<PostPageProps> = ({ post, recordMap, pagination, posts 
           />
         </div>
       </CoverLayout>
+
+      {/* Notion Content */}
       <ContentLayout>
         {/* <FrontMessage post={page} /> */}
         {/* {blocks.map((block) => {
@@ -145,14 +148,11 @@ const PostPage: NextPage<PostPageProps> = ({ post, recordMap, pagination, posts 
           } gap-4 w-full`}
         >
           {/* Tags */}
-          <div className="flex flex-wrap items-center gap-2 overflow-scroll scrollbar-hide">
+          {post.tags && (
+            <div className="flex flex-wrap items-center gap-2 overflow-scroll scrollbar-hide">
             <TagsIcon />
             {post.tags?.map((tagName: any) => (
-              <Link
-                href={`/tags/${tagName}`}
-                as={`/tags/${tagName}`}
-                key={tagName}
-              >
+              <Link key={tagName} href={`/tags/${tagName}`} as={`/tags/${tagName}`}>
                 <a href={`/tags/${tagName}`}>
                   <div
                     className={`${
@@ -163,17 +163,24 @@ const PostPage: NextPage<PostPageProps> = ({ post, recordMap, pagination, posts 
                     {tagName}
                   </div>
                 </a>
-              </Link>
-            ))}
-          </div>
+            </Link>
+          ))}
+            </div>
+          )}
         </div>
+        </ContentLayout>
+        
+        {/* Pagiantion */}
+        <ContentLayout>
         {/* <Licensing page={page} data-aos="fade-up" data-aos-duration="500" /> */}
         <Pagination
           pagination={pagination}
           data-aos="fade-up"
           data-aos-duration="500"
-        ></Pagination>
-      </ContentLayout>
+          ></Pagination>
+        </ContentLayout>
+
+      {/* Widgets */}
       <ContentLayout>
         <div className="hidden grid-cols-2 gap-4 sm:grid md:grid-cols-2">
           <WidgetMeMedium fix={true} />
@@ -184,6 +191,8 @@ const PostPage: NextPage<PostPageProps> = ({ post, recordMap, pagination, posts 
           <WidgetOverViewSmall posts={posts} />
         </div>
       </ContentLayout>
+
+      {/* Comment Section */}
       <ContentLayout>
         <Comment />
       </ContentLayout>
@@ -255,6 +264,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     revalidate: 60 * 60,
   }
 }
+
+// Set Page Layout
 ;(PostPage as NextPageWithLayout).getLayout = function getLayout(
   page: ReactElement
 ) {
