@@ -81,6 +81,8 @@ const PostPage: NextPage<PostPageProps> = ({ post, recordMap, pagination, posts 
         title={post.title}
         url={router.asPath}
       />
+
+      {/* Post Header */}
       <ContentLayout>
         <header className="flex flex-col text-left break-word" data-aos="fade-down">
           <div className="mt-3 md:mt-6">
