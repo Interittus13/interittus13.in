@@ -1,8 +1,6 @@
 import { GetStaticProps, NextPage } from 'next'
 import { ParsedUrlQuery } from 'querystring'
-import ContentLayout, {
-  CoverLayout,
-} from '../../components/layout/ContentLayout'
+import ContentLayout, { CoverLayout } from '../../components/layout/ContentLayout'
 import Head from 'next/head'
 import DefaultErrorPage from 'next/error'
 import { BlogLayoutWhite } from '../../components/layout/BlogLayout'
@@ -16,10 +14,7 @@ import TagsIcon from '../../assets/tags.svg'
 import Pagination from '../../components/Pagination'
 import Comment from '../../components/Comment'
 import { WidgetMeMedium, WidgetMeSmall } from '../../components/widget/WidgetMe'
-import {
-  WidgetOverViewMedium,
-  WidgetOverViewSmall,
-} from '../../components/widget/WidgetOverview'
+import { WidgetOverViewMedium, WidgetOverViewSmall } from '../../components/widget/WidgetOverview'
 import ThemedImage from '../../components/ThemedImage'
 import PostSeo from '../../components/PostSeo'
 import { useRouter } from 'next/router'

@@ -1481,6 +1481,11 @@
   "resolved" "https://registry.npmjs.org/@types/parse-json/-/parse-json-4.0.0.tgz"
   "version" "4.0.0"
 
+"@types/prismjs@^1.26.5":
+  "integrity" "sha512-AUZTa7hQ2KY5L7AmtSiqxlhWxb4ina0yd8hNbl4TWuqnv/pFP0nDMb3YrfSBf4hJVGLh2YEIBfKaBW/9UEl6IQ=="
+  "resolved" "https://registry.npmjs.org/@types/prismjs/-/prismjs-1.26.5.tgz"
+  "version" "1.26.5"
+
 "@types/probe-image-size@^7.0.1":
   "integrity" "sha512-zCHdXf0s+E+EGk7f6PSECcK9Fq/lQnNeJgVg8ogC3T6k68fO6pZw9uu0hKkZuA7hWYPM3j6sYam7uGVzud4tfg=="
   "resolved" "https://registry.npmjs.org/@types/probe-image-size/-/probe-image-size-7.0.1.tgz"
