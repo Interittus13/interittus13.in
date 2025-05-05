@@ -1,4 +1,4 @@
-import { GetStaticProps, NextPage } from 'next'
+import { GetStaticProps, GetStaticPaths, NextPage } from 'next'
 import { ParsedUrlQuery } from 'querystring'
 import ContentLayout, { CoverLayout } from '../../components/layout/ContentLayout'
 import Head from 'next/head'
@@ -40,16 +40,10 @@ interface PostPageProps {
   }
 }
 
-// const PostPage: NextPage<{
-//   post: TPost
-//   posts: TPost[]
-//   recordMap: ExtendedRecordMap
-//   pagination: any
-// }> = ({ post, recordMap, pagination, posts }) => {
 const PostPage: NextPage<PostPageProps> = ({ post, recordMap, pagination, posts }) => {
   const router = useRouter()
   const { locale } = router
-  
+
   // setToc(blocks)
   if (!post || !recordMap) {
     return (
@@ -63,23 +57,23 @@ const PostPage: NextPage<PostPageProps> = ({ post, recordMap, pagination, posts 
   }
 
   // Calculate estimated reading time
-  const { text } = readingTime(
+  const estimatedReadingTime = readingTime(
     Object.values(recordMap.block)
       .map((b) => b?.value?.properties?.title?.flat())
       .flat()
       .join('')
-  )
+  ).text
 
   return (
     <>
       <PostSeo
-        date={new Date(post.date.start_date)}
+        title={post.title}
         description={post.summary || ''}
-        // TODO: check if this is correct
+        date={new Date(post.date.start_date)}
         image={post.thumbnail || ''}
         locale={locale || ''}
-        title={post.title}
         url={router.asPath}
+      // TODO: check if this is correct
       />
 
       {/* Post Header */}
@@ -89,35 +83,33 @@ const PostPage: NextPage<PostPageProps> = ({ post, recordMap, pagination, posts 
             {post.category?.[0] && (
               <Link href={`/category/${post.category?.[0]}`}>
                 <p
-                  className={`inline-block mb-2 text-xs font-bold text-true-gray-600 leading-2 ${
-                    Colors[getColorClassByName(post.category?.[0])].text.normal
-                  } `}
+                  className={`inline-block mb-2 text-xs font-bold text-true-gray-600 leading-2 ${Colors[getColorClassByName(post.category?.[0])].text.normal
+                    } `}
                 >
                   {post.category?.[0]}
                 </p>
-            </Link>
+              </Link>
             )}
             <div className="flex flex-row items-center mt-2 space-x-2 text-sm font-semibold text-true-gray-600 dark:text-true-gray-400">
               <Moment date={post.date} fromNow format="DD MMM yyyy" local />
               <span>·</span>
-              <span>{text}</span>
+              <span>{estimatedReadingTime}</span>
               <span>·</span>
               <span id="twikoo_visitors" className="animate-pulse">-</span> Views
             </div>
           </div>
 
           <h1
-            className={`my-6 text-4xl font-bold whitespace-pre-wrap lg:text-5xl ${
-              post.title && post.category ? `${Colors[getColorClassByName(post.category?.[0])]?.bg.gradient} bg-gradient-to-r text-transparent bg-clip-text` : '' // TODO: default 를 category 에 따라 색상 변경
+            className={`my-6 text-4xl font-bold whitespace-pre-wrap lg:text-5xl ${post.title && post.category ? `${Colors[getColorClassByName(post.category?.[0])]?.bg.gradient} bg-gradient-to-r text-transparent bg-clip-text` : '' // TODO: default 를 category 에 따라 색상 변경
               // ''
-            } relative z-0`}
+              } relative z-0`}
           >
             {post.title}
           </h1>
           {post.summary && (
             <p className="mb-4 text-xl font-medium text-true-gray-600 lg:text-2xl" dark="text-true-gray-400">
-            {post.summary}
-          </p>
+              {post.summary}
+            </p>
           )}
           <Share />
         </header>
@@ -145,45 +137,41 @@ const PostPage: NextPage<PostPageProps> = ({ post, recordMap, pagination, posts 
         })} */}
         <ContentRenderer recordMap={recordMap} />
         <div
-          className={`flex flex-col mt-8 justify-between ${
-            post.thumbnail ? 'md:flex-row md:items-center' : ''
-          } gap-4 w-full`}
+          className={`flex flex-col mt-8 justify-between ${post.thumbnail ? 'md:flex-row md:items-center' : ''
+            } gap-4 w-full`}
         >
           {/* Tags */}
           {post.tags && (
             <div className="flex flex-wrap items-center gap-2 overflow-scroll scrollbar-hide">
-            <TagsIcon />
-            {post.tags?.map((tagName: any) => (
-              <Link key={tagName} href={`/tags/${tagName}`} as={`/tags/${tagName}`}>
-                <a href={`/tags/${tagName}`}>
+              <TagsIcon />
+              {post.tags?.map((tagName: any) => (
+                <Link key={tagName} href={`/tags/${tagName}`}>
                   <div
-                    className={`${
-                      Colors[getColorClassByName(tagName)].bg.msg
-                    } bg-gradient-to-bl from-white/20 text-white flex items-center text-xs py-1 px-2  rounded-full whitespace-nowrap`}
+                    className={`${Colors[getColorClassByName(tagName)].bg.msg
+                      } bg-gradient-to-bl from-white/20 text-white flex items-center text-xs py-1 px-2  rounded-full whitespace-nowrap`}
                     dark="bg-gradient-to-br to-black/10"
                   >
                     {tagName}
                   </div>
-                </a>
-            </Link>
-          ))}
+                </Link>
+              ))}
             </div>
           )}
         </div>
-        </ContentLayout>
-        
-        {/* Pagiantion */}
-        <ContentLayout>
+      </ContentLayout >
+
+      {/* Pagiantion */}
+      <ContentLayout>
         {/* <Licensing page={page} data-aos="fade-up" data-aos-duration="500" /> */}
         <Pagination
           pagination={pagination}
           data-aos="fade-up"
           data-aos-duration="500"
-          ></Pagination>
-        </ContentLayout>
+        ></Pagination>
+      </ContentLayout >
 
       {/* Widgets */}
-      <ContentLayout>
+      < ContentLayout >
         <div className="hidden grid-cols-2 gap-4 sm:grid md:grid-cols-2">
           <WidgetMeMedium fix={true} />
           <WidgetOverViewMedium posts={posts} fix={true} />
@@ -192,22 +180,22 @@ const PostPage: NextPage<PostPageProps> = ({ post, recordMap, pagination, posts 
           <WidgetMeSmall />
           <WidgetOverViewSmall posts={posts} />
         </div>
-      </ContentLayout>
+      </ContentLayout >
 
       {/* Comment Section */}
-      <ContentLayout>
+      < ContentLayout >
         <Comment />
-      </ContentLayout>
+      </ContentLayout >
     </>
   )
 }
 
-export const getStaticPaths = async () => {
+export const getStaticPaths: GetStaticPaths = async () => {
   const posts = await getPosts()
   const filteredPosts = filterPosts(posts)
 
   return {
-    paths: filteredPosts.map((p: any) => ({ params: { slug: p.slug } })),
+    paths: filteredPosts.map((p) => ({ params: { slug: p.slug } })),
     fallback: 'blocking',
   }
 }
@@ -216,7 +204,7 @@ interface Props extends ParsedUrlQuery {
   slug: string
 }
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
+export const getStaticProps: GetStaticProps<PostPageProps> = async ({ params }) => {
   const { slug } = params as Props
 
   const posts = await getPosts()
@@ -224,14 +212,13 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
   const pageIndex = filteredPosts.findIndex((p) => p.slug === slug)
   const post = filteredPosts[pageIndex]
-  const prev = filteredPosts[pageIndex - 1] || null
-  const next = filteredPosts[pageIndex + 1] || null
 
   if (!post?.id) {
     return {
-      props: {},
+      props: {} as never,
       redirect: {
         destination: '/',
+        permanent: false,
       },
     }
   }
@@ -256,9 +243,9 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   }
   */
 
-  const pagination: any = {
-    prev: pageIndex - 1 >= 0 ? prev : null,
-    next: pageIndex + 1 < filteredPosts.length ? next : null,
+  const pagination = {
+    prev: pageIndex > 0 ? filteredPosts[pageIndex - 1] : null,
+    next: pageIndex + 1 < filteredPosts.length ? filteredPosts[pageIndex + 1] : null,
   }
 
   return {
@@ -268,9 +255,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 }
 
 // Set Page Layout
-;(PostPage as NextPageWithLayout).getLayout = function getLayout(
-  page: ReactElement
-) {
+(PostPage as NextPageWithLayout).getLayout = function getLayout(page: ReactElement) {
   return <BlogLayoutWhite>{page}</BlogLayoutWhite>
 }
 

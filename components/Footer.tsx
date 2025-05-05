@@ -3,7 +3,7 @@ import Link from 'next/link'
 import {
   SiNextdotjs,
   SiNotion,
-  SiWindicss,
+  SiCss,
   SiVercel,
 } from '@icons-pack/react-simple-icons'
 import ThemeSwitch from './ThemeSwitch'
@@ -12,10 +12,10 @@ import { faAppleAlt } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useTheme } from 'next-themes'
 
-const Footer = () => {
+const Footer: React.FC = () => {
   const { resolvedTheme } = useTheme()
-
   const thisYear = new Date().getFullYear()
+
   const tools = [
     {
       icon: SiNotion,
@@ -26,7 +26,7 @@ const Footer = () => {
       url: 'https://nextjs.org',
     },
     {
-      icon: SiWindicss,
+      icon: SiCss,
       url: 'https://windicss.org',
     },
     {
@@ -34,23 +34,24 @@ const Footer = () => {
       url: 'https://vercel.com',
     },
   ]
+
   return (
     <>
       <footer className="relative bg-true-gray-100" dark="bg-true-gray-800">
         <div className="flex flex-col px-6 mx-auto items-left lg:px-11 lg:w-screen-lg">
           <nav className="py-4 flex justify-between items-center">
             <Link href="/">
-              <a className="font-bold">
-                <Image
-                  src="/static/images/portrait.png"
-                  width={18}
-                  height={18}
-                  alt="morethanmin"
-                />
-              </a>
+              <Image
+                src="/static/images/portrait.png"
+                width={18}
+                height={18}
+                alt="morethanmin"
+              />
             </Link>
             <ThemeSwitch />
           </nav>
+
+          {/* Main Footer Content */}
           <section
             className="pt-2 pb-5 text-true-gray-400"
             dark="text-true-gray-500"
@@ -80,6 +81,8 @@ const Footer = () => {
                     ))}
                   </div>
                 </div>
+
+                {/* Credits */}
                 <p className="group">
                   Design & Build with{' '}
                   <span className="group-hover:text-red-400 transition-colors duration-500 ease-in-out">
@@ -108,17 +111,16 @@ const Footer = () => {
                 </a>
               </p> */}
             </div>
+
+            {/* Bottom copyright */}
             <div className="text-xs flex justify-between">
               <div>
                 <span>
                   {`Copyright © 2020-${thisYear} `}
                   <Link href={'/me'}>
-                    <a
-                      className="text-true-gray-600 hover:underline"
-                      dark="text-true-gray-400"
-                    >
+                    <span className="text-true-gray-600 hover:underline" dark="text-true-gray-400">
                       {me.name}
-                    </a>
+                    </span>
                   </Link>
                 </span>
               </div>

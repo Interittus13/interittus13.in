@@ -9,9 +9,10 @@ type Props = {
   className?: string
 }
 
-function ThemedImage({ post, quality, className }: Props) {
+function ThemedImage({ post, quality = 100, className = '' }: Props) {
   const { resolvedTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
+
   useEffect(() => {
     setMounted(true)
   }, [])
@@ -23,9 +24,9 @@ function ThemedImage({ post, quality, className }: Props) {
     return (
       <Image
         src={post.thumbnail || emptyImage}
-        quality={quality || 100}
-        layout="fill"
-        objectFit="cover"
+        quality={quality}
+        fill
+        style={{ objectFit: "cover" }}
         sizes="100%"
         alt={post.title}
         // onLoadingComplete={handleLoad}
@@ -38,34 +39,22 @@ function ThemedImage({ post, quality, className }: Props) {
     )
   }
 
-  let src
-  let blurSrc
-  switch (resolvedTheme) {
-    case 'light':
-      src = post.thumbnail
-      // TODO: Blur image
-      //   blurSrc = post.cover.blurLight
-      blurSrc = emptyImage
-      break
-    case 'dark':
-      src = post.thumbnail
-      // TODO: Blur image
-      //   blurSrc = post.cover.blurDark
-      blurSrc = emptyImage
-      break
-    default:
-      src = emptyImage
-      blurSrc = emptyImage
-      break
-  }
+  const src = post.thumbnail || emptyImage
+  let blurSrc = emptyImage
+
+  // if (resolvedTheme === "light" && post.cover?.blurLight) {
+  //   blurSrc = post.cover.blurLight
+  // } else if (resolvedTheme === "dark" && post.cover?.blurDark) {
+  //   blurSrc = post.cover.blurDark
+  // }
 
   return (
     <Image
       priority={true}
-      src={src || emptyImage}
-      quality={quality || 100}
-      layout="fill"
-      objectFit="cover"
+      src={src}
+      quality={quality}
+      fill
+      style={{ objectFit: "cover" }}
       alt={post.title}
       // onLoadingComplete={handleLoad}
       placeholder="blur"
