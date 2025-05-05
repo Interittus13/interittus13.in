@@ -100,11 +100,18 @@ const PostPage: NextPage<PostPageProps> = ({ post, recordMap, pagination, posts 
           </div>
 
           <h1
-            className={`my-6 text-4xl font-bold whitespace-pre-wrap lg:text-5xl ${post.title && post.category ? `${Colors[getColorClassByName(post.category?.[0])]?.bg.gradient} bg-gradient-to-r text-transparent bg-clip-text` : '' // TODO: default 를 category 에 따라 색상 변경
-              // ''
-              } relative z-0`}
+            className={`my-6 text-4xl font-bold whitespace-pre-wrap lg:text-5xl relative z-0`}
           >
-            {post.title}
+            <span
+              className={`bg-gradient-to-r text-transparent bg-clip-text ${post.title && post.category ? Colors[getColorClassByName(post.category?.[0])]?.bg.gradient
+                : ''
+                }`}
+            >
+              {post.title.replace(/[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu, '')}
+            </span>
+            <span>
+              {post.title.match(/[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu)?.join('') || ''}
+            </span>
           </h1>
           {post.summary && (
             <p className="mb-4 text-xl font-medium text-true-gray-600 lg:text-2xl" dark="text-true-gray-400">
