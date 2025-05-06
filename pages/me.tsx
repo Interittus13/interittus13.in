@@ -12,8 +12,13 @@ import { NextSeo } from 'next-seo'
 import { CONFIG } from '../config/blog'
 import { useRouter } from 'next/router'
 import { TPost } from '../types'
+import LocationMap from '../components/me/LocationMap'
 
-const CardLayout = ({ children }: any) => {
+interface CardLayoutProps {
+  children: React.ReactNode
+}
+
+const CardLayout: React.FC<CardLayoutProps> = ({ children }) => {
   return (
     <div
       data-aos="fade-up"
@@ -22,43 +27,6 @@ const CardLayout = ({ children }: any) => {
     >
       <div className="m-5 xs:m-8 md:m-8">{children}</div>
     </div>
-  )
-}
-
-const LocationMap = () => {
-  const { resolvedTheme } = useTheme()
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
-
-  if (!mounted) {
-    return null
-  }
-  const emptyImage =
-    'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
-  let src
-  switch (resolvedTheme) {
-    case 'light':
-      src = me.location.light
-      break
-    case 'dark':
-      src = me.location.dark
-      break
-    default:
-      src = emptyImage
-      break
-  }
-
-  return (
-    <Image
-      className="absolute left-0 z-0 -top-1/4 sm:-top-3/5 lg:-top-9/10"
-      layout="fill"
-      objectFit="cover"
-      src={src}
-      alt="map"
-    />
   )
 }
 
@@ -185,19 +153,21 @@ const Overview = () => {
         </p>
         {/* <div className="absolute bottom-0 left-0 z-0 w-full bg-indigo-200 h-5/7 sm:h-3/5"/> */}
         <div className="flex items-center justify-center gap-0 my-4 text-white sm:gap-1 md:gap-1 lg:gap-2">
-          {social.map((s: any) => (
+          {social.map((s, index) => (
             <a
-              last-after="absolute content-. text-transparent  w-4 h-4 rounded-full bg-red-500 right-0 top-0"
-              last-before="absolute content-. text-transparent  w-4 h-4 animate-ping  rounded-full bg-red-400 right-0 top-0"
+              key={s.name + index.toString()}
               target="_blank"
               rel="noopener noreferrer"
               className={`relative shadow-inner translate-y-5 even:(-translate-y-5) -ml-3 sm:ml-0  rounded-full p-3 sm:p-4 md:p-5 lg:p-6  flex justify-center items-center transform transition ease-in-out duration-200 hover:scale-105 md:hover:scale-95 aspect-ratio h-full bg-gradient-to-tr text-white  shadow-lg-middle dark:shadow-none ${s.shadow} ${s.color} `}
+              // last-after="absolute content-. text-transparent  w-4 h-4 rounded-full bg-red-500 right-0 top-0"
+              // last-before="absolute content-. text-transparent  w-4 h-4 animate-ping  rounded-full bg-red-400 right-0 top-0"
               href={s.url}
-              key={s.name}
             >
-              <s.icon
-                className={`h-3 w-3 xs:(h-4 w-4) sm:(w-5 h-5) lg:(w-6 h-6) fill-white`}
-              ></s.icon>
+              {s.icon && (
+                <s.icon
+                  className={`h-3 w-3 xs:(h-4 w-4) sm:(w-5 h-5) lg:(w-6 h-6) fill-white`}
+                />
+              )}
               {/* <p className={`hidden md:block whitespace-nowrap`}>{s.name}</p>                */}
             </a>
           ))}
@@ -210,9 +180,8 @@ const Overview = () => {
         dark="bg-true-gray-900"
       >
         <div
-          className={`absolute transition duration-200  ease-in-out h-full w-full bg-true-gray-900 z-40 rounded-3xl text-white ${
-            more ? 'opacity-100' : 'opacity-0'
-          } overflow-auto scrollbar-hide justify-between flex flex-col`}
+          className={`absolute transition duration-200  ease-in-out h-full w-full bg-true-gray-900 z-40 rounded-3xl text-white ${more ? 'opacity-100' : 'opacity-0'
+            } overflow-auto scrollbar-hide justify-between flex flex-col`}
         >
           <p
             className={`p-4 xs:p-4.5 sm:p-6 md:p-8  text-sm font-semibold text-left xs:text-lg sm:text-2xl md:text-3xl lg:text-4xl z-50 line-clamp-1 text-transparent`}
@@ -227,9 +196,11 @@ const Overview = () => {
                     className="flex flex-row gap-1 text-xs xs:text-sm md:text-normal lg:text-lg place-items-center"
                     key={s.name + i.toString()}
                   >
-                    <s.icon
-                      className={`w-3 h-3 lg:(w-5 h-5) p-1 rounded-full ${s.color}`}
-                    />
+                    {s.icon && (
+                      <s.icon
+                        className={`w-3 h-3 lg:(w-5 h-5) p-1 rounded-full ${s.color}`}
+                      />
+                    )}
                     {s.name}
                   </div>
                 ))}
@@ -240,20 +211,18 @@ const Overview = () => {
         </div>
         <div className="flex flex-row items-center justify-between p-4 xs:p-4.5 sm:p-6 md:p-8">
           <p
-            className={`text-2xl font-semibold text-left sm:text-2xl md:text-3xl lg:text-4xl z-10 z-50  line-clamp-1 ${
-              more ? 'text-white dark:text-black' : 'text-black dark:text-white'
-            }`}
+            className={`text-2xl font-semibold text-left sm:text-2xl md:text-3xl lg:text-4xl z-10 z-50  line-clamp-1 ${more ? 'text-white dark:text-black' : 'text-black dark:text-white'
+              }`}
           >
             Technical Skills
           </p>
           <div
-            className={`h-full aspect-square grid place-items-center transition duration-500  ease-in-out z-50 hover:cursor-pointer transform ${
-              more
-                ? 'rotate-45 bg-white text-black hover:bg-true-gray-200'
-                : 'rotate-0 bg-black text-white hover:bg-true-gray-500'
-            } rounded-full`}
-            onClick={handleMore}
+            className={`h-full aspect-square grid place-items-center transition duration-500  ease-in-out z-50 hover:cursor-pointer transform ${more
+              ? 'rotate-45 bg-white text-black hover:bg-true-gray-200'
+              : 'rotate-0 bg-black text-white hover:bg-true-gray-500'
+              } rounded-full`}
             dark="bg-true-gray-900"
+            onClick={handleMore}
           >
             <FontAwesomeIcon
               className="md:(transform scale-150)"
@@ -270,16 +239,16 @@ const Overview = () => {
                   .map((_, index) => s[index % s.length])
                   .map((s, s_i) => (
                     <div
-                      className={`w-[78px] mx-[4px] h-[70px] rounded-xl lg:(w-[110px] mx-[5px] h-[100px] rounded-3xl) text-white grid place-items-center ${
-                        s.color
-                      } ${
-                        i === 1
+                      className={`w-[78px] mx-[4px] h-[70px] rounded-xl lg:(w-[110px] mx-[5px] h-[100px] rounded-3xl) text-white grid place-items-center ${s.color
+                        } ${i === 1
                           ? 'transform -translate-x-5 sm:-translate-x-10 lg:-translate-x-15'
                           : ''
-                      }`}
+                        }`}
                       key={s.name + s_i.toString()}
                     >
-                      <s.icon className="w-9 h-9 lg:(w-12 h-12)"></s.icon>
+                      {s.icon && (
+                        <s.icon className="w-9 h-9 lg:(w-12 h-12)"/>
+                      )}
                     </div>
                   ))}
               </div>
@@ -331,9 +300,8 @@ const Overview = () => {
             {education.map((edu) => (
               <div className="flex items-center gap-2" key={edu.name}>
                 <div
-                  className={`${
-                    Colors[edu.color].bg.msg
-                  } aspect-square h-3 rounded-full lg:h-4`}
+                  className={`${Colors[edu.color].bg.msg
+                    } aspect-square h-3 rounded-full lg:h-4`}
                 />
                 <p className="text-sm text-true-gray-400 lg:text-lg">
                   {edu.degree}
@@ -450,11 +418,10 @@ const Overview = () => {
                 {openSource.authors.map((author: any, index: number) => (
                   <div key={author.name} className="inline">
                     <span
-                      className={`text-xs md:text-sm ${
-                        author.me
-                          ? 'text-true-gray-500 font-semibold'
-                          : 'text-true-gray-400'
-                      }`}
+                      className={`text-xs md:text-sm ${author.me
+                        ? 'text-true-gray-500 font-semibold'
+                        : 'text-true-gray-400'
+                        }`}
                     >
                       {author.name}
                     </span>
@@ -467,9 +434,8 @@ const Overview = () => {
               <div className="my-3">
                 {openSource.tags.map((tag) => (
                   <span
-                    className={`inline-block text-[9px] mr-1 md:(text-xs mb-1) ${
-                      Colors[tag.color].bg.normal
-                    } ${Colors[tag.color].text.msg} px-2 py-1 rounded-full`}
+                    className={`inline-block text-[9px] mr-1 md:(text-xs mb-1) ${Colors[tag.color].bg.normal
+                      } ${Colors[tag.color].text.msg} px-2 py-1 rounded-full`}
                     key={tag.name}
                   >
                     {tag.name.toUpperCase()}
@@ -632,9 +598,8 @@ const Me: NextPage<{ posts: TPost[] }> = ({ posts }) => {
 
     images.forEach((image: any) => {
       if (hero!.getBoundingClientRect().top - navBar!.clientHeight <= 0) {
-        image.style.transform = `translateY(-${
-          (window.scrollY - imagesBounding!.getBoundingClientRect().bottom) / 40
-        }px)`
+        image.style.transform = `translateY(-${(window.scrollY - imagesBounding!.getBoundingClientRect().bottom) / 40
+          }px)`
       }
     })
   }
