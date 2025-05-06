@@ -1,4 +1,3 @@
-import { FC, ReactNode, useEffect, useRef, useState } from 'react'
 import { slugify } from 'transliteration'
 
 type PostTocProps = {
@@ -11,7 +10,7 @@ type HeadingType = {
   content: string
 }
 
-const PostToc: FC<PostTocProps> = ({ blocks }) => {
+const PostToc: React.FC<PostTocProps> = ({ blocks }) => {
   const flatHeadings: [HeadingType] = blocks
     .filter(
       (block: any) =>
