@@ -5,6 +5,7 @@ import { Colors, getColorClassByName } from '../lib/colors'
 import PostMore from './PostMore'
 import ThemedImage from './ThemedImage'
 import { TPost } from '../types'
+import FormattedDate from './utility/FormattedDate'
 
 interface PostListProps {
   posts: TPost[]
@@ -117,13 +118,7 @@ const PostList = ({ posts, filter, color, count }: PostListProps) => {
                           {post.title}
                         </h2>
                       </article>
-                      <Moment
-                        className="block mt-2 text-sm font-semibold text-true-gray-600 dark:text-true-gray-400"
-                        date={post.date.start_date}
-                        fromNow
-                        format="DD MMM yyyy"
-                        local
-                      />
+                      <FormattedDate date={post.date.start_date} fromNow/>
                     </div>
                   </Link>
                 </div >

@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { Colors, getColorClassByName } from '../lib/colors'
 import ThemedImage from './ThemedImage'
 import { TPost } from '../types'
+import FormattedDate from './utility/FormattedDate'
 
 const PostMore: React.FC<{ posts: TPost[] }> = ({ posts }) => {
   const count = posts.length
@@ -48,15 +49,7 @@ const PostMore: React.FC<{ posts: TPost[] }> = ({ posts }) => {
                 <p className="font-semibold line-clamp-3 leading-5">
                   {post.title}
                 </p>
-
-                <Moment
-                  className="block mt-2 text-sm font-semibold text-true-gray-600 dark:text-true-gray-400"
-                  date={post.date}
-                  fromNow
-                  // format="MMM DD, yy"
-                  format="DD MMM yyyy"
-                  local
-                />
+                <FormattedDate date={post.date.start_date}/>
               </div>
             </Link>
           </li >

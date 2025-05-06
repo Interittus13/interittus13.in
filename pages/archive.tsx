@@ -10,6 +10,7 @@ import { NextSeo } from "next-seo";
 import { CONFIG } from "../config/blog";
 import { useRouter } from "next/router";
 import { filterPosts } from "../lib/apis/filterPosts";
+import FormattedDate from "../components/utility/FormattedDate";
 
 // TODO: Add pagination and filter
 const Archive: NextPage<{ posts: TPost[] }> = ({ posts }) => {
@@ -87,10 +88,7 @@ const Archive: NextPage<{ posts: TPost[] }> = ({ posts }) => {
                       <p className="font-semibold line-clamp-3 text-lg leading-5 md:text-xl lg:text-2xl mt-1 md:mt-2">
                         {post.title}
                       </p>
-
-                      <p className="block mt-2 md:mt-3 text-sm font-semibold text-true-gray-600">
-                        {moment(post.date.start_date).format('YYYY.MM.DD')}
-                      </p>
+                      <FormattedDate date={post.date.start_date}/>
                     </div>
                   </div>
                 </Link>
