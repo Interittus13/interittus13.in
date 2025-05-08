@@ -74,7 +74,7 @@ export const me = {
   openSources: [
     {
       title: "morethan-log",
-      authors: [{ name: "A static blog using notion database 😎" }],
+      description: "A static blog using notion database 😎",
       website: "",
       link: "https://github.com/morethanmin/morethan-log",
       tags: [
@@ -102,11 +102,8 @@ export const me = {
     },
     {
       title: "Azure Cost Tracker - ACT",
-      authors: [
-        {
-          name: "A Python tool for tracking Azure subscription costs, generating reports, and sending automated email notifications.",
-        },
-      ],
+      description:
+        "A Python tool for tracking Azure subscription costs, generating reports, and sending automated email notifications.",
       website: "",
       link: "https://github.com/interittus13/AzureCostTracker",
       tags: [
@@ -142,7 +139,8 @@ export const me = {
     },
     {
       name: "PlanOmatic",
-      description: "PlanOmatic provides property insights, 3D tours, floor plans, and photography services for real estate professionals.",
+      description:
+        "PlanOmatic provides property insights, 3D tours, floor plans, and photography services for real estate professionals.",
       tag: ["Web App", "Database Design", "Recommendation algorithm"],
       link: "https://www.planomatic.com/",
       video: "/static/videos/highlight.mov",
@@ -158,7 +156,11 @@ export const me = {
       { name: "Azure", color: "bg-[#06B6D4]", icon: SiMicrosoftazure },
       { name: "Kubernetes", color: "bg-[#326CE5]", icon: SiKubernetes },
       { name: "Azure DevOps", color: "bg-[#339933]", icon: SiAzuredevops },
-      { name: "Azure Pipelines", color: "bg-[#F7931E]", icon: SiAzurepipelines },
+      {
+        name: "Azure Pipelines",
+        color: "bg-[#F7931E]",
+        icon: SiAzurepipelines,
+      },
       { name: "Azure Function", color: "bg-[#007396]", icon: SiAzurefunctions },
       { name: "AWS ECS", color: "bg-[#FF9900]", icon: SiAmazonecs },
       { name: "Terraform", color: "bg-[#844FBA]", icon: SiTerraform },
