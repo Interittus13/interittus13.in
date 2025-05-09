@@ -31,12 +31,16 @@ export type TCategories = { [category: string]: number };
 export type CategoriesProps = { categories: TCategories };
 export type CategoryCardProps = { name: string; color: string; count: number };
 
-export interface SocialLinks {
+export interface SocialLink {
   name: string;
   url: string;
   icon: React.ComponentType<{ className?: string }>;
   color: string;
+  fill: string;
+  border: string;
   shadow: string;
+  text: string;
+  id?: string;
 }
 
 export interface Location {
@@ -48,7 +52,7 @@ export interface MeConfig {
   name: string;
   image: string;
   location: Location;
-  social: SocialLinks[];
+  social: SocialLink[];
   skills: Skill[][];
   education: Education[];
   openSources: OpenSource[];
@@ -72,7 +76,6 @@ export interface OpenSource {
   link: string;
   website: string;
   description: string;
-  // authors: { name: string; me?: boolean }[];
   tags: { name: string; color: string }[];
 }
 

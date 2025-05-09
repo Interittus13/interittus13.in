@@ -1,7 +1,7 @@
-import { SocialLinks } from "../../types";
+import { SocialLink } from "../../types";
 
 interface SocialLinksProps {
-    links: SocialLinks[]
+    links: SocialLink[]
 }
 
 const SocialLinks: React.FC<SocialLinksProps> = ({ links }) => {

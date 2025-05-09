@@ -7,6 +7,7 @@ import {
   SiFacebook,
 } from '@icons-pack/react-simple-icons'
 import { FC } from 'react'
+import { SocialLink } from '../types'
 
 export type LinkType = {
   url: string
@@ -20,13 +21,7 @@ export type LinkType = {
   name?: string
 }
 
-export const links: readonly [
-  LinkType,
-  LinkType,
-  LinkType,
-  LinkType,
-  // LinkType
-] = [
+export const links: readonly SocialLink[] = [
   {
     url: 'https://github.com/interittus13',
     icon: SiGithub,
