@@ -1,8 +1,8 @@
 import { Colors } from "../../lib/colors"
-import { OpenSources } from "../../types"
+import { OpenSource } from "../../types"
 
 interface OpenSourceSectionProps {
-    openSources: OpenSources[]
+    openSources: OpenSource[]
 }
 
 const OpenSourceSection: React.FC<OpenSourceSectionProps> = ({ openSources }) => {

@@ -30,8 +30,10 @@ export const me = {
   email: "mailto:morethanmin.dev@gmail.com",
   location: {
     name: "Indore, India",
-    light: "/static/images/map_light.png",
-    dark: "/static/images/map_dark.png",
+    map: {
+      light: "/static/images/map_light.png",
+      dark: "/static/images/map_dark.png",
+    },
   },
   bio: "💻 🎨 🎮 ⚡️",
   social: [
@@ -127,28 +129,26 @@ export const me = {
       name: "BoomerangFx",
       description:
         "BoomerangFX is a cloud-based SaaS platform designed for aesthetic medicine, cosmetic surgery, and wellness clinics.",
-      tip: "Coming Soon on App Store",
       link: "https://www.boomerangfx.com",
-      images: [],
       image: "/static/images/coquality/view.svg",
-      icon: "/static/images/coquality-logo.svg",
       logo: {
         light: "/static/images/boomerangfx/logo_dark.svg",
         dark: "/static/images/boomerangfx/logo_dark.svg",
       },
+      tip: "Coming Soon on App Store",
+      spotlight: true,
     },
     {
       name: "PlanOmatic",
       description:
         "PlanOmatic provides property insights, 3D tours, floor plans, and photography services for real estate professionals.",
-      tag: ["Web App", "Database Design", "Recommendation algorithm"],
+      logo: {
+        light: "/static/images/planomatic/logo.svg",
+        dark: "/static/images/planomatic/logo.svg",
+      },
       link: "https://www.planomatic.com/",
       video: "/static/videos/highlight.mov",
-      icon: "/static/images/highlight.svg",
-      logo: {
-        light: "/static/images/planomatic/logo_light.svg",
-        dark: "/static/images/planomatic/logo_light.svg",
-      },
+      tags: ["Web App", "Database Design", "Recommendation algorithm"],
     },
   ],
   skills: [

@@ -16,7 +16,7 @@ const LocationCard: React.FC<LocationProps> = ({ location }) => {
     }, [])
 
     const mapSrc = mounted ?
-        (resolvedTheme === 'dark' ? location.dark : location.light) : null
+        (resolvedTheme === 'dark' ? location.map.dark : location.map.light) : null
 
     return (
         <>
