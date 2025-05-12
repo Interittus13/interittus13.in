@@ -3,7 +3,7 @@ import { idToUuid } from "notion-utils"
 import getAllPageIds from "./getAllPageIds"
 import { getPageProperties } from "./getPageProperties"
 import { TPost } from "../../types"
-import { CONFIG } from "../../config/blog"
+import { CONFIG } from "../../../config/blog"
 
 /**
  * Type guard to check if an object is a valid TPost

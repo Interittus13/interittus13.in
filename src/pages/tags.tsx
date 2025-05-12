@@ -9,7 +9,7 @@ import { getPosts } from '../lib/apis'
 import { getAllSelectItemsFromPosts } from '../lib/apis/getAllSelectItemsFromPosts'
 import { TagCardProps, TTags } from '../types'
 import { NextSeo } from 'next-seo'
-import { CONFIG } from '../config/blog'
+import { CONFIG } from '../../config/blog'
 import { useRouter } from 'next/router'
 import { filterPosts } from '../lib/apis/filterPosts'
 

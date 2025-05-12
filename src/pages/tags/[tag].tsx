@@ -6,7 +6,7 @@ import { getPosts } from '../../lib/apis'
 import { TPost } from '../../types'
 import { getColorClassByName } from '../../lib/colors'
 import { NextSeo } from 'next-seo'
-import { CONFIG } from '../../config/blog'
+import { CONFIG } from '../../../config/blog'
 import { useRouter } from 'next/router'
 import { filterPosts } from '../../lib/apis/filterPosts'
 

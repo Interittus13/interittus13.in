@@ -10,10 +10,10 @@ import MenuIcon from '../assets/menu.svg'
 import TocIcon from '../assets/toc.svg'
 import TocFillIcon from '../assets/toc_fill.svg'
 
-import PostToc from '../components/PostToc'
+import PostToc from './PostToc'
 import { Colors } from '../lib/colors'
 import { useRouter } from 'next/router'
-import { CONFIG } from '../config/blog'
+import { CONFIG } from '../../config/blog'
 
 const navigations = [
   {

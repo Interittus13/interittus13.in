@@ -7,7 +7,7 @@ import ThemedImage from "../components/ThemedImage";
 import { getPosts } from "../lib/apis";
 import { TPost } from "../types";
 import { NextSeo } from "next-seo";
-import { CONFIG } from "../config/blog";
+import { CONFIG } from "../../config/blog";
 import { useRouter } from "next/router";
 import { filterPosts } from "../lib/apis/filterPosts";
 import FormattedDate from "../components/utility/FormattedDate";

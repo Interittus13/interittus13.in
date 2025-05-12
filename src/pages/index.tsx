@@ -8,11 +8,11 @@ import {
 } from '../components/widget/WidgetOverview'
 import { Media, MediaContextProvider } from '../components/utility/Breakpoints'
 import { useRouter } from 'next/router'
-import { me } from '../config/me'
+import { me } from '../../config/me'
 import { getPosts } from '../lib/apis'
 import { TPost } from '../types'
 import { NextSeo } from 'next-seo'
-import { CONFIG } from '../config/blog'
+import { CONFIG } from '../../config/blog'
 import { filterPosts } from '../lib/apis/filterPosts'
 
 interface HomeProps {

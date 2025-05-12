@@ -4,7 +4,7 @@ import { faLink } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { InlineShareButtons, SharingNetwork } from 'sharethis-reactjs'
 import { useRouter } from 'next/router'
-import { me } from '../config/me'
+import { me } from '../../config/me'
 
 export const Share = () => {
   const router = useRouter();

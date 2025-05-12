@@ -27,10 +27,10 @@
   "include": [
     "**/*.ts",
     "**/*.tsx",
-    "components/layout/BlogLayout.js",
+    "src/components/layout/BlogLayout.js",
     "config/blog.js",
     "next-env.d.ts",
-    "pages/api/page-views/page-views.js",
+    "src/pages/api/page-views/page-views.js",
     ".next/types/**/*.ts"
   ],
   "exclude": [

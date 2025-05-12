@@ -7,7 +7,7 @@ import {
   SiVercel,
 } from '@icons-pack/react-simple-icons'
 import ThemeSwitch from './ThemeSwitch'
-import { me } from '../config/me'
+import { me } from '../../config/me'
 import { faAppleAlt } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useTheme } from 'next-themes'

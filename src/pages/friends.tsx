@@ -1,13 +1,13 @@
 import { NextPage } from 'next'
 import ListLayout from '../components/layout/ListLayout'
-import { friends, FriendType } from '../config/friends'
+import { friends, FriendType } from '../../config/friends'
 import { FC } from 'react'
 import Comment from '../components/Comment'
 import Image from 'next/image'
 import { Colors } from '../lib/colors'
 import useSWRImmutable from 'swr/immutable'
 import { NextSeo } from 'next-seo'
-import { CONFIG } from '../config/blog'
+import { CONFIG } from '../../config/blog'
 
 const previewFetcher = (url: string) =>
   fetch(`/api/bookmark/${encodeURIComponent(url)}`).then((res) => res.json())

@@ -1,6 +1,6 @@
 import { NextSeo, ArticleJsonLd } from 'next-seo'
-import { me } from '../config/me'
-import { CONFIG } from '../config/blog'
+import { me } from '../../config/me'
+import { CONFIG } from '../../config/blog'
 
 type PostSeoProps = {
   author?: string
