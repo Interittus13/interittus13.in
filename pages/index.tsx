@@ -32,13 +32,13 @@ const Home: NextPage<HomeProps> = ({ posts }) => {
       <NextSeo
         title={`${CONFIG.BLOG_TITLE}`}
         description={description}
-        canonical={typeof window !== 'undefined' ? window.location.href : ''}
+        canonical={router.asPath}
         openGraph={{
           title: `${CONFIG.BLOG_TITLE}`,
           description,
           locale,
           type: 'website',
-          url: typeof window !== 'undefined' ? window.location.href : '',
+          url: router.asPath,
           // images: [featuredImage],
         }}
       />
@@ -58,7 +58,6 @@ const Home: NextPage<HomeProps> = ({ posts }) => {
           </Media>
         </MediaContextProvider>
       </ListLayout>
-
       <PostList posts={mainPosts} />
     </>
   )

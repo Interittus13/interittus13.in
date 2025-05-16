@@ -50,7 +50,7 @@ function MyApp({ Component, pageProps, router }: AppPropsWithLayout) {
       pageview(url, document.title)
       try {
         window._hmt.push(['_trackPageview', url])
-      } catch (e) {}
+      } catch (e) { }
     }
     router.events.on('routeChangeComplete', handleRouteChange)
     return () => {
@@ -59,6 +59,15 @@ function MyApp({ Component, pageProps, router }: AppPropsWithLayout) {
   }, [])
 
   const getLayout = Component.getLayout || ((page: any) => <BlogLayout>{page}</BlogLayout>)
+
+  if (process.env.NODE_ENV === 'development') {
+    console.error = (...args) => {
+      if (typeof args[0] === 'string' && args[0].includes('Hydration failed')) {
+        console.warn('🧨 HYDRATION FAILED:', ...args)
+        debugger // breaks exactly when it happens
+      }
+    }
+  }
 
   return (
     <ThemeProvider attribute="class">

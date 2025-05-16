@@ -43,7 +43,8 @@ interface PostPageProps {
 const PostPage: NextPage<PostPageProps> = ({ post, recordMap, pagination, posts }) => {
   const router = useRouter()
   const { locale } = router
-
+  // Add debugging
+  console.log("PostPage rendering with recordMap:", recordMap ? "exists" : "missing")
   // setToc(blocks)
   if (!post || !recordMap) {
     return (
@@ -141,7 +142,7 @@ const PostPage: NextPage<PostPageProps> = ({ post, recordMap, pagination, posts 
         {/* <FrontMessage post={page} /> */}
         {/* {blocks.map((block) => {
           return <Fragment key={block.id}>{renderNotionBlock(block)}</Fragment>
-        })} */}
+          })} */}
         <ContentRenderer recordMap={recordMap} />
         <div
           className={`flex flex-col mt-8 justify-between ${post.thumbnail ? 'md:flex-row md:items-center' : ''
