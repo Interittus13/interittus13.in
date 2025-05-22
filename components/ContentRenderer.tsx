@@ -4,32 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useTheme } from 'next-themes'
 import { NotionRenderer } from 'react-notion-x'
-import { type CodeBlock, ExtendedRecordMap } from 'notion-types'
-
-// Custom wrapper for Code component to handle language display
-// const CodeWrapper = ({ block, defaultLanguage = "typescript", className }: { block: CodeBlock, defaultLanguage?: string, className?: string }) => {
-//   const language = block?.properties?.language?.[0]?.[0] || defaultLanguage
-
-//   return (
-//     <div
-//       className={`notion-code-wrapper my-6 border border-gray-200 dark:border-gray-700 rounded-md overflow-hidden ${className}`}
-//     >
-//       {/* Header bar with language and copy button */}
-//       <div className="flex justify-between items-center px-4 py-2 bg-gray-100 dark:bg-gray-800 text-xs font-mono text-gray-700 dark:text-gray-300">
-//         {/* Language label */}
-//         <span className="uppercase">{language}</span>
-
-//         {/* This empty div will be populated by react-notion-x with the copy button */}
-//         <div className="notion-code-copy" />
-//       </div>
-
-//       {/* Code content - we pass the original block to the Code component */}
-//       <div className="notion-code-content overflow-x-auto">
-//         <Code block={block} />
-//       </div>
-//     </div>
-//   )
-// }
+import type { ExtendedRecordMap } from 'notion-types'
 
 // TODO: type error in build time
 const Code = dynamic(() =>
@@ -69,20 +44,14 @@ const Code = dynamic(() =>
       import('prismjs/components/prism-yaml.js')
     ])
     return m.Code
-  }), { ssr: false }
+  })
 )
 
 const Collection = dynamic(() =>
-  import('react-notion-x/build/third-party/collection').then((m) => m.Collection), {
-  ssr: false
-}
-)
+  import('react-notion-x/build/third-party/collection').then((m) => m.Collection))
 
 const Equation = dynamic(() =>
-  import('react-notion-x/build/third-party/equation').then((m) => m.Equation), {
-  ssr: false
-}
-)
+  import('react-notion-x/build/third-party/equation').then((m) => m.Equation))
 
 const Pdf = dynamic(
   () =>
