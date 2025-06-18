@@ -32,15 +32,15 @@ export type CategoriesProps = { categories: TCategories };
 export type CategoryCardProps = { name: string; color: string; count: number };
 
 export interface SocialLink {
-  name: string;
   url: string;
-  icon: React.ComponentType<{ className?: string }>;
+  icon: React.FC<{ className?: string }>;
   color: string;
   fill: string;
   border: string;
-  shadow: string;
   text: string;
+  shadow: string;
   id?: string;
+  name?: string;
 }
 
 export interface Location {
