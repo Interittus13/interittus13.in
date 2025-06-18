@@ -1,11 +1,10 @@
 import Giscus from '@giscus/react'
-import {FC} from 'react'
 
 type GiscusComponentProps = {
     theme: "light" | "dark"
 }
 
-const GiscusComponent: FC<GiscusComponentProps> = ({theme}) => {
+const GiscusComponent: React.FC<GiscusComponentProps> = ({theme}) => {
     return (
         <Giscus
             repo="interittus13/"

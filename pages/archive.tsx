@@ -1,123 +1,110 @@
-import Moment from 'react-moment'
-import { GetStaticProps, NextPage } from 'next'
-import Link from 'next/link'
-import { Colors, getColorClassByName } from '../lib/colors'
-import { FullListLayout } from '../components/layout/ListLayout'
-import moment from 'moment'
-import ThemedImage from '../components/ThemedImage'
-import { getPosts } from '../lib/apis'
-import { TPost } from '../types'
-import { NextSeo } from 'next-seo'
-import { CONFIG } from '../config/blog'
-import { useRouter } from 'next/router'
-import { filterPosts } from '../lib/apis/filterPosts'
+import { GetStaticProps, NextPage } from "next";
+import Link from "next/link";
+import { Colors, getColorClassByName } from "../lib/colors";
+import { FullListLayout } from "../components/layout/ListLayout";
+import moment from "moment";
+import ThemedImage from "../components/ThemedImage";
+import { getPosts } from "../lib/apis";
+import { TPost } from "../types";
+import { NextSeo } from "next-seo";
+import { CONFIG } from "../config/blog";
+import { useRouter } from "next/router";
+import { filterPosts } from "../lib/apis/filterPosts";
+import FormattedDate from "../components/utility/FormattedDate";
 
 // TODO: Add pagination and filter
-
 const Archive: NextPage<{ posts: TPost[] }> = ({ posts }) => {
-  const yearArray = posts.map((post) =>
-    moment(post.date.start_date).format('YYYY')
-  )
   const router = useRouter()
   const { locale } = router
 
+  const postYears = posts.map((post) =>
+    moment(post.date.start_date).format("YYYY")
+  )
+
   return (
     <>
+      {/* SEO Metadata */}
       <NextSeo
         title={`Archive | ${CONFIG.BLOG_TITLE}`}
         canonical={router.asPath}
-        description={`archive in morethanmin's blog`}
+        description={`archive in ${CONFIG.BLOG_TITLE}'s blog`}
         openGraph={{
           title: `${CONFIG.BLOG_TITLE}`,
-          description: `archive in morethanmin's blog`,
+          description: `archive in ${CONFIG.BLOG_TITLE}'s blog`,
           locale,
-          type: 'website',
+          type: "website",
           url: `${router.asPath}`,
         }}
       />
+
+      {/* Main Layout */}
       <FullListLayout>
         <h1 className="mb-4 text-2xl font-bold md:text-3xl lg:mb-8">
           Archive 📡
         </h1>
         <ul className="flex flex-row flex-wrap items-stretch">
-          {posts.map((post, index) => (
-            <div className="w-full" key={post.id}>
-              {index === 0 ||
-              (index > 0 && yearArray[index] !== yearArray[index - 1]) ? (
-                <div className="w-full">
-                  <Moment
-                    className={`block text-[28px] font-semibold ${
-                      index !== 0 ? 'mt-13' : ''
-                    } mb-4`}
-                    date={post.date.start_date}
-                    fromNow
-                    format="yyyy"
-                    local
-                  />
-                </div>
-              ) : null}
+          {posts.map((post, index) => {
+            const currentYear = postYears[index]
+            const perviousYear = postYears[index - 1]
+
+            const category = post.category?.[0] || 'Uncategorized'
+            const colorClass = Colors[getColorClassByName(category)].text.normal
+
+            return (
               <li
-                className={`mb-8 w-full group`}
+                className="relative mb-8 w-full group before:content-[''] before:block before:h-px before:bg-true-gray-200 before:mb-8"
                 key={post.id}
-                before={`content-DEFAULT flex-shrink-0 flex-grow-0 text-transparent select-none h-[1px] block bg-true-gray-200 mb-8`}
               >
-                <Link href="/posts/[slug]" as={`/posts/${post.slug}`}>
-                  <a className="flex flex-row lg:items-center">
+                {/* <div className="w-full" key={post.id}> */}
+                {index === 0 || currentYear !== perviousYear ? (
+                  // <div className="w-full">
+                  <p className={`block text-[28px] font-semibold ${index !== 0 ? "mt-13" : ""} mb-4`}>
+                    {currentYear}
+                  </p>
+                ) : null}
+
+                {/* Post Item */}
+                <Link href={`/posts/${post.slug}`} passHref>
+                  <div className="flex flex-col md:flex-row lg:items-center gap-4">
+                    {/* Post Image */}
                     <div className="aspect-square md:aspect-video h-26 md:h-37 lg:h-41.5 rounded-2xl overflow-hidden shrink-0">
-                      <div
-                        className={`relative duration-500 ease-in-out filter group-hover:brightness-90 transition w-full h-full rounded-2xl overflow-hidden transform rotate-0`}
-                      >
+                      <div className={`relative duration-500 ease-in-out filter group-hover:brightness-90 transition w-full h-full rounded-2xl overflow-hidden transform rotate-0`}>
                         <ThemedImage
                           post={post}
                           quality={80}
-                          className="transition-all duration-500 ease-in-out opacity-100 mobile-hover:group-hover:scale-105
-                                                group-hover:rotate-0 group-hover:active:scale-105 group-hover:opacity-90 transform-gpu rounded-2xl overflow-hidden"
+                          className="transition-all duration-500 ease-in-out opacity-100 mobile-hover:group-hover:scale-105 group-hover:rotate-0 group-hover:active:scale-105 group-hover:opacity-90 transform-gpu rounded-2xl overflow-hidden"
                         />
                       </div>
                     </div>
-                    <div className="pl-4 md:pl-8 basis-0 flex-shrink-0 flex-grow">
-                      <Link
-                        href="/category/[{Category}]"
-                        as={`/category/${post.category?.[0]}`}
-                        passHref
-                      >
-                        {/* <a> */}
-                        <p
-                          className={`inline-block mb-2 text-xs font-bold text-true-gray-600 leading-2 ${
-                            Colors[
-                              getColorClassByName(post.category?.[0] || '')
-                            ].text.normal
-                          } `}
-                        >
-                          {post.category?.[0]}
+
+                    {/* Post Content */}
+                    <div className="pl-4 md:pl-8 flex-grow">
+                      <Link href={`/category/${category}`} passHref>
+                        <p className={`inline-block mb-2 text-xs font-bold text-true-gray-600 leading-2 ${colorClass}`}>
+                          {category}
                         </p>
-                        {/* </a> */}
                       </Link>
+
                       <p className="font-semibold line-clamp-3 text-lg leading-5 md:text-xl lg:text-2xl mt-1 md:mt-2">
                         {post.title}
                       </p>
-                      <Moment
-                        className="block mt-2 md:mt-3 text-sm font-semibold text-true-gray-600"
-                        date={post.date}
-                        fromNow
-                        format="yyyy.MM.DD"
-                        local
-                      />
+                      <FormattedDate date={post.date.start_date}/>
                     </div>
-                  </a>
+                  </div>
                 </Link>
               </li>
-            </div>
-          ))}
+            )
+          })}
         </ul>
-      </FullListLayout>
+      </FullListLayout >
     </>
   )
 }
 
+// Static Site Generation with Revalidation
 export const getStaticProps: GetStaticProps = async () => {
-  const posts = await getPosts()
-  const filteredPosts = filterPosts(posts)
+  const posts = await getPosts();
+  const filteredPosts = filterPosts(posts);
 
   // TODO: blur
   /*
@@ -147,7 +134,7 @@ export const getStaticProps: GetStaticProps = async () => {
       posts: filteredPosts,
     },
     revalidate: 60 * 60,
-  }
-}
+  };
+};
 
-export default Archive
+export default Archive;

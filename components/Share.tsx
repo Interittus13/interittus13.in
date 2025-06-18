@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { SiTwitter } from '@icons-pack/react-simple-icons'
+import { SiX } from '@icons-pack/react-simple-icons'
 import { faLink } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { InlineShareButtons, SharingNetwork } from 'sharethis-reactjs'
@@ -36,7 +36,7 @@ export const Share = () => {
     },
     {
       name: "twitter",
-      icon: <SiTwitter size="20" />,
+      icon: <SiX size="20" />,
       color: "hover:text-blue-400",
       action: () => handleShareClick("twitter"),
     },

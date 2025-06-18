@@ -3,10 +3,9 @@ import { idToUuid } from 'notion-utils'
 import getAllPageIds from './getAllPageIds'
 import { getPageProperties } from './getPageProperties'
 import { TPost } from '../../types'
-import { CONFIG } from '../../config/blog'
 
 export async function getPosts() {
-  let id = CONFIG.NOTION_PAGE_ID as string
+  let id = process.env.NOTION_PAGE_ID as string
   const api = new NotionAPI()
 
   const response = await api.getPage(id)

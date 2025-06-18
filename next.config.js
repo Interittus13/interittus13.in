@@ -1,7 +1,13 @@
 /** @type {import('next').NextConfig} */
 const WindiCSSWebpackPlugin = require('windicss-webpack-plugin')
 const { withPlaiceholder } = require("@plaiceholder/next")
-const withPWA = require("next-pwa")
+const { hostname } = require('os')
+const withPWA = require("next-pwa")({
+  dest: "public",
+  register: true,
+  skipWaiting: true,
+  disable: process.env.NODE_ENV === "development",
+})
 
 module.exports = withPWA(
   withPlaiceholder({
@@ -15,14 +21,72 @@ module.exports = withPWA(
       return config
     },
     images: {
-      domains: ['static.anzifan.com', 'cdn.sspai.com', 'cdn.dribbble.com', 'image.freepik.com', 'avatars.githubusercontent.com', 'cdn.jsdelivr.net', 'image.cugxuan.cn', 'blog-static.mikuchan.top', 'amazonaws.com', 'img.zhheo.com', 'www.aohuiliu.fun', 'rxhsk.xicp.fun', 'www.fomal.cc', 'www.notion.so', 'lh5.googleusercontent.com', 's3-us-west-2.amazonaws.com'],
-    },
-
-    pwa: {
-      dest: "public",
-      register: true,
-      skipWaiting: true,
-      disable: process.env.NODE_ENV === "development",
+      remotePatterns: [
+        {
+          protocol: 'https',
+          hostname: 'static.anzifan.com'
+        },
+        {
+          protocol: 'https',
+          hostname: 'cdn.sspai.com'
+        },
+        {
+          protocol: 'https',
+          hostname: 'cdn.dribbble.com'
+        },
+        {
+          protocol: 'https',
+          hostname: 'image.freepik.com'
+        },
+        {
+          protocol: 'https',
+          hostname: 'avatars.githubusercontent.com'
+        },
+        {
+          protocol: 'https',
+          hostname: 'cdn.jsdelivr.net'
+        },
+        {
+          protocol: 'https',
+          hostname: 'image.cugxuan.cn'
+        },
+        {
+          protocol: 'https',
+          hostname: 'blog-static.mikuchan.top'
+        },
+        {
+          protocol: 'https',
+          hostname: 'amazonaws.com'
+        },
+        {
+          protocol: 'https',
+          hostname: 'img.zhheo.com'
+        },
+        {
+          protocol: 'https',
+          hostname: 'www.aohuiliu.fun'
+        },
+        {
+          protocol: 'https',
+          hostname: 'rxhsk.xicp.fun'
+        },
+        {
+          protocol: 'https',
+          hostname: 'www.fomal.cc'
+        },
+        {
+          protocol: 'https',
+          hostname: 'www.notion.so'
+        },
+        {
+          protocol: 'https',
+          hostname: 'lh5.googleusercontent.com'
+        },
+        {
+          protocol: 'https',
+          hostname: 's3-us-west-2.amazonaws.com'
+        },
+      ]
     },
 
     // async redirects() {

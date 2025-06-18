@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Fragment } from 'react'
+import { Fragment, ReactNode } from 'react'
 import { Menu, Transition } from '@headlessui/react'
 
 import TagsIcon from '../assets/tags.svg'
@@ -46,22 +46,23 @@ const navigations = [
   },
 ]
 
-const MenuItemLink = (props: {
-  [x: string]: any
-  href: any
-  children: any
-}) => {
-  const { href, children, ...rest } = props
+const MenuItemLink: React.FC<{
+  href: string
+  className?: string
+  children: ReactNode
+}> = ({ href, children, className, ...rest }) => {
   return (
-    <Link href={href}>
-      <a {...rest}>{children}</a>
+    <Link href={href} className={className} {...rest}>
+      {children}
     </Link>
   )
 }
 
-const Navbar = ({ toc }: { toc: any }) => {
+// Main Navbar component
+const Navbar: React.FC<{ toc: any }> = ({ toc }) => {
   const path = useRouter().asPath
   const isPost = path.startsWith('/post/')
+
   return (
     <header
       className="sticky top-0 z-50 font-bold bg-white bg-opacity-70 backdrop-filter backdrop-blur-lg backdrop-saturate-200 border-b-[0.5px] border-b-true-gray-100"
@@ -75,10 +76,10 @@ const Navbar = ({ toc }: { toc: any }) => {
         </div>
         <div className="flex items-center">
           {/* // TODO: TOC */}
-          {isPost ? (
+          {isPost && (
             <Menu>
               <Menu.Button className="flex items-center px-0 m-0 mr-6 z-50">
-                {({ open }) => (!open && <TocIcon />) || <TocFillIcon />}
+                {({ open }) => (!open ? <TocIcon /> : <TocFillIcon />)}
               </Menu.Button>
               <Transition
                 as={Fragment}
@@ -106,24 +107,21 @@ const Navbar = ({ toc }: { toc: any }) => {
                 </Menu.Items>
               </Transition>
             </Menu>
-          ) : null}
-          <nav className="flex items-center justify-center hidden space-x-5 sm:flex">
+          )}
+
+          {/* Desktop Navigation */}
+          <nav className="hidden sm:flex items-center justify-center space-x-5">
             {navigations.map((n, i) => (
-              <Link href={n.link} key={i}>
-                <a
-                  className="flex items-center justify-center space-x-1 group"
-                  href={n.link}
-                >
-                  {n.icon}
-                  <div
-                    className={`w-0 overflow-hidden ease-in-out transition-all duration-600 ${n.color} ${n.width}`}
-                  >
-                    {n.name}
-                  </div>
-                </a>
+              <Link href={n.link} key={i} className="flex items-center justify-center space-x-1 group">
+                {n.icon}
+                <div className={`w-0 overflow-hidden ease-in-out transition-all duration-600 ${n.color} ${n.width}`}>
+                  {n.name}
+                </div>
               </Link>
             ))}
           </nav>
+
+          {/* Mobile Hamburger Menu */}
           <div className="block sm:hidden">
             <Menu as="div" className="relative text-left ">
               <Menu.Button className="flex items-center px-0 m-0 text-current bg-transparent cursor-pointer rounded-3xl focus:outline-none">

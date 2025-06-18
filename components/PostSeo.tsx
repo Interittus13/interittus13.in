@@ -1,6 +1,5 @@
 import { NextSeo, ArticleJsonLd } from 'next-seo'
 import { me } from '../config/me'
-import { FC } from 'react'
 import { CONFIG } from '../config/blog'
 
 type PostSeoProps = {
@@ -13,7 +12,7 @@ type PostSeoProps = {
   url: string
 }
 
-const PostSeo: FC<PostSeoProps> = ({
+const PostSeo: React.FC<PostSeoProps> = ({
   author = me.name,
   date,
   description,

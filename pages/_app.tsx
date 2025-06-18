@@ -18,8 +18,9 @@ import { pageview } from '../lib/gtag'
 import { ThemeProvider } from 'next-themes'
 import { CONFIG } from '../config/blog'
 
-import 'prismjs/themes/prism.css'
+import 'prismjs/themes/prism-tomorrow.css'
 import 'react-notion-x/src/styles.css'
+import 'katex/dist/katex.min.css'
 
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode
@@ -50,7 +51,7 @@ function MyApp({ Component, pageProps, router }: AppPropsWithLayout) {
       pageview(url, document.title)
       try {
         window._hmt.push(['_trackPageview', url])
-      } catch (e) {}
+      } catch (e) { }
     }
     router.events.on('routeChangeComplete', handleRouteChange)
     return () => {

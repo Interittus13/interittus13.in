@@ -1,7 +1,5 @@
 import type { GetStaticProps, NextPage } from 'next'
-
 import PostList from '../components/PostList'
-
 import { WidgetMeMedium, WidgetMeSmall } from '../components/widget/WidgetMe'
 import ListLayout from '../components/layout/ListLayout'
 import {
@@ -17,26 +15,34 @@ import { NextSeo } from 'next-seo'
 import { CONFIG } from '../config/blog'
 import { filterPosts } from '../lib/apis/filterPosts'
 
-const Home: NextPage<{ posts: TPost[] }> = ({ posts }) => {
-  const mainPosts = posts.slice(0, 17)
+interface HomeProps {
+  posts: TPost[]
+}
+
+// Home Page Component
+const Home: NextPage<HomeProps> = ({ posts }) => {
   const router = useRouter()
   const { locale } = router
-  const description = 'Home Description'
+
+  const mainPosts = posts.slice(0, 17)
+  const description = `Welcome to ${me.nickname}'s blog!`
+
   return (
     <>
       <NextSeo
         title={`${CONFIG.BLOG_TITLE}`}
+        description={description}
         canonical={router.asPath}
-        description={`welcome to ${me.nickname}'s blog!`}
         openGraph={{
           title: `${CONFIG.BLOG_TITLE}`,
           description,
           locale,
           type: 'website',
-          url: `${router.asPath}`,
+          url: router.asPath,
           // images: [featuredImage],
         }}
       />
+
       <ListLayout>
         <MediaContextProvider>
           <Media
@@ -57,7 +63,7 @@ const Home: NextPage<{ posts: TPost[] }> = ({ posts }) => {
   )
 }
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getStaticProps: GetStaticProps<HomeProps> = async () => {
   const posts = await getPosts()
   const filteredPosts = filterPosts(posts)
   // TODO: blur
