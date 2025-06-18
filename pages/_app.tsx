@@ -61,15 +61,6 @@ function MyApp({ Component, pageProps, router }: AppPropsWithLayout) {
 
   const getLayout = Component.getLayout || ((page: any) => <BlogLayout>{page}</BlogLayout>)
 
-  if (process.env.NODE_ENV === 'development') {
-    console.error = (...args) => {
-      if (typeof args[0] === 'string' && args[0].includes('Hydration failed')) {
-        console.warn('🧨 HYDRATION FAILED:', ...args)
-        debugger // breaks exactly when it happens
-      }
-    }
-  }
-
   return (
     <ThemeProvider attribute="class">
       <Head>
