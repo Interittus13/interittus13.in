@@ -1,14 +1,41 @@
-import React from 'react'
+import React, { ComponentType } from 'react'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useTheme } from 'next-themes'
-import { NotionRenderer } from 'react-notion-x'
-import type { ExtendedRecordMap } from 'notion-types'
+import { NotionContext, NotionRenderer } from 'react-notion-x'
+import type { CodeBlock, CollectionViewBlock, CollectionViewPageBlock, EquationBlock, ExtendedRecordMap, PageBlock, PdfBlock } from 'notion-types'
 
-// TODO: type error in build time
-const Code = dynamic(() =>
-  import('react-notion-x/build/third-party/code').then(async (m) => {
+type CodeProps = {
+  block: CodeBlock
+  defaultLanguage?: string
+  className?: string
+}
+
+type CollectionProps = {
+  block: CollectionViewBlock | CollectionViewPageBlock | PageBlock
+  className?: string
+  ctx: NotionContext
+}
+
+type EquationProps = {
+block: EquationBlock
+math?: string
+inline?: boolean
+className?: string
+}
+
+type PdfProps = {
+block: PdfBlock
+file: string
+className?: string
+}
+
+type ModalProps = {
+}
+
+const loadedCodeComponent = async (): Promise<ComponentType<CodeProps>> => {
+  const m = await import('react-notion-x/build/third-party/code')
     // additional prism syntaxes
     await Promise.all([
       import('prismjs/components/prism-markup-templating.js'),
@@ -44,38 +71,42 @@ const Code = dynamic(() =>
       import('prismjs/components/prism-yaml.js')
     ])
     return m.Code
-  })
-)
+  }
 
-const Collection = dynamic(() =>
-  import('react-notion-x/build/third-party/collection').then((m) => m.Collection))
-
-const Equation = dynamic(() =>
-  import('react-notion-x/build/third-party/equation').then((m) => m.Equation))
-
-const Pdf = dynamic(
-  () =>
-    import('react-notion-x/build/third-party/pdf').then((m) => m.Pdf), {
-  ssr: false,
+const loadCollectionComponent = async (): Promise<ComponentType<CollectionProps>> => {
+  const m = await import('react-notion-x/build/third-party/collection')
+  return m.Collection
 }
-)
 
-const Modal = dynamic(
-  () =>
-    import('react-notion-x/build/third-party/modal').then((m) => m.Modal), {
-  ssr: false,
+const loadEquationComponent = async (): Promise<ComponentType<EquationProps>> => {
+  const m = await import('react-notion-x/build/third-party/equation')
+  return m.Equation
 }
-)
+
+const loadPdfComponent = async (): Promise<ComponentType<PdfProps>> => {
+  const m = await import('react-notion-x/build/third-party/pdf')
+  return m.Pdf
+}
+
+const loadModalComponent = async (): Promise<ComponentType<ModalProps>> => {
+  const m = await import('react-notion-x/build/third-party/modal')
+  return m.Modal
+}
+
+const Code = dynamic(loadedCodeComponent);
+
+const Collection = dynamic(loadCollectionComponent)
+
+const Equation = dynamic(loadEquationComponent, { ssr: false })
+
+const Pdf = dynamic(loadPdfComponent, { ssr: false })
+
+const Modal = dynamic(loadModalComponent, { ssr: false })
 
 interface ContentRendererProps {
   recordMap: ExtendedRecordMap
 }
 
-// type Props = {
-//   recordMap: any
-// }
-
-// const ContentRenderer = ({ recordMap }: Props) => {
 const ContentRenderer: React.FC<ContentRendererProps> = ({ recordMap }) => {
   const { resolvedTheme } = useTheme()
   const isDarkMode = resolvedTheme === "dark"
