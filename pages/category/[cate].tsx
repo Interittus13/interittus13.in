@@ -64,7 +64,7 @@ export const getStaticPaths = async () => {
 }
 
 export const getStaticProps: GetStaticProps<CategoryProps, Params> = async ({ params }) => {
-  const cate = params?.cate ?? ''
+  const cate = decodeURIComponent(params?.cate ?? '')
 
   const allPosts = await getPosts()
   const filteredPosts = filterPosts(allPosts)
