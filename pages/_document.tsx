@@ -1,16 +1,19 @@
 import { Html, Head, Main, NextScript } from 'next/document'
 import { GA_TRACKING_ID } from '../lib/gtag'
+import Script from 'next/script'
 
 export default function Document() {
   return (
     <Html>
       <Head>
         {/* Global Site Tag (gtag.js) - Google Analytics */}
-        <script
-          async
+        <Script
+          strategy='afterInteractive'
           src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
         />
-        <script
+        <Script
+          id='google-analytics'
+          strategy='afterInteractive'
           dangerouslySetInnerHTML={{
             __html: `
                 window.dataLayer = window.dataLayer || [];

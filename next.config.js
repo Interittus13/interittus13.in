@@ -1,7 +1,6 @@
 /** @type {import('next').NextConfig} */
 const WindiCSSWebpackPlugin = require('windicss-webpack-plugin')
 const { withPlaiceholder } = require("@plaiceholder/next")
-const { hostname } = require('os')
 const withPWA = require("next-pwa")({
   dest: "public",
   register: true,
