@@ -6,8 +6,8 @@ const plugin = require("windicss/plugin");
 export default defineConfig({
   darkMode: "class",
   extract: {
-    include: ["**/*.{jsx,tsx,css,js,ts}"],
-    exclude: ["node_modules", ".git", ".next", ".*"],
+    include: ["./src/**/*.{jsx,tsx,css,js,ts}"],
+    exclude: ["node_modules", ".git", ".next"],
   },
   attributify: true,
   theme: {

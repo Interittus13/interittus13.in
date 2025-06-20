@@ -5,7 +5,6 @@
       "DOM",
       "ESNext"
     ],
-    "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
@@ -17,22 +16,23 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "baseUrl": "./src",
+    "paths": {
+      "@/*": ["*"]
+    },
     "plugins": [
       {
         "name": "next"
       }
-    ]
+    ],
+    "allowJs": true
   },
   "include": [
-    "**/*.ts",
-    "**/*.tsx",
-    "components/layout/BlogLayout.js",
-    "config/blog.js",
     "next-env.d.ts",
-    "pages/api/page-views/page-views.js",
-    ".next/types/**/*.ts"
+    "src"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    ".next"
   ]
 }

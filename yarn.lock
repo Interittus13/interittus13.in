@@ -1078,10 +1078,10 @@
   "resolved" "https://registry.npmjs.org/@humanwhocodes/object-schema/-/object-schema-1.2.1.tgz"
   "version" "1.2.1"
 
-"@icons-pack/react-simple-icons@^12.6.0":
-  "integrity" "sha512-CQJbCvJHn1GpnyJQrkXNVXSS5ct/MPzcmr2m8HUe7gCHUVG7Hl2PwrIIAvCcJ5hZ+3CAYi4WoWERoFj8DzGl/A=="
-  "resolved" "https://registry.npmjs.org/@icons-pack/react-simple-icons/-/react-simple-icons-12.6.0.tgz"
-  "version" "12.6.0"
+"@icons-pack/react-simple-icons@^9.6.0":
+  "integrity" "sha512-8lDLssg+2aJutepQV/P4zlGm0fgujSeIItCYaLKo+25NtwepozWxZJOnc5WGHSi3HjiLcGmxI6dA2eiD5w3i+w=="
+  "resolved" "https://registry.npmjs.org/@icons-pack/react-simple-icons/-/react-simple-icons-9.6.0.tgz"
+  "version" "9.6.0"
 
 "@img/sharp-win32-x64@0.34.1":
   "integrity" "sha512-hw1iIAHpNE8q3uMIRCgGOeDoz9KtFNarFLQclLxr/LK1VBkj8nby18RjFvr6aP7USRYAjTZW6yisnBWMX571Tw=="

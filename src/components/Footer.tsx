@@ -3,7 +3,7 @@ import Link from 'next/link'
 import {
   SiNextdotjs,
   SiNotion,
-  SiCss,
+  SiTailwindcss,
   SiVercel,
 } from '@icons-pack/react-simple-icons'
 import ThemeSwitch from './ThemeSwitch'
@@ -26,7 +26,7 @@ const Footer: React.FC = () => {
       url: 'https://nextjs.org',
     },
     {
-      icon: SiCss,
+      icon: SiTailwindcss,
       url: 'https://windicss.org',
     },
     {
