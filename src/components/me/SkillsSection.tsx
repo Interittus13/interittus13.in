@@ -18,8 +18,7 @@ const SkillsSection: React.FC<SkillsSectionProps> = ({ skills }) => {
         <div
             data-aos="fade-up"
             data-aos-duration="800"
-            className={`bg-white rounded-3xl overflow-hidden min-h-25 sm:min-h-37 col-span-2 sm:col-span-1 flex flex-col relative justify-between`}
-            dark="bg-true-gray-900"
+            className={`bg-white rounded-3xl overflow-hidden min-h-25 sm:min-h-37 col-span-2 sm:col-span-1 flex flex-col relative justify-between dark:bg-true-gray-900`}
         >
             <div
                 className={`absolute transition duration-200  ease-in-out h-full w-full bg-true-gray-900 z-40 rounded-3xl text-white ${more ? 'opacity-100' : 'opacity-0'
@@ -62,8 +61,7 @@ const SkillsSection: React.FC<SkillsSectionProps> = ({ skills }) => {
                     className={`h-full aspect-square grid place-items-center transition duration-500  ease-in-out z-50 hover:cursor-pointer transform ${more
                         ? 'rotate-45 bg-white text-black hover:bg-true-gray-200'
                         : 'rotate-0 bg-black text-white hover:bg-true-gray-500'
-                        } rounded-full`}
-                    dark="bg-true-gray-900"
+                        } rounded-full dark:bg-true-gray-900`}
                     onClick={handleMore}
                     aria-label={more ? "Close skills details" : "Show skills details"}
                 >

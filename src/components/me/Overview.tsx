@@ -106,10 +106,10 @@ const Overview: React.FC<OverviewProps> = ({ me }) => {
                 className={`${style} overflow-hidden !justify-end relative`}
             >
                 <p
-                    className="z-10 py-2 px-4 xs:px-4.5 sm:px-3 md:px-6 -m-4 xs:-m-4.5 sm:-m-6 md:-m-8 text-xs sm:text-lg font-semibold opacity-90 bg-gray-200 md:text-xl"
-                    dark="bg-gray-700"
+                    className="z-10 py-2 px-4 xs:px-4.5 sm:px-3 md:px-6 -m-4 xs:-m-4.5 sm:-m-6 md:-m-8 text-xs sm:text-lg font-semibold opacity-90 bg-gray-200 md:text-xl
+                    dark:bg-gray-700"
                 >
-                    <span className="text-gray-600" dark="text-gray-400">Located in</span>
+                    <span className="text-gray-600 dark:text-gray-400">Located in</span>
                     {` ${me.location.name}`}
                 </p>
                 <LocationCard location={me.location} />

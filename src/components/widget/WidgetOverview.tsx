@@ -41,13 +41,13 @@ export const WidgetOverViewSmall: FC<{ posts: TPost[] }> = ({ posts }) => {
   return (
     <div data-aos="fade-up">
       <div
-        className="aspect-square overflow-hidden transition duration-500 ease-in-out shadow-sm transform-gpu rounded-3xl mobile-hover:hover:scale-105 mobile-hover:hover:shadow-lg hover:rotate-0 hover:active:scale-105 hover:active:shadow-lg border-[0.5px] border-true-gray-100"
-        dark="border-true-gray-900 border-none"
+        className="aspect-square overflow-hidden transition duration-500 ease-in-out shadow-sm transform-gpu rounded-3xl mobile-hover:hover:scale-105 mobile-hover:hover:shadow-lg hover:rotate-0 hover:active:scale-105 hover:active:shadow-lg border-[0.5px] border-true-gray-100
+        dark:border-true-gray-900 border-none"
         // data-aos="fade-up"
       >
         <div
-          className="flex flex-row justify-between h-full bg-white shadow-sm p-3.5 "
-          dark="bg-true-gray-900"
+          className="flex flex-row justify-between h-full bg-white shadow-sm p-3.5
+          dark:bg-true-gray-900"
           // data-aos="fade-up"
         >
           <div className="flex flex-col justify-between">
@@ -250,13 +250,13 @@ export const WidgetOverViewMedium: FC<{ posts: TPost[]; fix?: boolean }> = ({
       <div
         className={`overflow-hidden transition duration-500 ease-in-out shadow-sm transform-gpu ${
           fix ? 'h-35 lg:h-40' : 'h-40 lg:h-48'
-        } rounded-3xl mobile-hover:hover:scale-105 mobile-hover:hover:shadow-lg hover:rotate-0 hover:active:scale-105 hover:active:shadow-lg border-[0.5px] border-true-gray-100`}
-        dark="border-true-gray-900 border-none"
+        } rounded-3xl mobile-hover:hover:scale-105 mobile-hover:hover:shadow-lg hover:rotate-0 hover:active:scale-105 hover:active:shadow-lg border-[0.5px] border-true-gray-100
+        dark:border-true-gray-900 border-none`}
         // data-aos="fade-up"
       >
         <div
-          className="flex flex-row justify-between h-full bg-white shadow-sm px-3 py-2  lg:(px-4 py-3)"
-          dark="bg-true-gray-900"
+          className="flex flex-row justify-between h-full bg-white shadow-sm px-3 py-2  lg:(px-4 py-3)
+          dark:bg-true-gray-900"
           // data-aos="fade-up"
         >
           <div className="flex flex-col justify-between">

@@ -23,20 +23,20 @@ const FriendCard: FC<FriendType> = (friend) => {
   const friendCard = (status: Status) => {
     return (
       <div
-        className="flex items-center justify-center transition duration-200 ease-in-out transform bg-white shadow-lg h-55 lg:h-58 rounded-3xl hover:scale-105"
-        dark="bg-true-gray-900"
+        className="flex items-center justify-center transition duration-200 ease-in-out transform bg-white shadow-lg h-55 lg:h-58 rounded-3xl hover:scale-105
+        dark:bg-true-gray-900"
       >
         <div className="flex flex-col items-center justify-between h-full p-5">
           <a href={friend.url} target="_blank" rel="noopener noreferrer">
             {status === Status.loading ? (
               <div
-                className="w-20 h-20 rounded-full bg-true-gray-200 animate-pulse"
-                dark="bg-true-gray-600"
+                className="w-20 h-20 rounded-full bg-true-gray-200 animate-pulse
+                dark:bg-true-gray-600"
               />
             ) : (
               <div
-                className="w-20 h-20 rounded-full bg-true-gray-200 relative overflow-hidden"
-                dark="bg-true-gray-600"
+                className="w-20 h-20 rounded-full bg-true-gray-200 relative overflow-hidden
+                dark:bg-true-gray-600"
               >
                 <Image
                   layout="fill"

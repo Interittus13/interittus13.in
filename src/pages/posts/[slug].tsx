@@ -115,7 +115,7 @@ const PostPage: NextPage<PostPageProps> = ({ post, recordMap, pagination, posts 
             </span>
           </h1>
           {post.summary && (
-            <p className="mb-4 text-xl font-medium text-true-gray-600 lg:text-2xl" dark="text-true-gray-400">
+            <p className="mb-4 text-xl font-medium text-true-gray-600 lg:text-2xl dark:text-true-gray-400">
               {post.summary}
             </p>
           )}
@@ -156,8 +156,8 @@ const PostPage: NextPage<PostPageProps> = ({ post, recordMap, pagination, posts 
                 <Link key={tagName} href={`/tags/${tagName}`}>
                   <div
                     className={`${Colors[getColorClassByName(tagName)].bg.msg
-                      } bg-gradient-to-bl from-white/20 text-white flex items-center text-xs py-1 px-2  rounded-full whitespace-nowrap`}
-                    dark="bg-gradient-to-br to-black/10"
+                      } bg-gradient-to-bl from-white/20 text-white flex items-center text-xs py-1 px-2  rounded-full whitespace-nowrap
+                    dark:bg-gradient-to-br to-black/10`}
                   >
                     {tagName}
                   </div>

@@ -18,10 +18,9 @@ const CateCard: React.FC<CategoryCardProps> = ({ name, color, count }) => (
   <Link href={`/category/${name}`} passHref>
     <div className="select-none transform transition ease-in-out duration-200 hover:scale-95">
       <div
-        className={`aspect-square ${Colors[color]?.bg.msg ?? Colors['gray'].bg.msg
-          } rounded-xl p-3 md:p-4 text-white relative z-0 font-semibold overflow-hidden`}
-        before="content-DEFAULT text-transparent absolute h-full w-full top-0 left-0 z-10 bg-gradient-to-l from-white opacity-50 to-transparent rounded-xl"
-        dark="before:from-black"
+        className={`aspect-square ${Colors[color]?.bg.msg ?? Colors['gray'].bg.msg} rounded-xl p-3 md:p-4 text-white relative z-0 font-semibold overflow-hidden
+        before:content-DEFAULT before:text-transparent before:absolute before:h-full before:w-full before:top-0 before:left-0 before:z-10 before:bg-gradient-to-l before:from-white before:opacity-50 before:to-transparent before:rounded-xl
+        dark:before:from-black`}
       >
         <div className="flex flex-row items-center justify-between text-normal md:text-lg lg:text-xl">
           <p className="z-20">{name}</p>

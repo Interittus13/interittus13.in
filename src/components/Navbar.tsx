@@ -65,8 +65,8 @@ const Navbar: React.FC<{ toc: any }> = ({ toc }) => {
 
   return (
     <header
-      className="sticky top-0 z-50 font-bold bg-white bg-opacity-70 backdrop-filter backdrop-blur-lg backdrop-saturate-200 border-b-[0.5px] border-b-true-gray-100"
-      dark="bg-true-gray-900/70 border-b-true-gray-800"
+      className="sticky top-0 z-50 font-bold bg-white bg-opacity-70 backdrop-filter backdrop-blur-lg backdrop-saturate-200 border-b-[0.5px] border-b-true-gray-100
+      dark:bg-true-gray-900/70 border-b-true-gray-800"
       data-aos="fade-down"
       id="navbar"
     >
@@ -91,14 +91,14 @@ const Navbar: React.FC<{ toc: any }> = ({ toc }) => {
                 leaveTo="transform opacity-0"
               >
                 <Menu.Items
-                  className="absolute top-0 left-0 w-full h-100vh bg-true-gray-900/50 backdrop-filter backdrop-blur-sm"
-                  dark="bg-true-gray-900/70"
+                  className="absolute top-0 left-0 w-full h-100vh bg-true-gray-900/50 backdrop-filter backdrop-blur-sm
+                  dark:bg-true-gray-900/70"
                 >
                   <Menu.Item>
                     <div className="flex place-items-center w-full h-full">
                       <div
-                        className="mx-5 w-full sm:mx-auto md:w-150 overflow-scroll bg-white rounded-3xl scrollbar-hide"
-                        dark="bg-black"
+                        className="mx-5 w-full sm:mx-auto md:w-150 overflow-scroll bg-white rounded-3xl scrollbar-hide
+                        dark:bg-black"
                       >
                         <PostToc blocks={toc} />
                       </div>
@@ -143,8 +143,8 @@ const Navbar: React.FC<{ toc: any }> = ({ toc }) => {
                 leaveTo="transform scale-95 opacity-0"
               >
                 <Menu.Items
-                  className="absolute right-0 w-40 p-2 mt-5 origin-top-right shadow-md bg-white/70 rounded-3xl ring-0 focus:outline-none backdrop-filter backdrop-blur-lg backdrop-saturate-200"
-                  dark="bg-true-gray-900/70"
+                  className="absolute right-0 w-40 p-2 mt-5 origin-top-right shadow-md bg-white/70 rounded-3xl ring-0 focus:outline-none backdrop-filter backdrop-blur-lg backdrop-saturate-200
+                  dark:bg-true-gray-900/70"
                 >
                   {navigations.map((n, i) => (
                     <div key={i}>

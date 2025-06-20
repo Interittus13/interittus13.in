@@ -37,7 +37,7 @@ const Footer: React.FC = () => {
 
   return (
     <>
-      <footer className="relative bg-true-gray-100" dark="bg-true-gray-800">
+      <footer className="relative bg-true-gray-100 dark:bg-true-gray-800">
         <div className="flex flex-col px-6 mx-auto items-left lg:px-11 lg:w-screen-lg">
           <nav className="py-4 flex justify-between items-center">
             <Link href="/">
@@ -52,26 +52,18 @@ const Footer: React.FC = () => {
           </nav>
 
           {/* Main Footer Content */}
-          <section
-            className="pt-2 pb-5 text-true-gray-400"
-            dark="text-true-gray-500"
-          >
-            <div
-              className="flex justify-between w-full pb-2 my-2 text-xs border-b border-footer items-end"
-              dark="border-true-gray-700"
-            >
+          <section className="pt-2 pb-5 text-true-gray-400 dark:text-true-gray-500">
+            <div className="flex justify-between w-full pb-2 my-2 text-xs border-b border-footer items-end dark:border-true-gray-700">
               <div className="flex flex-col gap-2">
                 <div className="flex items-center">
                   Powered by
                   <div
-                    className="inline-flex px-2 py-1 mx-2 space-x-2 bg-true-gray-200 rounded-full place-items-center"
-                    dark="bg-true-gray-700"
+                    className="inline-flex px-2 py-1 mx-2 space-x-2 bg-true-gray-200 rounded-full place-items-center dark:bg-true-gray-700"
                   >
                     {tools.map((tool) => (
                       <a
                         key={tool.url}
-                        className="leading-0  hover:text-true-gray-600"
-                        dark="hover:text-white"
+                        className="leading-0  hover:text-true-gray-600 dark:hover:text-white"
                         href={tool.url}
                         target="_blank"
                         rel="noopener noreferrer"
@@ -90,11 +82,10 @@ const Footer: React.FC = () => {
                   </span>{' '}
                   by{' '}
                   <a
-                    className="text-true-gray-600 hover:underline"
+                    className="text-true-gray-600 hover:underline dark:text-true-gray-400"
                     href="https://github.com/interittus13"
                     target="_blank"
                     rel="noopener noreferrer"
-                    dark="text-true-gray-400"
                   >
                     {me.nickname}
                   </a>
@@ -118,7 +109,7 @@ const Footer: React.FC = () => {
                 <span>
                   {`Copyright © 2020-${thisYear} `}
                   <Link href={'/me'}>
-                    <span className="text-true-gray-600 hover:underline" dark="text-true-gray-400">
+                    <span className="text-true-gray-600 hover:underline dark:text-true-gray-400">
                       {me.name}
                     </span>
                   </Link>
@@ -126,11 +117,10 @@ const Footer: React.FC = () => {
               </div>
               <span>
                 <a
-                  className="text-true-gray-600 hover:underline"
+                  className="text-true-gray-600 hover:underline dark:text-true-gray-400"
                   href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  dark="text-true-gray-400"
                 >
                   CC BY-NC-SA 4.0
                 </a>

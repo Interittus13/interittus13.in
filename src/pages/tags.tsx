@@ -17,8 +17,8 @@ const TagCard: React.FC<TagCardProps> = ({ name, color, count }) => {
   return (
     <Link href={`/tags/${name}`}
       className={`${Colors[color]?.bg.msg ?? Colors['gray'].bg.msg
-        } bg-gradient-to-bl from-white/30 text-white flex items-center font-semibold py-3 px-5  rounded-full justify-between transform transition ease-in-out duration-200 hover:scale-95`}
-      dark="bg-gradient-to-tr from-black/30"
+        } bg-gradient-to-bl from-white/30 text-white flex items-center font-semibold py-3 px-5  rounded-full justify-between transform transition ease-in-out duration-200 hover:scale-95
+      dark:bg-gradient-to-tr from-black/30`}
     >
       <p className="line-clamp-1"># {name}</p>
       <p

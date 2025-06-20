@@ -55,13 +55,12 @@ export const WidgetMeMedium: React.FC<{ fix?: boolean }> = ({ fix }) => {
     <div data-aos="fade-up">
       <div
         className={`overflow-hidden transition duration-500 ease-in-out shadow-sm transform-gpu ${fix ? 'h-35 lg:h-40' : 'h-40 lg:h-48'
-          } rounded-3xl mobile-hover:hover:scale-105 mobile-hover:hover:shadow-lg hover:rotate-0 hover:active:scale-105 hover:active:shadow-lg border-[0.5px] border-true-gray-100`}
-        dark="border-true-gray-900 border-none"
+          } rounded-3xl mobile-hover:hover:scale-105 mobile-hover:hover:shadow-lg hover:rotate-0 hover:active:scale-105 hover:active:shadow-lg border-[0.5px] border-true-gray-100
+          dark:border-true-gray-900 border-none`}
       // data-aos="fade-up"
       >
         <div
-          className="flex flex-col justify-between h-full bg-white shadow-sm"
-          dark="bg-true-gray-900"
+          className="flex flex-col justify-between h-full bg-white shadow-sm dark:bg-true-gray-900"
         //  data-aos="fade-up"
         >
           <Link href={'/me'}
@@ -87,7 +86,7 @@ export const WidgetMeMedium: React.FC<{ fix?: boolean }> = ({ fix }) => {
               <p className="text-xl line-clamp-1">{me.bio}</p>
             </div>
           </Link>
-          <div className="h-3/7 bg-true-gray-100" dark="bg-true-gray-800">
+          <div className="h-3/7 bg-true-gray-100 dark:bg-true-gray-800">
             <div
               className={`flex items-center justify-between p-3 ${fix ? '' : 'lg:(px-4)'
                 } h-full gap-1 overflow-scroll scrollbar-hide`}

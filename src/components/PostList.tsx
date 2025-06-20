@@ -95,8 +95,7 @@ const PostList = ({ posts, filter, color, count }: PostListProps) => {
                 <div key={post.id} className={`${size.cardSize}`} data-aos="fade-up">
                   <Link href={`/posts/${post.slug}`}
                     className={`w-full block bg-white rounded-3xl overflow-hidden shadow-lg md:shadow-none shadow-true-gray-200 ${size.cardSize} flex flex-col group transition duration-500 ease-in-out transform-gpu mobile-hover:hover:scale-95
-                    md:hover:shadow-lg hover:rotate-0 hover:active:scale-95`}
-                    dark="bg-true-gray-900 shadow-none"
+                    md:hover:shadow-lg hover:rotate-0 hover:active:scale-95 dark:bg-true-gray-900 shadow-none`}
                   >
                     <header
                       className={`relative ${size.imgSize} duration-500 ease-in-out md:group-hover:brightness-90 transition`}
@@ -130,7 +129,7 @@ const PostList = ({ posts, filter, color, count }: PostListProps) => {
 
       {
         morePosts.length > 0 ? (
-          <div className="bg-white" dark="bg-true-gray-900">
+          <div className="bg-white dark:bg-true-gray-900">
             <ListLayout>
               <PostMore posts={morePosts} />
             </ListLayout>
@@ -138,8 +137,8 @@ const PostList = ({ posts, filter, color, count }: PostListProps) => {
         ) : (
           <div data-aos="fade-up" className="text-center mb-10">
             <Link href='/archive'
-              className="text-center border-2 border-black inline-block py-2 px-5 rounded-full hover:(bg-black  text-white) transition ease-in-out duration-400"
-              dark="hover:(bg-white text-black) border-white"
+              className="text-center border-2 border-black inline-block py-2 px-5 rounded-full hover:(bg-black  text-white) transition ease-in-out duration-400
+              dark:hover:(bg-white text-black) border-white"
             >
               View Archive
             </Link>

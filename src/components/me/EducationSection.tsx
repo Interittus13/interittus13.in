@@ -11,8 +11,7 @@ const EducationSection: React.FC<EducationSectionProps> = ({ education }) => {
             data-aos="fade-up"
             data-aos-duration="800"
             data-aos-delay="200"
-            className={`bg-white rounded-3xl overflow-hidden min-h-70 col-span-2 sm:col-span-1 flex flex-col relative justify-between`}
-            dark="bg-true-gray-900"
+            className={`bg-white rounded-3xl overflow-hidden min-h-70 col-span-2 sm:col-span-1 flex flex-col relative justify-between dark:bg-true-gray-900`}
         >
             <p className={`p-4 xs:p-4.5 sm:p-6 md:p-8 text-2xl font-semibold text-left sm:text-2xl md:text-3xl lg:text-4xl z-10 z-50  line-clamp-1`}>
                 Educations & Careers

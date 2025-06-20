@@ -1,6 +1,13 @@
 {
   "name": "interittus.in",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Interittus13/interittus.in.git"
+  },
+  "author": {
+    "name": "Interittus13"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
