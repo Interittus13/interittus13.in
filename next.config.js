@@ -1,7 +1,6 @@
 /** @type {import('next').NextConfig} */
 const WindiCSSWebpackPlugin = require('windicss-webpack-plugin')
 const { withPlaiceholder } = require("@plaiceholder/next")
-const { hostname } = require('os')
 const withPWA = require("next-pwa")({
   dest: "public",
   register: true,
@@ -17,7 +16,12 @@ module.exports = withPWA(
       config.module.rules.push({
         test: /\.svg$/,
         use: ["@svgr/webpack"]
-      })
+      });
+
+      config.watchOptions = {
+        poll: 1000,
+        aggregateTimeout: 300
+      };
       return config
     },
     images: {

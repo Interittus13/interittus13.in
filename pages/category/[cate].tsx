@@ -10,24 +10,33 @@ import { CONFIG } from '../../config/blog'
 import { useRouter } from 'next/router'
 import { filterPosts } from '../../lib/apis/filterPosts'
 
-const CatePage: NextPage<{
+interface CategoryProps {
   posts: TPost[]
-  cate: { name: string; count: number }
-}> = ({ posts, cate }) => {
-  const router = useRouter()
-  const { locale } = router
+  cate: {
+    name: string
+    count: number
+  }
+}
+
+interface Params extends ParsedUrlQuery {
+  cate: string
+}
+
+const CatePage: NextPage<CategoryProps> = ({ posts, cate }) => {
+  const { locale, asPath } = useRouter()
+
   return (
     <>
       <NextSeo
         title={`${cate.name} | ${CONFIG.BLOG_TITLE}`}
-        canonical={router.asPath}
-        description={`${cate.name} in morethanmin's blog`}
+        canonical={asPath}
+        description={`${cate.name} posts in ${CONFIG.BLOG_TITLE}'s blog`}
         openGraph={{
           title: `${CONFIG.BLOG_TITLE}`,
-          description: `${cate.name} in morethanmin's blog`,
+          description: `${cate.name} posts in ${CONFIG.BLOG_TITLE}'s blog`,
           locale,
           type: 'website',
-          url: `${router.asPath}`,
+          url: asPath,
         }}
       />
       <PostList
@@ -44,27 +53,29 @@ export const getStaticPaths = async () => {
   const posts = await getPosts()
   const categories = getAllSelectItemsFromPosts('category', posts)
 
+  const paths = Object.keys(categories).map((cateName) => ({
+    params: { cate: encodeURIComponent(cateName) },
+  }))
+
   return {
-    paths: Object.keys(categories).map((p: any) => ({ params: { cate: p } })),
+    paths,
     fallback: 'blocking',
   }
 }
 
-interface Props extends ParsedUrlQuery {
-  cate: string
-}
+export const getStaticProps: GetStaticProps<CategoryProps, Params> = async ({ params }) => {
+  const cate = decodeURIComponent(params?.cate ?? '')
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const { cate } = params as Props
-
-  const posts = await getPosts()
-  const filteredPosts = filterPosts(posts)
+  const allPosts = await getPosts()
+  const filteredPosts = filterPosts(allPosts)
   const categories = getAllSelectItemsFromPosts('category', filteredPosts)
 
-  const cateFilteredPosts = filteredPosts.filter(
-    (post) =>
-      (post.category ?? []).filter((categoryName) => categoryName === cate)
-        .length > 0
+  const count = categories[cate]
+
+  if (typeof count === 'undefined') return { notFound: true }
+
+  const cateFilteredPosts = filteredPosts.filter((post) =>
+      (post.category ?? []).includes(cate)
   )
 
   // TODO: blur

@@ -14,13 +14,14 @@ import type { ReactElement, ReactNode } from 'react'
 import { useEffect } from 'react'
 import NextNprogress from 'nextjs-progressbar'
 import type { NextPage } from 'next'
-import { pageview } from '../lib/gtag'
+import { GA_TRACKING_ID, pageview } from '../lib/gtag'
 import { ThemeProvider } from 'next-themes'
 import { CONFIG } from '../config/blog'
 
 import 'prismjs/themes/prism-tomorrow.css'
 import 'react-notion-x/src/styles.css'
 import 'katex/dist/katex.min.css'
+import Script from 'next/script'
 
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode
@@ -53,6 +54,7 @@ function MyApp({ Component, pageProps, router }: AppPropsWithLayout) {
         window._hmt.push(['_trackPageview', url])
       } catch (e) { }
     }
+
     router.events.on('routeChangeComplete', handleRouteChange)
     return () => {
       router.events.off('routeChangeComplete', handleRouteChange)
@@ -63,6 +65,24 @@ function MyApp({ Component, pageProps, router }: AppPropsWithLayout) {
 
   return (
     <ThemeProvider attribute="class">
+      {/* Global Site Tag (gtag.js) - Google Analytics */}
+      <Script
+        strategy='afterInteractive'
+        src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
+      />
+      <Script
+        id='google-analytics'
+        strategy='afterInteractive'
+        dangerouslySetInnerHTML={{
+          __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', '${GA_TRACKING_ID}');
+            `,
+        }}
+      />
+
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
         <title>{CONFIG.BLOG_TITLE}</title>
@@ -72,6 +92,7 @@ function MyApp({ Component, pageProps, router }: AppPropsWithLayout) {
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
         <link rel="manifest" href="/site.webmanifest" />
       </Head>
+
       <NextNprogress color="#ff9500" options={{ showSpinner: false }} />
       {getLayout(<Component {...pageProps} />)}
     </ThemeProvider>
