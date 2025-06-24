@@ -1,6 +1,6 @@
 import Image from 'next/image'
-import { links, LinkType } from '../../config/links'
-import { me } from '../../config/me'
+import { links, LinkType } from '@/src/config/links'
+import { me } from '@/src/config/me'
 import Link from 'next/link'
 
 const portraitPlaceholder = `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAIAAAACUFjqAAAACXBIWXMAAAsTAAALEwEAmpwYAAABQUlEQVQYlQE2Acn+ANV6g9Z8hdV6htZ9iNFseO7KzfDQ1NJyfdZ/iNV6gwCvACStAButABioAAjJU2X78vTANUeqABCsABWvACIAqAAArwAA1n+Gy1th0nZc1oF2z2hv3I+UuAosqAAAANF/APXis/////////Tt4sbCvf////////HaeNF+AADt5wD////j8+ZSunYAnDUAgw8ArWSZ0UXw3wDq4QAA0OQA//7/NpJWAH0uKng4U5tWAGUlAGwArNIAw90AADe4qv///7yOg9eAg7CSjtm3ss54e8F3cK7eowCbhAAAQq+6yOL89+rfx6OvoYynnH3p173+/PJipNsAObAAAABKFxpuR5R9AJUAn60+SaASAJsUZoWVAAtcAABLAG4fUXIHUQBAHwCjAIlPN3KCOQCKAEElNnEQUG0hUclYmR7EScPpAAAAAElFTkSuQmCC`

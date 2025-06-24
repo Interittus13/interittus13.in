@@ -1,19 +1,19 @@
+import { NextSeo } from 'next-seo'
+import { useRouter } from 'next/router'
 import type { GetStaticProps, NextPage } from 'next'
-import PostList from '../components/PostList'
-import { WidgetMeMedium, WidgetMeSmall } from '../components/widget/WidgetMe'
-import ListLayout from '../components/layout/ListLayout'
+import PostList from '@/src/components/post/PostList'
+import { WidgetMeMedium, WidgetMeSmall } from '@/src/components/widgets/MeWidget'
+import ListLayout from '@/src/components/layout/ListLayout'
 import {
   WidgetOverViewMedium,
   WidgetOverViewSmall,
-} from '../components/widget/WidgetOverview'
-import { Media, MediaContextProvider } from '../components/utility/Breakpoints'
-import { useRouter } from 'next/router'
-import { me } from '../config/me'
-import { getPosts } from '../lib/apis'
+} from '@/src/components/widgets/WidgetOverview'
+import { Media, MediaContextProvider } from '@/src/components/ui/Breakpoints'
+import { me } from '@/src/config/me'
+import { getPosts } from '@/src/lib/apis'
+import { CONFIG } from '@/src/config/blog'
+import { filterPosts } from '@/src/lib/apis/filterPosts'
 import { TPost } from '../types'
-import { NextSeo } from 'next-seo'
-import { CONFIG } from '../config/blog'
-import { filterPosts } from '../lib/apis/filterPosts'
 
 interface HomeProps {
   posts: TPost[]

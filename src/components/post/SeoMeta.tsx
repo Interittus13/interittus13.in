@@ -1,30 +1,32 @@
 import { NextSeo, ArticleJsonLd } from 'next-seo'
-import { me } from '../config/me'
-import { CONFIG } from '../config/blog'
+import { me } from '@/src/config/me'
+import { CONFIG } from '@/src/config/blog'
 
 type PostSeoProps = {
   author?: string
   date: Date
   description: string
   image: string
-  locale: string
+  locale?: string
   title: string
   url: string
 }
 
-const PostSeo: React.FC<PostSeoProps> = ({
+/**
+ * SEO component for individual blog posts.
+*/
+const SeoMeta: React.FC<PostSeoProps> = ({
   author = me.name,
   date,
   description,
   image,
-  //us locale
   locale = 'en_US',
   title,
   url,
 }) => {
   const publishedAt = new Date(date).toISOString()
   const featuredImage = {
-    url: image ? `${image}` : `${me.site}/static/images/og.png`,
+    url: image || `${me.site}/static/images/og.png`,
     alt: title,
   }
   return (
@@ -41,7 +43,7 @@ const PostSeo: React.FC<PostSeoProps> = ({
           locale,
           url,
           title,
-          description: description,
+          description,
           images: [featuredImage],
         }}
       />
@@ -50,7 +52,7 @@ const PostSeo: React.FC<PostSeoProps> = ({
         dateModified={publishedAt}
         datePublished={publishedAt}
         description={description}
-        images={[featuredImage.toString()]}
+        images={[featuredImage.url]}
         publisherLogo="/android-chrome-192x192.png"
         publisherName={author}
         title={title}
@@ -60,4 +62,4 @@ const PostSeo: React.FC<PostSeoProps> = ({
   )
 }
 
-export default PostSeo
+export default SeoMeta

@@ -1,11 +1,10 @@
 import Link from 'next/link'
-import ListLayout from './layout/ListLayout'
-import Moment from 'react-moment'
-import { Colors, getColorClassByName } from '../lib/colors'
-import PostMore from './PostMore'
+import ListLayout from '../layout/ListLayout'
+import { Colors, getColorClassByName } from '@/src/lib/utils/colors'
+import PostMore from './RelatedPosts'
 import ThemedImage from './ThemedImage'
-import { TPost } from '../types'
-import FormattedDate from './utility/FormattedDate'
+import { TPost } from '../../types'
+import FormattedDate from '@/src/components/ui/FormattedDate'
 
 interface PostListProps {
   posts: TPost[]

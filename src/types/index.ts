@@ -13,6 +13,10 @@ export type TPost = {
   fullWidth: boolean;
   thumbnail?: string;
   cover?: string;
+  coverBlur?: {
+    blurLight?: string;
+    blurDark?: string;
+  }
 };
 
 export type TPosts = TPost[];

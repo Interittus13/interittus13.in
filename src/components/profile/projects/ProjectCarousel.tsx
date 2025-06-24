@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Colors } from "../../../lib/colors";
+import { Colors } from "../../../lib/utils/colors";
 import { Project } from "../../../types";
 import { useCallback, useEffect, useState } from "react";
 

@@ -5,8 +5,8 @@ import { useEffect } from 'react'
 import { NextSeo } from 'next-seo'
 import { CONFIG } from '../config/blog'
 import { useRouter } from 'next/router'
-import Overview from '../components/me/Overview'
-import Project from '../components/me/ProjectSection'
+import Overview from '../components/profile/Overview'
+import Project from '../components/profile/ProjectSection'
 
 
 const Me: React.FC = () => {

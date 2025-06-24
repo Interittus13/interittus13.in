@@ -1,9 +1,9 @@
 import Moment from 'react-moment'
 import Link from 'next/link'
-import { Colors, getColorClassByName } from '../lib/colors'
+import { Colors, getColorClassByName } from '@/src/lib/utils/colors'
 import ThemedImage from './ThemedImage'
-import { TPost } from '../types'
-import FormattedDate from './utility/FormattedDate'
+import { TPost } from '../../types'
+import FormattedDate from '../ui/FormattedDate'
 
 const PostMore: React.FC<{ posts: TPost[] }> = ({ posts }) => {
   const count = posts.length

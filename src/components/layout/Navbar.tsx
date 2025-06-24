@@ -2,20 +2,18 @@ import Link from 'next/link'
 import { Fragment, ReactNode } from 'react'
 import { Menu, Transition } from '@headlessui/react'
 
-import TagsIcon from '../assets/tags.svg'
-import CategoriesIcon from '../assets/categories.svg'
-import FriendsIcon from '../assets/friends.svg'
-import MeIcon from '../assets/me.svg'
-import MenuIcon from '../assets/menu.svg'
-import TocIcon from '../assets/toc.svg'
-import TocFillIcon from '../assets/toc_fill.svg'
+import TagsIcon from '@/src/assets/tags.svg'
+import CategoriesIcon from '@/src/assets/categories.svg'
+import FriendsIcon from '@/src/assets/friends.svg'
+import MeIcon from '@/src/assets/me.svg'
+import MenuIcon from '@/src/assets/menu.svg'
 
-import PostToc from '../components/PostToc'
-import { Colors } from '../lib/colors'
+import { Colors } from '@/src/lib/utils/colors'
 import { useRouter } from 'next/router'
-import { CONFIG } from '../config/blog'
+import { CONFIG } from '@/src/config/blog'
 
-const navigations = [
+// Navigation items for the main navbar
+const NAV_ITEMS = [
   {
     name: 'Tags',
     link: '/tags',
@@ -58,10 +56,11 @@ const MenuItemLink: React.FC<{
   )
 }
 
-// Main Navbar component
-const Navbar: React.FC<{ toc: any }> = ({ toc }) => {
+/**
+ * Main navigation bar component.`
+ */
+const Navbar: React.FC = () => {
   const path = useRouter().asPath
-  const isPost = path.startsWith('/post/')
 
   return (
     <header
@@ -74,12 +73,13 @@ const Navbar: React.FC<{ toc: any }> = ({ toc }) => {
         <div className="z-50">
           <Link href="/">{CONFIG.BLOG_TITLE}</Link>
         </div>
+
         <div className="flex items-center">
           {/* // TODO: TOC */}
-          {isPost && (
+          {/* {isPost && (
             <Menu>
               <Menu.Button className="flex items-center px-0 m-0 mr-6 z-50">
-                {({ open }) => (!open ? <TocIcon /> : <TocFillIcon />)}
+                {({ open }) => (!open && <TocIcon /> || <TocFillIcon />)}
               </Menu.Button>
               <Transition
                 as={Fragment}
@@ -107,16 +107,16 @@ const Navbar: React.FC<{ toc: any }> = ({ toc }) => {
                 </Menu.Items>
               </Transition>
             </Menu>
-          )}
+          )} */}
 
           {/* Desktop Navigation */}
           <nav className="hidden sm:flex items-center justify-center space-x-5">
-            {navigations.map((n, i) => (
-              <Link href={n.link} key={i} className="flex items-center justify-center space-x-1 group">
-                {n.icon}
-                <div className={`w-0 overflow-hidden ease-in-out transition-all duration-600 ${n.color} ${n.width}`}>
-                  {n.name}
-                </div>
+            {NAV_ITEMS.map((item, i) => (
+              <Link href={item.link} key={i} className="flex items-center justify-center space-x-1 group">
+                {item.icon}
+                <span className={`w-0 overflow-hidden ease-in-out transition-all duration-600 ${item.color} ${item.width}`}>
+                  {item.name}
+                </span>
               </Link>
             ))}
           </nav>
@@ -146,20 +146,20 @@ const Navbar: React.FC<{ toc: any }> = ({ toc }) => {
                   className="absolute right-0 w-40 p-2 mt-5 origin-top-right shadow-md bg-white/70 rounded-3xl ring-0 focus:outline-none backdrop-filter backdrop-blur-lg backdrop-saturate-200
                   dark:bg-true-gray-900/70"
                 >
-                  {navigations.map((n, i) => (
+                  {NAV_ITEMS.map((item, i) => (
                     <div key={i}>
                       <Menu.Item>
                         {({ active }) => (
-                          <MenuItemLink
+                          <Link
+                            href={item.link}
                             className={`focus:outline-none p-2 flex items-center group ${
                               active &&
                               'bg-true-gray-100 rounded-3xl p-2 dark:hover:bg-dark-800'
                             }`}
-                            href={n.link}
                           >
-                            {n.icon}
-                            <span className={`pl-2 ${n.color}`}>{n.name}</span>
-                          </MenuItemLink>
+                            {item.icon}
+                            <span className={`pl-2 ${item.color}`}>{item.name}</span>
+                          </Link>
                         )}
                       </Menu.Item>
                     </div>

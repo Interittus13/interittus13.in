@@ -11,7 +11,7 @@ import { useTheme } from 'next-themes'
 
 const Giscus = dynamic(
   () => {
-    return import('../components/comments/Giscus')
+    return import('@/src/components/comments/Giscus')
   },
   { ssr: false }
 )

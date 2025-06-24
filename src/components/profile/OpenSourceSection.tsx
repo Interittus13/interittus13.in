@@ -1,4 +1,4 @@
-import { Colors } from "../../lib/colors"
+import { Colors } from "../../lib/utils/colors"
 import { OpenSource } from "../../types"
 
 interface OpenSourceSectionProps {

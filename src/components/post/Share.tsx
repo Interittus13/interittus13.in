@@ -1,22 +1,35 @@
-import React, { useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { SiX } from '@icons-pack/react-simple-icons'
 import { faLink } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { InlineShareButtons, SharingNetwork } from 'sharethis-reactjs'
 import { useRouter } from 'next/router'
-import { me } from '../config/me'
+import { me } from '@/src/config/me'
 
+type ShareButtonProps = {
+  name: string
+  icon: React.ReactNode
+  color: string
+  action: () => void
+}
+
+/**
+ * Social media share component that allows users to share the current page URL.
+ */
 export const Share = () => {
   const router = useRouter();
   const [copied, setCopied] = useState(false)
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(me.site + router.asPath);
+  // Always use a memoized share URL for reliability.
+  const shareUrl = useMemo(() => me.site + router.asPath, [router.asPath])
+
+  const handleCopy = useCallback(() => {
+    navigator.clipboard.writeText(shareUrl)
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
-  }
+  }, [shareUrl])
 
-  const handleShareClick = (network: string) => {
+  const handleShareClick = useCallback((network: string) => {
     setTimeout(() => {
       const shareButton = document.querySelector(
         `#sharethis [data-network="${network}"]`
@@ -24,10 +37,10 @@ export const Share = () => {
       if (shareButton) shareButton.click()
       else console.error(`${network} share button not found!`);
     }, 1000);
-  };
+  }, [])
 
   // Share Buttons configuration
-  const shareButtons = [
+  const shareButtons: ShareButtonProps[] = useMemo(() => [
     {
       name: "link",
       icon: <FontAwesomeIcon icon={faLink} />,
@@ -40,7 +53,7 @@ export const Share = () => {
       color: "hover:text-blue-400",
       action: () => handleShareClick("twitter"),
     },
-  ]
+  ], [handleCopy, handleShareClick])
 
   return (
     <>
@@ -56,7 +69,7 @@ export const Share = () => {
             networks: shareButtons
               .filter((btn) => btn.name !== "link")
               .map((btn) => btn.name as SharingNetwork), 
-            url: me.site + router.asPath,
+            url: shareUrl,
             padding: 7,
             radius: 9,
             show_total: false,
@@ -71,6 +84,9 @@ export const Share = () => {
             key={share.name}
             className={`leading-0 ${share.color}`}
             onClick={share.action}
+            aria-label={`Share via ${share.name === 'link' ? 'link copy' : share.name}`}
+            title={share.name === 'link' ? 'Copy link' : `Share on ${share.name}`}
+            type='button'
           >
             {share.icon}
           </button>

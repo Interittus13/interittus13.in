@@ -1,32 +1,32 @@
 import { GetStaticProps, GetStaticPaths, NextPage } from 'next'
 import { ParsedUrlQuery } from 'querystring'
-import ContentLayout, { CoverLayout } from '../../components/layout/ContentLayout'
 import Head from 'next/head'
 import DefaultErrorPage from 'next/error'
-import { BlogLayoutWhite } from '../../components/layout/BlogLayout'
 import type { ReactElement } from 'react'
 import { NextPageWithLayout } from '../_app'
 import Moment from 'react-moment'
 import Link from 'next/link'
-import { Colors, getColorClassByName } from '../../lib/colors'
-import { Share } from '../../components/Share'
-import TagsIcon from '../../assets/tags.svg'
-import Pagination from '../../components/Pagination'
-import Comment from '../../components/Comment'
-import { WidgetMeMedium, WidgetMeSmall } from '../../components/widget/WidgetMe'
-import { WidgetOverViewMedium, WidgetOverViewSmall } from '../../components/widget/WidgetOverview'
-import ThemedImage from '../../components/ThemedImage'
-import PostSeo from '../../components/PostSeo'
+import ContentLayout, { CoverLayout } from '@/src/components/layout/ContentLayout'
+import { BlogLayoutWhite } from '@/src/components/layout/BlogLayout'
+import { Colors, getColorClassByName } from '@/src/lib/utils/colors'
+import { Share } from '@/src/components/post/Share'
+import TagsIcon from '@/src/assets/tags.svg'
+import Pagination from '@/src/components/post/Pagination'
+import Comment from '@/src/components/post/Comment'
+import { WidgetMeMedium, WidgetMeSmall } from '@/src/components/widgets/MeWidget'
+import { WidgetOverViewMedium, WidgetOverViewSmall } from '@/src/components/widgets/WidgetOverview'
+import ThemedImage from '@/src/components/post/ThemedImage'
+import SeoMeta from '@/src/components/post/SeoMeta'
 import { useRouter } from 'next/router'
-import { getPostBlocks, getPosts } from '../../lib/apis'
+import { getPostBlocks, getPosts } from '@/src/lib/apis'
 import { TPost } from '../../types'
-import { filterPosts } from '../../lib/apis/filterPosts'
+import { filterPosts } from '@/src/lib/apis/filterPosts'
 import { ExtendedRecordMap } from 'notion-types'
 import readingTime from 'reading-time'
 import dynamic from 'next/dynamic'
 
 const ContentRenderer = dynamic(
-  () => import('../../components/ContentRenderer'),
+  () => import('@/src/components/post/ContentRenderer'),
   { ssr: false }
 )
 
@@ -40,11 +40,11 @@ interface PostPageProps {
   }
 }
 
+
 const PostPage: NextPage<PostPageProps> = ({ post, recordMap, pagination, posts }) => {
   const router = useRouter()
   const { locale } = router
-  // Add debugging
-  console.log("PostPage rendering with recordMap:", recordMap ? "exists" : "missing")
+
   // setToc(blocks)
   if (!post || !recordMap) {
     return (
@@ -57,23 +57,28 @@ const PostPage: NextPage<PostPageProps> = ({ post, recordMap, pagination, posts 
     )
   }
 
-  // Calculate estimated reading time
+  // Convert recordMap object to array of blocks
+  const blockArray = Object.values(recordMap.block)
+    .map((b: any) => b.value)
+    .filter(Boolean)
+
+  // Estimated reading time calculation
   const estimatedReadingTime = readingTime(
-    Object.values(recordMap.block)
-      .map((b) => b?.value?.properties?.title?.flat())
+    blockArray
+      .map((b) => b?.properties?.title?.flat() ?? '')
       .flat()
       .join('')
   ).text
 
   return (
     <>
-      <PostSeo
+      <SeoMeta
         title={post.title}
         description={post.summary || ''}
         date={new Date(post.date.start_date)}
         image={post.thumbnail || ''}
-        locale={locale || ''}
-        url={router.asPath}
+        locale={locale || 'en_US'}
+        url={typeof window !== 'undefined' ? window.location.href : ''}
       // TODO: check if this is correct
       />
 
@@ -139,20 +144,18 @@ const PostPage: NextPage<PostPageProps> = ({ post, recordMap, pagination, posts 
 
       {/* Notion Content */}
       <ContentLayout>
+        {/* <PostToc blocks={blockArray} /> */}
         {/* <FrontMessage post={page} /> */}
         {/* {blocks.map((block) => {
           return <Fragment key={block.id}>{renderNotionBlock(block)}</Fragment>
           })} */}
         <ContentRenderer recordMap={recordMap} />
-        <div
-          className={`flex flex-col mt-8 justify-between ${post.thumbnail ? 'md:flex-row md:items-center' : ''
-            } gap-4 w-full`}
-        >
+
           {/* Tags */}
           {post.tags && (
             <div className="flex flex-wrap items-center gap-2 overflow-scroll scrollbar-hide">
               <TagsIcon />
-              {post.tags?.map((tagName: any) => (
+              {post.tags?.map((tagName) => (
                 <Link key={tagName} href={`/tags/${tagName}`}>
                   <div
                     className={`${Colors[getColorClassByName(tagName)].bg.msg
@@ -165,7 +168,6 @@ const PostPage: NextPage<PostPageProps> = ({ post, recordMap, pagination, posts 
               ))}
             </div>
           )}
-        </div>
       </ContentLayout >
 
       {/* Pagiantion */}
@@ -175,7 +177,7 @@ const PostPage: NextPage<PostPageProps> = ({ post, recordMap, pagination, posts 
           pagination={pagination}
           data-aos="fade-up"
           data-aos-duration="500"
-        ></Pagination>
+        />
       </ContentLayout >
 
       {/* Widgets */}
@@ -198,6 +200,7 @@ const PostPage: NextPage<PostPageProps> = ({ post, recordMap, pagination, posts 
   )
 }
 
+// ----- Static Generation -----
 export const getStaticPaths: GetStaticPaths = async () => {
   const posts = await getPosts()
   const filteredPosts = filterPosts(posts)
@@ -262,7 +265,7 @@ export const getStaticProps: GetStaticProps<PostPageProps> = async ({ params }) 
   }
 }
 
-// Set Page Layout
+// ----- Page Layout ----- 
 (PostPage as NextPageWithLayout).getLayout = function getLayout(page: ReactElement) {
   return <BlogLayoutWhite>{page}</BlogLayoutWhite>
 }

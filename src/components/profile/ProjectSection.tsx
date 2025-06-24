@@ -1,4 +1,4 @@
-import { Colors } from "../../lib/colors";
+import { Colors } from "../../lib/utils/colors";
 import { MeConfig } from "../../types";
 import ListLayout from "../layout/ListLayout";
 import ProjectCarousel from "./projects/ProjectCarousel";

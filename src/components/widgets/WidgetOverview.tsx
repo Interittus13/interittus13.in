@@ -8,12 +8,12 @@ import {
   BarElement,
 } from 'chart.js'
 import { Bar } from 'react-chartjs-2'
-import { Colors } from '../../lib/colors'
-// TODO: gradient is too big
-import gradient from 'chartjs-plugin-gradient'
-import { Tooltip } from '../utility/Tooltip'
 import useSWRImmutable from 'swr/immutable'
 import { useTheme } from 'next-themes'
+import gradient from 'chartjs-plugin-gradient'
+import { Colors } from '@/src/lib/utils/colors'
+// TODO: gradient is too big
+import { Tooltip } from '@/src/components/ui/Tooltip'
 import { TPost } from '../../types'
 
 ChartJS.register(
