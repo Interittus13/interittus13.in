@@ -1,12 +1,12 @@
-import ListLayout from '../components/layout/ListLayout'
-import { me } from '../config/me'
-import Image from 'next/image'
-import { useEffect } from 'react'
-import { NextSeo } from 'next-seo'
-import { CONFIG } from '../config/blog'
 import { useRouter } from 'next/router'
-import Overview from '../components/profile/Overview'
-import Project from '../components/profile/ProjectSection'
+import { NextSeo } from 'next-seo'
+import { useEffect } from 'react'
+import Image from 'next/image'
+import { ListLayout } from '@/src/components/layout/ListLayout'
+import Project from '@/src/components/profile/ProjectSection'
+import Overview from '@/src/components/profile/Overview'
+import { CONFIG } from '@/src/config/blog'
+import { me } from '@/src/config/me'
 
 
 const Me: React.FC = () => {

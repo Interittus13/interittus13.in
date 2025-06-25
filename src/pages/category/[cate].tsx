@@ -2,13 +2,13 @@ import { GetStaticProps, NextPage } from 'next'
 import { ParsedUrlQuery } from 'querystring'
 import { useRouter } from 'next/router'
 import { NextSeo } from 'next-seo'
-import PostList from '@/src/components/post/PostList'
-import { getPosts } from '@/src/lib/apis'
 import { getAllSelectItemsFromPosts } from '@/src/lib/apis/getAllSelectItemsFromPosts'
-import { TPost } from '../../types'
 import { getColorClassByName } from '@/src/lib/utils/colors'
-import { CONFIG } from '@/src/config/blog'
 import { filterPosts } from '@/src/lib/apis/filterPosts'
+import PostList from '@/src/components/post/PostList'
+import { CONFIG } from '@/src/config/blog'
+import { getPosts } from '@/src/lib/apis'
+import { TPost } from '@/src/types'
 
 interface CategoryProps {
   posts: TPost[]

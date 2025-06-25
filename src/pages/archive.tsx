@@ -1,16 +1,16 @@
 import { GetStaticProps, NextPage } from "next";
-import Link from "next/link";
-import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";
+import { NextSeo } from "next-seo";
+import Link from "next/link";
 import moment from "moment";
-import { Colors, getColorClassByName } from "@/src/lib/utils/colors";
 import { FullListLayout } from "@/src/components/layout/ListLayout";
-import ThemedImage from "@/src/components/post/ThemedImage";
-import { getPosts } from "@/src/lib/apis";
-import { TPost } from "../types";
-import { CONFIG } from "@/src/config/blog";
-import { filterPosts } from "@/src/lib/apis/filterPosts";
+import { Colors, getColorClassByName } from "@/src/lib/utils/colors";
 import FormattedDate from "@/src/components/ui/FormattedDate";
+import ThemedImage from "@/src/components/post/ThemedImage";
+import { filterPosts } from "@/src/lib/apis/filterPosts";
+import { CONFIG } from "@/src/config/blog";
+import { getPosts } from "@/src/lib/apis";
+import { TPost } from "@/src/types";
 
 // TODO: Add pagination and filter
 const Archive: NextPage<{ posts: TPost[] }> = ({ posts }) => {

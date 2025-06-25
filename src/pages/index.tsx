@@ -3,17 +3,17 @@ import { useRouter } from 'next/router'
 import type { GetStaticProps, NextPage } from 'next'
 import PostList from '@/src/components/post/PostList'
 import { WidgetMeMedium, WidgetMeSmall } from '@/src/components/widgets/MeWidget'
-import ListLayout from '@/src/components/layout/ListLayout'
+import { ListLayout } from '@/src/components/layout/ListLayout'
 import {
   WidgetOverViewMedium,
   WidgetOverViewSmall,
 } from '@/src/components/widgets/WidgetOverview'
 import { Media, MediaContextProvider } from '@/src/components/ui/Breakpoints'
-import { me } from '@/src/config/me'
-import { getPosts } from '@/src/lib/apis'
-import { CONFIG } from '@/src/config/blog'
 import { filterPosts } from '@/src/lib/apis/filterPosts'
-import { TPost } from '../types'
+import { CONFIG } from '@/src/config/blog'
+import { getPosts } from '@/src/lib/apis'
+import { me } from '@/src/config/me'
+import { TPost } from '@/src/types'
 
 interface HomeProps {
   posts: TPost[]

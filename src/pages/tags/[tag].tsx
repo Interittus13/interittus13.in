@@ -1,14 +1,14 @@
 import { GetStaticProps, NextPage } from 'next'
-import PostList from '../../components/PostList'
 import { ParsedUrlQuery } from 'querystring'
-import { getAllSelectItemsFromPosts } from '../../lib/apis/getAllSelectItemsFromPosts'
-import { getPosts } from '../../lib/apis'
-import { TPost } from '../../types'
-import { getColorClassByName } from '../../lib/utils/colors'
-import { NextSeo } from 'next-seo'
-import { CONFIG } from '../../config/blog'
 import { useRouter } from 'next/router'
-import { filterPosts } from '../../lib/apis/filterPosts'
+import { NextSeo } from 'next-seo'
+import { getAllSelectItemsFromPosts } from '@/src/lib/apis/getAllSelectItemsFromPosts'
+import { getColorClassByName } from '@/src/lib/utils/colors'
+import { filterPosts } from '@/src/lib/apis/filterPosts'
+import PostList from '@/src/components/post/PostList'
+import { CONFIG } from '@/src/config/blog'
+import { getPosts } from '@/src/lib/apis'
+import { TPost } from '@/src/types'
 
 const TagPage: NextPage<{
   posts: TPost[]

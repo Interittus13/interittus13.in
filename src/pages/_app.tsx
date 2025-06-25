@@ -5,7 +5,7 @@ import '@fortawesome/fontawesome-svg-core/styles.css'
 import 'windi.css'
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
-import BlogLayout from '../components/layout/BlogLayout'
+import { BlogLayout } from '@/src/components/layout/BlogLayout'
 import Head from 'next/head'
 
 import AOS from 'aos'

@@ -1,29 +1,29 @@
 import { GetStaticProps, GetStaticPaths, NextPage } from 'next'
+import { ExtendedRecordMap } from 'notion-types'
 import { ParsedUrlQuery } from 'querystring'
-import Head from 'next/head'
 import DefaultErrorPage from 'next/error'
 import type { ReactElement } from 'react'
-import { NextPageWithLayout } from '../_app'
-import Moment from 'react-moment'
-import Link from 'next/link'
-import ContentLayout, { CoverLayout } from '@/src/components/layout/ContentLayout'
-import { BlogLayoutWhite } from '@/src/components/layout/BlogLayout'
-import { Colors, getColorClassByName } from '@/src/lib/utils/colors'
-import { Share } from '@/src/components/post/Share'
-import TagsIcon from '@/src/assets/tags.svg'
-import Pagination from '@/src/components/post/Pagination'
-import Comment from '@/src/components/post/Comment'
-import { WidgetMeMedium, WidgetMeSmall } from '@/src/components/widgets/MeWidget'
-import { WidgetOverViewMedium, WidgetOverViewSmall } from '@/src/components/widgets/WidgetOverview'
-import ThemedImage from '@/src/components/post/ThemedImage'
-import SeoMeta from '@/src/components/post/SeoMeta'
 import { useRouter } from 'next/router'
-import { getPostBlocks, getPosts } from '@/src/lib/apis'
-import { TPost } from '../../types'
-import { filterPosts } from '@/src/lib/apis/filterPosts'
-import { ExtendedRecordMap } from 'notion-types'
 import readingTime from 'reading-time'
 import dynamic from 'next/dynamic'
+import Moment from 'react-moment'
+import Head from 'next/head'
+import Link from 'next/link'
+import { NextPageWithLayout } from '../_app'
+import { WidgetOverViewMedium, WidgetOverViewSmall } from '@/src/components/widgets/WidgetOverview'
+import { ContentLayout, CoverLayout } from '@/src/components/layout/ContentLayout'
+import { WidgetMeMedium, WidgetMeSmall } from '@/src/components/widgets/MeWidget'
+import { Colors, getColorClassByName } from '@/src/lib/utils/colors'
+import { BlogLayout } from '@/src/components/layout/BlogLayout'
+import ThemedImage from '@/src/components/post/ThemedImage'
+import Pagination from '@/src/components/post/Pagination'
+import { filterPosts } from '@/src/lib/apis/filterPosts'
+import { getPostBlocks, getPosts } from '@/src/lib/apis'
+import { Share } from '@/src/components/post/Share'
+import Comment from '@/src/components/post/Comment'
+import SeoMeta from '@/src/components/post/SeoMeta'
+import TagsIcon from '@/src/assets/tags.svg'
+import { TPost } from '@/src/types'
 
 const ContentRenderer = dynamic(
   () => import('@/src/components/post/ContentRenderer'),
@@ -170,7 +170,7 @@ const PostPage: NextPage<PostPageProps> = ({ post, recordMap, pagination, posts 
           )}
       </ContentLayout >
 
-      {/* Pagiantion */}
+      {/* Pagination */}
       <ContentLayout>
         {/* <Licensing page={page} data-aos="fade-up" data-aos-duration="500" /> */}
         <Pagination
@@ -267,7 +267,7 @@ export const getStaticProps: GetStaticProps<PostPageProps> = async ({ params }) 
 
 // ----- Page Layout ----- 
 (PostPage as NextPageWithLayout).getLayout = function getLayout(page: ReactElement) {
-  return <BlogLayoutWhite>{page}</BlogLayoutWhite>
+  return <BlogLayout>{page}</BlogLayout>
 }
 
 export default PostPage
