@@ -1,7 +1,7 @@
 import { useTheme } from "next-themes"
-import { useEffect, useState } from "react"
 import Image from 'next/image'
-import { Location } from "../../types"
+import { useMounted } from "@/src/hooks/useMounted"
+import { Location } from "@/src/types"
 
 interface LocationProps {
     location: Location
@@ -9,11 +9,7 @@ interface LocationProps {
 
 const LocationCard: React.FC<LocationProps> = ({ location }) => {
     const { resolvedTheme } = useTheme()
-    const [mounted, setMounted] = useState(false)
-
-    useEffect(() => {
-        setMounted(true)
-    }, [])
+    const mounted = useMounted()
 
     const mapSrc = mounted ?
         (resolvedTheme === 'dark' ? location.map.dark : location.map.light) : null

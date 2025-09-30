@@ -1,7 +1,7 @@
-import Image from "next/image";
-import { Colors } from "../../../lib/utils/colors";
-import { Project } from "../../../types";
 import { useCallback, useEffect, useState } from "react";
+import Image from "next/image";
+import { Colors } from "@/src/lib/utils/colors";
+import { Project } from "@/src/types";
 
 interface ProjectCarouselProps {
     projects: Project[]

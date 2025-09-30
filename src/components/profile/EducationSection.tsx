@@ -1,5 +1,5 @@
-import { Colors } from "../../lib/utils/colors"
-import { Education } from "../../types"
+import { Colors } from "@/src/lib/utils/colors"
+import { Education } from "@/src/types"
 
 interface EducationSectionProps {
     education: Education[]

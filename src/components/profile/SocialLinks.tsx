@@ -1,4 +1,4 @@
-import { SocialLink } from "../../types";
+import { SocialLink } from "@/src/types";
 
 interface SocialLinksProps {
     links: SocialLink[]

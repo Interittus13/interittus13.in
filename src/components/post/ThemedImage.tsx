@@ -1,8 +1,8 @@
-import Image from 'next/image'
 import { useTheme } from 'next-themes'
-import type { TPost } from '../../types'
-import { useMounted } from '@/src/hooks/useMounted'
 import { useMemo } from 'react'
+import Image from 'next/image'
+import { useMounted } from '@/src/hooks/useMounted'
+import type { TPost } from '@/src/types'
 
 /**
  * Returns the correct blur image source based on the theme.

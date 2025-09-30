@@ -1,9 +1,9 @@
-import { MeConfig } from "../../types"
-import EducationSection from "./EducationSection"
-import LocationCard from "./LocationCard"
 import OpenSourceSection from "./OpenSourceSection"
+import EducationSection from "./EducationSection"
 import SkillsSection from "./SkillsSection"
+import LocationCard from "./LocationCard"
 import SocialLinks from "./SocialLinks"
+import { MeConfig } from "@/src/types"
 
 interface OverviewProps {
     me: MeConfig

@@ -38,15 +38,14 @@ const Tags: NextPage<{ tags: TTags }> = ({ tags }) => {
     <>
       <NextSeo
         title={`Tags | ${CONFIG.BLOG_TITLE}`}
-        canonical={router.asPath}
+        canonical={`${CONFIG.link}/tags`}
         description={`Tags in ${CONFIG.BLOG_TITLE}'s blog`}
         openGraph={{
           title: `${CONFIG.BLOG_TITLE}`,
           description: `Tags in ${CONFIG.BLOG_TITLE}'s blog`,
           locale: router.locale,
           type: 'website',
-          url: `${router.asPath}`,
-          // images: [featuredImage],
+          url: `${CONFIG.link}/tags`,
         }}
       />
 

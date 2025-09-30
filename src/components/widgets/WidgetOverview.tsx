@@ -22,7 +22,7 @@ ChartJS.register(
   PointElement,
   LineElement,
   BarElement,
-  gradient
+  gradient,
   // Tooltip,
   // Legend
 )

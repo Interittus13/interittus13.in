@@ -1,4 +1,4 @@
-import { NextSeo, ArticleJsonLd, NextSeoProps } from 'next-seo'
+import { NextSeo, ArticleJsonLd, NextSeoProps, DefaultSeo } from 'next-seo'
 import { me } from '@/src/config/me'
 import { CONFIG } from '@/src/config/blog'
 
@@ -28,7 +28,7 @@ const SeoMeta: React.FC<SeoMetaProps> = ({
 }) => {
   const publishedAt = new Date(date).toISOString()
   const ogImage = {
-    url: image || `${me.site}/static/images/og.png`,
+    url: image?.startsWith('http') ? image : `${me.site}/static/images/og.png`,
     alt: `${title} -  ${CONFIG.BLOG_TITLE}`,
     type: 'image/png',
   }
@@ -50,8 +50,8 @@ const SeoMeta: React.FC<SeoMetaProps> = ({
     },
     twitter: {
       cardType: 'summary_large_image',
-      site: me.site,
-      handle: me.site,
+      site: "@interittus13",
+      handle: "@interittus13",
     },
   }
 

@@ -1,8 +1,8 @@
-import { Colors } from "../../lib/utils/colors";
-import { MeConfig } from "../../types";
-import { ListLayout } from "../layout/ListLayout";
 import ProjectCarousel from "./projects/ProjectCarousel";
+import { ListLayout } from "../layout/ListLayout";
 import ProjectHero from "./projects/ProjectHero";
+import { Colors } from "@/src/lib/utils/colors";
+import { MeConfig } from "@/src/types";
 
 interface ProjectProps {
     me: MeConfig

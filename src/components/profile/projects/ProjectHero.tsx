@@ -1,7 +1,7 @@
 import { useTheme } from "next-themes";
-import { Project } from "../../../types";
-import { Colors } from "../../../lib/utils/colors";
 import Image from 'next/image';
+import { Colors } from "@/src/lib/utils/colors";
+import { Project } from "@/src/types";
 
 interface ProjectHeroProps {
     project: Project

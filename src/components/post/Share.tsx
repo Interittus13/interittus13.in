@@ -1,9 +1,9 @@
-import React, { useCallback, useMemo, useState } from 'react'
-import { SiX } from '@icons-pack/react-simple-icons'
-import { faLink } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { InlineShareButtons, SharingNetwork } from 'sharethis-reactjs'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import React, { useCallback, useMemo, useState } from 'react'
+import { faLink } from '@fortawesome/free-solid-svg-icons'
 import { useRouter } from 'next/router'
+import { SiX } from '@icons-pack/react-simple-icons'
 import { me } from '@/src/config/me'
 
 type ShareButtonProps = {
