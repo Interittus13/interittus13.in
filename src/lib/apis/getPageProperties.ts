@@ -36,13 +36,7 @@ export async function getPageProperties(
           properties[schema[key].name] = dateProperty
           break
         }
-        case 'select': {
-          const selects = getTextContent(val)
-          if (selects[0]?.length) {
-            properties[schema[key].name] = selects.split(',')
-          }
-          break
-        }
+        case 'select':
         case 'multi_select': {
           const selects = getTextContent(val)
           if (selects[0]?.length) {
@@ -52,8 +46,8 @@ export async function getPageProperties(
         }
         case 'person': {
           const rawUsers = val.flat()
-
           const users = []
+          
           for (let i = 0; i < rawUsers.length; i++) {
             if (rawUsers[i][0][1]) {
               const userId = rawUsers[i][0]
