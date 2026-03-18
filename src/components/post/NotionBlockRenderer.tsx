@@ -4,7 +4,7 @@ import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
-// eslint-disable-next-line @typescript-eslint/no-require-imports
+// eslint-disable-next-line
 const oneDark = require('react-syntax-highlighter/dist/cjs/styles/prism').oneDark
 import type { BlockObjectResponse } from '@notionhq/client/build/src/api-endpoints'
 

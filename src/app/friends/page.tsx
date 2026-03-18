@@ -86,7 +86,7 @@ export default function FriendsPage() {
           </h1>
           <div className="h-1.5 w-24 bg-indigo-500 rounded-full mt-4" />
           <p className="mt-8 text-xl text-zinc-500 dark:text-zinc-400 font-medium italic opacity-80 decoration-indigo-500/10 underline decoration-4 underline-offset-8">
-            "A rare collection of extraordinary humans I've encountered along the digital wilderness."
+            &quot;A rare collection of extraordinary humans I&apos;ve encountered along the digital wilderness.&quot;
           </p>
         </div>
 
