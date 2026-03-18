@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { NotionAPI } from "notion-client";
 
 export const getPostBlocks = async (id: string) => {
@@ -18,3 +19,12 @@ export const getPostBlocks = async (id: string) => {
   const recordMap = await api.getPage(id);
   return recordMap;
 };
+=======
+import { NotionAPI } from "notion-client"
+
+export async function getPostBlocks(id: string) {
+  const api = new NotionAPI()
+  const pageBlock = await api.getPage(id)
+  return pageBlock
+}
+>>>>>>> d9a87f57ecf39d0c8edfc5a86eb2e6075acbfe03

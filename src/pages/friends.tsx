@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import useSWRImmutable from 'swr/immutable'
 import { NextSeo } from 'next-seo'
 import { NextPage } from 'next'
@@ -8,6 +9,18 @@ import { friends, FriendType } from '@/src/config/friends'
 import Comment from '@/src/components/post/Comment'
 import { Colors } from '@/src/lib/utils/colors'
 import { CONFIG } from '@/src/config/blog'
+=======
+import { NextPage } from 'next'
+import ListLayout from '../components/layout/ListLayout'
+import { friends, FriendType } from '../../config/friends'
+import { FC } from 'react'
+import Comment from '../components/Comment'
+import Image from 'next/image'
+import { Colors } from '../lib/colors'
+import useSWRImmutable from 'swr/immutable'
+import { NextSeo } from 'next-seo'
+import { CONFIG } from '../../config/blog'
+>>>>>>> d9a87f57ecf39d0c8edfc5a86eb2e6075acbfe03
 
 const previewFetcher = (url: string) =>
   fetch(`/api/bookmark/${encodeURIComponent(url)}`).then((res) => res.json())

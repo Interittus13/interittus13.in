@@ -16,7 +16,7 @@ import NextNprogress from 'nextjs-progressbar'
 import type { NextPage } from 'next'
 import { GA_TRACKING_ID, pageview } from '../lib/gtag'
 import { ThemeProvider } from 'next-themes'
-import { CONFIG } from '../config/blog'
+import { CONFIG } from '../../config/blog'
 
 import 'prismjs/themes/prism-tomorrow.css'
 import 'react-notion-x/src/styles.css'
