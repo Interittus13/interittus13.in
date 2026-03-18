@@ -1,5 +1,14 @@
 import { GetStaticProps, NextPage } from 'next'
 import { ParsedUrlQuery } from 'querystring'
+<<<<<<< HEAD
+=======
+import { getAllSelectItemsFromPosts } from '../../lib/apis/getAllSelectItemsFromPosts'
+import { getPosts } from '../../lib/apis'
+import { TPost } from '../../types'
+import { getColorClassByName } from '../../lib/colors'
+import { NextSeo } from 'next-seo'
+import { CONFIG } from '../../../config/blog'
+>>>>>>> d9a87f57ecf39d0c8edfc5a86eb2e6075acbfe03
 import { useRouter } from 'next/router'
 import { NextSeo } from 'next-seo'
 import { getAllSelectItemsFromPosts } from '@/src/lib/apis/getAllSelectItemsFromPosts'

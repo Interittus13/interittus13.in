@@ -25,8 +25,18 @@
     "allowJs": true
   },
   "include": [
+<<<<<<< HEAD
     "next-env.d.ts",
     "src"
+=======
+    "**/*.ts",
+    "**/*.tsx",
+    "src/components/layout/BlogLayout.js",
+    "config/blog.js",
+    "next-env.d.ts",
+    "src/pages/api/page-views/page-views.js",
+    ".next/types/**/*.ts"
+>>>>>>> d9a87f57ecf39d0c8edfc5a86eb2e6075acbfe03
   ],
   "exclude": [
     "node_modules",

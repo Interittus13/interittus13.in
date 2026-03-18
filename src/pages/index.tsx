@@ -7,6 +7,7 @@ import { ListLayout } from '@/src/components/layout/ListLayout'
 import {
   WidgetOverViewMedium,
   WidgetOverViewSmall,
+<<<<<<< HEAD
 } from '@/src/components/widgets/WidgetOverview'
 import { Media, MediaContextProvider } from '@/src/components/ui/Breakpoints'
 import { filterPosts } from '@/src/lib/apis/filterPosts'
@@ -14,6 +15,17 @@ import { CONFIG } from '@/src/config/blog'
 import { getPosts } from '@/src/lib/apis'
 import { me } from '@/src/config/me'
 import { TPost } from '@/src/types'
+=======
+} from '../components/widget/WidgetOverview'
+import { Media, MediaContextProvider } from '../components/utility/Breakpoints'
+import { useRouter } from 'next/router'
+import { me } from '../../config/me'
+import { getPosts } from '../lib/apis'
+import { TPost } from '../types'
+import { NextSeo } from 'next-seo'
+import { CONFIG } from '../../config/blog'
+import { filterPosts } from '../lib/apis/filterPosts'
+>>>>>>> d9a87f57ecf39d0c8edfc5a86eb2e6075acbfe03
 
 interface HomeProps {
   posts: TPost[]

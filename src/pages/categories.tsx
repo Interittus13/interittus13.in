@@ -1,4 +1,18 @@
 import { GetStaticProps, NextPage } from 'next'
+<<<<<<< HEAD
+=======
+import Link from 'next/link'
+import { ReactElement } from 'react'
+import { BlogLayoutPure } from '../components/layout/BlogLayout'
+import ListLayout from '../components/layout/ListLayout'
+import { Colors, getColorClassByName } from '../lib/colors'
+import { NextPageWithLayout } from './_app'
+import { getAllSelectItemsFromPosts } from '../lib/apis/getAllSelectItemsFromPosts'
+import { getPosts } from '../lib/apis'
+import { CategoriesProps, CategoryCardProps } from '../types'
+import { NextSeo } from 'next-seo'
+import { CONFIG } from '../../config/blog'
+>>>>>>> d9a87f57ecf39d0c8edfc5a86eb2e6075acbfe03
 import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
 import { NextSeo } from 'next-seo'

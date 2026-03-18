@@ -1,4 +1,16 @@
 import { GetStaticProps, NextPage } from "next";
+<<<<<<< HEAD
+=======
+import Link from "next/link";
+import { Colors, getColorClassByName } from "../lib/colors";
+import { FullListLayout } from "../components/layout/ListLayout";
+import moment from "moment";
+import ThemedImage from "../components/ThemedImage";
+import { getPosts } from "../lib/apis";
+import { TPost } from "../types";
+import { NextSeo } from "next-seo";
+import { CONFIG } from "../../config/blog";
+>>>>>>> d9a87f57ecf39d0c8edfc5a86eb2e6075acbfe03
 import { useRouter } from "next/router";
 import { NextSeo } from "next-seo";
 import Link from "next/link";

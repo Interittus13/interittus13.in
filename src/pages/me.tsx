@@ -1,3 +1,12 @@
+<<<<<<< HEAD
+=======
+import ListLayout from '../components/layout/ListLayout'
+import { me } from '../../config/me'
+import Image from 'next/image'
+import { useEffect } from 'react'
+import { NextSeo } from 'next-seo'
+import { CONFIG } from '../../config/blog'
+>>>>>>> d9a87f57ecf39d0c8edfc5a86eb2e6075acbfe03
 import { useRouter } from 'next/router'
 import { NextSeo } from 'next-seo'
 import { useEffect } from 'react'
