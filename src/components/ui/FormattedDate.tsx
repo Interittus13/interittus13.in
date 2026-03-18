@@ -1,5 +1,7 @@
+'use client'
+
 import { FC, ReactNode } from "react";
-import { CONFIG } from "../../../config/blog";
+import { CONFIG } from "@/src/config/blog";
 import Moment from "react-moment";
 
 interface FormattedDateProps {

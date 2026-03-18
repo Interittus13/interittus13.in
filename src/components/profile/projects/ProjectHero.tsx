@@ -14,7 +14,7 @@ const ProjectHero: React.FC<ProjectHeroProps> = ({ project }) => {
     return (
         <div className="relative flex flex-col items-center justify-center py-10 overflow-hidden bg-white md:pb-5 dark:bg-true-gray-900">
             <h1
-                className={`${Colors['purple'].text.msg} text-4xl lg:text-6xl mb-15 font-bold text-center text-stroke-sm text-stroke-purple-500 uppercase text-transparent write-vertical-right  absolute right-2 top-4 md:(right-5 top-10)`}
+                className={`${Colors['purple'].text.msg} text-4xl lg:text-6xl mb-15 font-bold text-center text-stroke-sm text-stroke-purple-500 uppercase text-transparent write-vertical-right absolute right-2 top-4 md:right-5 md:top-10`}
                 data-aos="fade-up"
             >
                 Project
@@ -49,7 +49,7 @@ const ProjectHero: React.FC<ProjectHeroProps> = ({ project }) => {
             </a>
             <div data-aos="fade-up" className="flex justify-center">
                 <div className="flex w-full mt-8" id={`${project.name}-images`}>
-                    <div className="w-[520px] h-[360px] md:(w-[620px] h-[420px]) lg:(w-[940px] h-[570px])">
+                    <div className="w-[520px] h-[360px] md:w-[620px] md:h-[420px] lg:w-[940px] lg:h-[570px]">
                         <Image
                             src={project.image!}
                             alt={project.name}

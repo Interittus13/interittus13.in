@@ -1,4 +1,5 @@
 import { SocialLink } from "@/src/types";
+import { getIconByName } from "@/src/lib/utils/iconMap";
 
 interface SocialLinksProps {
     links: SocialLink[]
@@ -17,8 +18,12 @@ const SocialLinks: React.FC<SocialLinksProps> = ({ links }) => {
                     aria-label={`Visit ${link.name ?? 'social profile'}`}
                 >
                     {link.icon && (
-                        <link.icon className="h-3 w-3 xs:h-4 xs:w-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 fill-white"
-                        />
+                        (() => {
+                            const iconName = typeof link.icon === 'string' ? link.icon : null
+                            const Icon = iconName ? getIconByName(iconName) : link.icon
+                            if (!Icon || typeof Icon === 'string') return null
+                            return <Icon className="h-3 w-3 xs:h-4 xs:w-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 fill-white" />
+                        })()
                     )}
                 </a>
             ))}

@@ -1,3 +1,5 @@
+'use client'
+
 import dynamic from 'next/dynamic'
 import { useTheme } from 'next-themes'
 import { useMounted } from '@/src/hooks/useMounted'
@@ -11,11 +13,7 @@ import { useMounted } from '@/src/hooks/useMounted'
 
 const Giscus = dynamic(
   () => {
-<<<<<<<< HEAD:src/components/post/Comment.tsx
     return import('@/src/components/comments/Giscus')
-========
-    return import('./comments/Giscus')
->>>>>>>> d9a87f57ecf39d0c8edfc5a86eb2e6075acbfe03:src/components/Comment.tsx
   },
   { ssr: false }
 )

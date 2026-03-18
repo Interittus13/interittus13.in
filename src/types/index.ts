@@ -37,7 +37,7 @@ export type CategoryCardProps = { name: string; color: string; count: number };
 
 export interface SocialLink {
   url: string;
-  icon: React.FC<{ className?: string }>;
+  icon: any;
   color: string;
   fill: string;
   border: string;
@@ -65,7 +65,7 @@ export interface MeConfig {
 
 export interface Skill {
   name: string;
-  icon: React.ComponentType<{ className?: string }>;
+  icon: any;
   color: string;
 }
 

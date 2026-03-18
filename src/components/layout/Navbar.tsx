@@ -1,185 +1,143 @@
+'use client'
+
+import React, { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
-import { Fragment, ReactNode } from 'react'
-import { Menu, Transition } from '@headlessui/react'
-
-import TagsIcon from '@/src/assets/tags.svg'
-import CategoriesIcon from '@/src/assets/categories.svg'
-import FriendsIcon from '@/src/assets/friends.svg'
-import MeIcon from '@/src/assets/me.svg'
-import MenuIcon from '@/src/assets/menu.svg'
-
-<<<<<<<< HEAD:src/components/layout/Navbar.tsx
-import { Colors } from '@/src/lib/utils/colors'
-import { useRouter } from 'next/router'
 import { CONFIG } from '@/src/config/blog'
-========
-import PostToc from './PostToc'
-import { Colors } from '../lib/colors'
-import { useRouter } from 'next/router'
-import { CONFIG } from '../../config/blog'
->>>>>>>> d9a87f57ecf39d0c8edfc5a86eb2e6075acbfe03:src/components/Navbar.tsx
+import ThemeSwitch from './ThemeSwitch'
+import { usePathname } from 'next/navigation'
 
-// Navigation items for the main navbar
 const NAV_ITEMS = [
-  {
-    name: 'Tags',
-    link: '/tags',
-    icon: <TagsIcon />,
-    color: Colors['pink'].text.normal,
-    width: 'group-hover:w-9.5',
-  },
-  {
-    name: 'Categories',
-    link: '/categories',
-    icon: <CategoriesIcon />,
-    color: Colors['orange'].text.normal,
-    width: 'group-hover:w-21.5',
-  },
-  // {
-  //   name: 'Friends',
-  //   link: '/friends',
-  //   icon: <FriendsIcon />,
-  //   color: Colors['blue'].text.normal,
-  //   width: 'group-hover:w-15.5',
-  // },
-  {
-    name: 'Me',
-    link: '/me',
-    icon: <MeIcon />,
-    color: Colors['red'].text.normal,
-    width: 'group-hover:w-6.5',
-  },
+  { name: 'Blog', link: '/' },
+  { name: 'Archive', link: '/archive' },
+  { name: 'Tags', link: '/tags' },
+  { name: 'Categories', link: '/categories' },
+  { name: 'Me', link: '/me' },
 ]
 
-const MenuItemLink: React.FC<{
-  href: string
-  className?: string
-  children: ReactNode
-}> = ({ href, children, className, ...rest }) => {
+export default function Navbar({ toc }: { toc?: any }) {
+  const pathname = usePathname()
+  const [isScrolled, setIsScrolled] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
+  const drawerRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY > 20)
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  // Close drawer on route change
+  useEffect(() => {
+    setMenuOpen(false)
+  }, [pathname])
+
+  // Close on outside click
+  useEffect(() => {
+    if (!menuOpen) return
+    const handler = (e: MouseEvent) => {
+      if (drawerRef.current && !drawerRef.current.contains(e.target as Node)) {
+        setMenuOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [menuOpen])
+
+  // Prevent body scroll when menu open
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? 'hidden' : ''
+    return () => { document.body.style.overflow = '' }
+  }, [menuOpen])
+
   return (
-    <Link href={href} className={className} {...rest}>
-      {children}
-    </Link>
-  )
-}
+    <>
+      <header className="fixed top-0 left-0 right-0 z-[100] transition-all duration-500 py-4 px-4 md:px-8 pointer-events-none">
+        <nav
+          className={`mx-auto max-w-5xl h-16 pointer-events-auto rounded-[2rem] transition-all duration-700 flex items-center justify-between px-5 md:px-8 border ${isScrolled
+              ? 'bg-white/70 dark:bg-zinc-900/70 backdrop-blur-3xl shadow-xl shadow-zinc-200/50 dark:shadow-none border-white/40 dark:border-zinc-800 scale-[0.98]'
+              : 'bg-white/40 dark:bg-black/40 backdrop-blur-xl border-white/20 dark:border-zinc-900'
+            }`}
+        >
+          {/* Logo */}
+          <Link href="/" className="text-lg font-black tracking-tighter text-zinc-900 dark:text-zinc-100 group transition-all flex items-center gap-1.5 shrink-0">
+            {CONFIG.BLOG_TITLE}
+            <span className="inline-block w-2 h-2 rounded-full bg-orange-500 group-hover:animate-ping flex-shrink-0" />
+          </Link>
 
-/**
- * Main navigation bar component.`
- */
-const Navbar: React.FC = () => {
-  const path = useRouter().asPath
-
-  return (
-    <header
-      className="sticky top-0 z-50 font-bold bg-white bg-opacity-70 backdrop-filter backdrop-blur-lg backdrop-saturate-200 border-b-[0.5px] border-b-true-gray-100
-      dark:bg-true-gray-900/70 border-b-true-gray-800"
-      data-aos="fade-down"
-      id="navbar"
-    >
-      <div className="flex items-center justify-between px-6 py-3 mx-auto lg:px-11 lg:w-screen-lg whitespace-nowrap">
-        <div className="z-50">
-          <Link href="/">{CONFIG.BLOG_TITLE}</Link>
-        </div>
-
-        <div className="flex items-center">
-          {/* // TODO: TOC */}
-          {/* {isPost && (
-            <Menu>
-              <Menu.Button className="flex items-center px-0 m-0 mr-6 z-50">
-                {({ open }) => (!open && <TocIcon /> || <TocFillIcon />)}
-              </Menu.Button>
-              <Transition
-                as={Fragment}
-                enter="transition duration-100 ease-out"
-                enterFrom="transform opacity-0"
-                enterTo="transform opacity-100"
-                leave="transition duration-100 ease-out"
-                leaveFrom="transform opacity-100"
-                leaveTo="transform opacity-0"
-              >
-                <Menu.Items
-                  className="absolute top-0 left-0 w-full h-100vh bg-true-gray-900/50 backdrop-filter backdrop-blur-sm
-                  dark:bg-true-gray-900/70"
+          {/* Desktop nav */}
+          <ul className="hidden lg:flex items-center gap-8">
+            {NAV_ITEMS.map((item) => (
+              <li key={item.name}>
+                <Link
+                  href={item.link}
+                  className={`text-[0.6rem] font-black uppercase tracking-[0.2em] transition-all duration-300 hover:text-orange-500 ${pathname === item.link ? 'text-orange-500 underline underline-offset-4' : 'text-zinc-500 dark:text-zinc-400'
+                    }`}
                 >
-                  <Menu.Item>
-                    <div className="flex place-items-center w-full h-full">
-                      <div
-                        className="mx-5 w-full sm:mx-auto md:w-150 overflow-scroll bg-white rounded-3xl scrollbar-hide
-                        dark:bg-black"
-                      >
-                        <PostToc blocks={toc} />
-                      </div>
-                    </div>
-                  </Menu.Item>
-                </Menu.Items>
-              </Transition>
-            </Menu>
-          )} */}
-
-          {/* Desktop Navigation */}
-          <nav className="hidden sm:flex items-center justify-center space-x-5">
-            {NAV_ITEMS.map((item, i) => (
-              <Link href={item.link} key={i} className="flex items-center justify-center space-x-1 group">
-                {item.icon}
-                <span className={`w-0 overflow-hidden ease-in-out transition-all duration-600 ${item.color} ${item.width}`}>
                   {item.name}
-                </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+
+          {/* Right side: ThemeSwitch (desktop) + Hamburger (mobile) */}
+          <div className="flex items-center gap-3">
+            <div className="hidden md:block">
+              <ThemeSwitch />
+            </div>
+
+            {/* Hamburger — visible below lg */}
+            <button
+              onClick={() => setMenuOpen((v) => !v)}
+              aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={menuOpen}
+              className="lg:hidden w-10 h-10 flex flex-col items-center justify-center gap-1.5 rounded-2xl bg-zinc-100/70 dark:bg-zinc-800/70 text-zinc-900 dark:text-zinc-100 transition-all active:scale-90 border border-white/30 dark:border-zinc-700/50 hover:bg-zinc-200/70 dark:hover:bg-zinc-700/70"
+            >
+              <span className={`w-5 h-0.5 bg-current rounded-full transition-all duration-300 ${menuOpen ? 'rotate-45 translate-y-2' : ''}`} />
+              <span className={`w-5 h-0.5 bg-current rounded-full transition-all duration-300 ${menuOpen ? 'opacity-0 scale-0' : ''}`} />
+              <span className={`w-5 h-0.5 bg-current rounded-full transition-all duration-300 ${menuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
+            </button>
+          </div>
+        </nav>
+      </header>
+
+      {/* Mobile drawer backdrop */}
+      <div
+        className={`fixed inset-0 z-[98] bg-black/20 dark:bg-black/50 backdrop-blur-sm transition-all duration-300 lg:hidden ${menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+          }`}
+        onClick={() => setMenuOpen(false)}
+        aria-hidden="true"
+      />
+
+      {/* Mobile drawer — slides in from top */}
+      <div
+        ref={drawerRef}
+        className={`fixed top-0 left-0 right-0 z-[99] lg:hidden transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${menuOpen ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'
+          }`}
+      >
+        <div className="m-4 mt-4 rounded-[2.5rem] bg-white/95 dark:bg-zinc-900/95 backdrop-blur-3xl border border-white/30 dark:border-zinc-800 shadow-2xl overflow-hidden pt-24 pb-8 px-6">
+          {/* Nav links */}
+          <nav className="space-y-2">
+            {NAV_ITEMS.map((item) => (
+              <Link
+                key={item.name}
+                href={item.link}
+                onClick={() => setMenuOpen(false)}
+                className={`flex items-center px-5 py-4 rounded-2xl text-sm font-black uppercase tracking-widest transition-all duration-300 ${pathname === item.link
+                    ? 'bg-orange-500 text-white shadow-lg shadow-orange-500/30'
+                    : 'text-zinc-600 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800/80 active:scale-95'
+                  }`}
+              >
+                {item.name}
               </Link>
             ))}
           </nav>
 
-          {/* Mobile Hamburger Menu */}
-          <div className="block sm:hidden">
-            <Menu as="div" className="relative text-left ">
-              <Menu.Button className="flex items-center px-0 m-0 text-current bg-transparent cursor-pointer rounded-3xl focus:outline-none">
-                {({ open }) => (
-                  <MenuIcon
-                    className={`transition-transform duration-300 ease-in-out transform ${
-                      open ? 'scale-y-flip' : ''
-                    }`}
-                  />
-                )}
-              </Menu.Button>
-              <Transition
-                as={Fragment}
-                enter="transition duration-100 ease-out"
-                enterFrom="transform scale-95 opacity-0"
-                enterTo="transform scale-100 opacity-100"
-                leave="transition duration-100 ease-out"
-                leaveFrom="transform scale-100 opacity-100"
-                leaveTo="transform scale-95 opacity-0"
-              >
-                <Menu.Items
-                  className="absolute right-0 w-40 p-2 mt-5 origin-top-right shadow-md bg-white/70 rounded-3xl ring-0 focus:outline-none backdrop-filter backdrop-blur-lg backdrop-saturate-200
-                  dark:bg-true-gray-900/70"
-                >
-                  {NAV_ITEMS.map((item, i) => (
-                    <div key={i}>
-                      <Menu.Item>
-                        {({ active }) => (
-                          <Link
-                            href={item.link}
-                            className={`focus:outline-none p-2 flex items-center group ${
-                              active &&
-                              'bg-true-gray-100 rounded-3xl p-2 dark:hover:bg-dark-800'
-                            }`}
-                          >
-                            {item.icon}
-                            <span className={`pl-2 ${item.color}`}>{item.name}</span>
-                          </Link>
-                        )}
-                      </Menu.Item>
-                    </div>
-                  ))}
-                </Menu.Items>
-              </Transition>
-            </Menu>
+          {/* Theme switcher */}
+          <div className="mt-6 pt-5 border-t border-zinc-100 dark:border-zinc-800 flex justify-center">
+            <ThemeSwitch />
           </div>
-          {/* <Toggle /> */}
         </div>
       </div>
-    </header>
+    </>
   )
 }
-
-export default Navbar

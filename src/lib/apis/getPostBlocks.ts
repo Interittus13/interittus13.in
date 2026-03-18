@@ -1,30 +1,63 @@
-<<<<<<< HEAD
-import { NotionAPI } from "notion-client";
+import notion from '@/src/lib/notion/client'
+import type { BlockObjectResponse } from '@notionhq/client/build/src/api-endpoints'
 
-export const getPostBlocks = async (id: string) => {
-  const api = new NotionAPI(
-    // apiBaseUrl: "https://meadow-skink-aaf.notion.site/api/v3",
-    // authToken: 'v03:eyJhbGciOiJkaXIiLCJraWQiOiJwcm9kdWN0aW9uOnRva2VuLXYzOjIwMjQtMTEtMDciLCJlbmMiOiJBMjU2Q0JDLUhTNTEyIn0..7_stUfRP-MZttRNqUnGgxQ.bL0lbEaiBafC-RNiprNtfucQrsoUaeTuw50P7S2yCjUlgc-iJTMIrdAZXxaNs7TKnBc4ZN2-6LcrQwR2Q74-TnSaw2mhhy1URqpxjnv2VmEm5hjAmyojCXY50MV0YXkIAkttWS1tz1QYvOp0lHGGUTAm5grAlGaYlNwFYLc5L-GLNoURQplMECS31ysDvJ7cSVqQ3oG-J3K3szMLZpgWMq3j45ZjJXut1yH4TzyB2tkErVHFDl9mSYRevJuXW8-sQWaagRsuSfSmt42OojDjUunAZpmolAaleIuCMdHLXp-6-jjWzM8CCGzwCgOja0EyRJg77ltOjHqHje5ttuH_XN_loRHO9UpntfUCSPkJeQg.aQ9xuYoDwthnTrgZTNy2UQhUxZcFzF2RuOJ_Gryy1d8',
-    // activeUser: '50f71cdc-1e0d-45bb-9ae3-216eeefefed4',
-    // ofetchOptions: {
-    //   onRequest({ request, options }) {
-    //     const reqPath = new URL(request.toString()).pathname;
+/**
+ * Recursively fetch all child blocks for a page.
+ * Notion API paginates and some block types (toggle, column_list, etc.) have child blocks.
+ */
+async function fetchBlocksRecursively(blockId: string): Promise<BlockObjectResponse[]> {
+  const blocks: BlockObjectResponse[] = []
+  let cursor: string | undefined = undefined
 
-    //     if (reqPath.includes("/api/v3/queryCollection")) {
-    //       options.headers.set("x-notion-space-id", "x");
-    //     }
-    //   },
-    // },
-  );
-  const recordMap = await api.getPage(id);
-  return recordMap;
-};
-=======
-import { NotionAPI } from "notion-client"
+  do {
+    const response = await notion.blocks.children.list({
+      block_id: blockId,
+      start_cursor: cursor,
+      page_size: 100,
+    })
 
-export async function getPostBlocks(id: string) {
-  const api = new NotionAPI()
-  const pageBlock = await api.getPage(id)
-  return pageBlock
+    for (const block of response.results as BlockObjectResponse[]) {
+      blocks.push(block)
+      // Recursively fetch children for container-type blocks
+      if (
+        block.has_children &&
+        (block.type === 'toggle' ||
+          block.type === 'bulleted_list_item' ||
+          block.type === 'numbered_list_item' ||
+          block.type === 'quote' ||
+          block.type === 'callout' ||
+          block.type === 'column_list' ||
+          block.type === 'column' ||
+          block.type === 'synced_block' ||
+          block.type === 'template' ||
+          block.type === 'to_do' ||
+          block.type === 'paragraph')
+      ) {
+        const children = await fetchBlocksRecursively(block.id)
+          ; (block as any).__children = children
+      }
+    }
+
+    cursor = response.has_more ? (response.next_cursor ?? undefined) : undefined
+  } while (cursor)
+
+  return blocks
 }
->>>>>>> d9a87f57ecf39d0c8edfc5a86eb2e6075acbfe03
+
+/**
+ * Fetch all blocks for a Notion page, recursively including nested children.
+ */
+export const getPostBlocks = async (pageId: string): Promise<BlockObjectResponse[] | null> => {
+  if (!pageId || pageId === 'undefined') {
+    console.warn('Invalid pageId provided to getPostBlocks.')
+    return null
+  }
+
+  try {
+    const blocks = await fetchBlocksRecursively(pageId)
+    return blocks
+  } catch (error) {
+    console.error('Failed to fetch post blocks:', error)
+    return null
+  }
+}
