@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { CONFIG } from '../../../config/blog'
+import { CONFIG } from '@/src/config/blog'
 import { useTheme } from 'next-themes'
 
 type Props = {}

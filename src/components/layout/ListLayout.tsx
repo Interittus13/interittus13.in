@@ -4,7 +4,7 @@ import React from "react"
  *  ListLayout is a layout component for rendering a list of items with specific padding and width.
  *  @param children - The content to be rendered within the layout.
  */
-const ListLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const ListLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
     <div className="px-4 mt-6 mx-auto max-w-7xl w-full">
         {children}

@@ -14,7 +14,7 @@ import gradient from 'chartjs-plugin-gradient'
 import { Colors } from '@/src/lib/utils/colors'
 // TODO: gradient is too big
 import { Tooltip } from '@/src/components/ui/Tooltip'
-import { TPost } from '../../types'
+import { TPost } from '@/src/types'
 
 ChartJS.register(
   CategoryScale,

@@ -53,10 +53,15 @@ export interface Location {
 }
 
 export interface MeConfig {
+  site: string;
   name: string;
+  nickname: string;
   image: string;
+  email: string;
   location: Location;
+  bio: string;
   social: SocialLink[];
+  overview: any[];
   skills: Skill[][];
   education: Education[];
   openSources: OpenSource[];
@@ -73,6 +78,8 @@ export interface Education {
   name: string;
   degree: string;
   color: string;
+  time: string;
+  logo: string;
 }
 
 export interface OpenSource {

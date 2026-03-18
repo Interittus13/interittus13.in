@@ -1,6 +1,6 @@
 import Link from 'next/link'
-import ThemedImage from './ThemedImage'
-import { TPost } from '../../types'
+import ThemedImage from '@/src/components/post/ThemedImage'
+import { TPost } from '@/src/types'
 
 export interface PaginationType {
   prev: TPost | null

@@ -2,9 +2,9 @@ import Link from 'next/link'
 import { Colors, getColorClassByName } from '@/src/lib/utils/colors'
 import { ListLayout } from '@/src/components/layout/ListLayout'
 import FormattedDate from '@/src/components/ui/FormattedDate'
-import PostMore from './RelatedPosts'
-import ThemedImage from './ThemedImage'
-import { TPost } from '../../types'
+import PostMore from '@/src/components/post/RelatedPosts'
+import ThemedImage from '@/src/components/post/ThemedImage'
+import { TPost } from '@/src/types'
 
 interface PostListProps {
   posts: TPost[]
