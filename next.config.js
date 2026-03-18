@@ -1,5 +1,4 @@
 /** @type {import('next').NextConfig} */
-const WindiCSSWebpackPlugin = require('windicss-webpack-plugin')
 const { withPlaiceholder } = require("@plaiceholder/next")
 const withPWA = require("next-pwa")({
   dest: "public",
@@ -12,7 +11,6 @@ module.exports = withPWA(
   withPlaiceholder({
     reactStrictMode: true,
     webpack(config) {
-      config.plugins.push(new WindiCSSWebpackPlugin)
       config.module.rules.push({
         test: /\.svg$/,
         use: ["@svgr/webpack"]
