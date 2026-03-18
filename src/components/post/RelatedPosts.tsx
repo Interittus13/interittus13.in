@@ -26,7 +26,7 @@ const PostMore: React.FC<{ posts: TPost[] }> = ({ posts }) => {
               ${!isEven ? 'not-last:after:content-DEFAULT after:flex-shrink-0 after:flex-grow-0 after:text-transparent after:select-none after:h-[1px] after:block after:bg-true-gray-200 after:mt-6 after:lg:mt-8 after:dark:bg-true-gray-700' : ''}`}
           >
             <Link href={`/posts/${post.slug}`} className="flex flex-row items-center">
-              <div className="w-26 h-26 md:(w-33 h-33) rounded-2xl overflow-hidden shrink-0">
+              <div className="w-26 h-26 md:w-33 md:h-33 rounded-2xl overflow-hidden shrink-0">
                 <div className={`relative duration-500 ease-in-out filter group-hover:brightness-90 transition w-full h-full rounded-2xl overflow-hidden transform rotate-0`}>
                   <ThemedImage
                     post={post}
@@ -57,8 +57,7 @@ const PostMore: React.FC<{ posts: TPost[] }> = ({ posts }) => {
 
       <div data-aos="fade-up" className="text-center">
         <Link href={'/archive'}
-          className="text-center border-2 border-black inline-block py-2 px-5 rounded-full hover:(bg-black  text-white) transition ease-in-out duration-400 mt-6 lg:mt-10
-          dark:hover:(bg-white text-black) border-white"
+          className="text-center border-2 border-black inline-block py-2 px-5 rounded-full hover:bg-black hover:text-white transition ease-in-out duration-400 mt-6 lg:mt-10 dark:hover:bg-white dark:hover:text-black border-white"
         >
           View Archive
         </Link>

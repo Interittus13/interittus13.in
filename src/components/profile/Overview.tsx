@@ -1,144 +1,122 @@
-import OpenSourceSection from "./OpenSourceSection"
-import EducationSection from "./EducationSection"
-import SkillsSection from "./SkillsSection"
-import LocationCard from "./LocationCard"
-import SocialLinks from "./SocialLinks"
-import { MeConfig } from "@/src/types"
+'use client'
+
+import React from 'react'
+import OpenSourceSection from './OpenSourceSection'
+import EducationSection from './EducationSection'
+import SkillsSection from './SkillsSection'
+import LocationCard from './LocationCard'
+import SocialLinks from './SocialLinks'
+import { MeConfig } from '@/src/types'
 
 interface OverviewProps {
-    me: MeConfig
+  me: MeConfig
 }
 
 const Overview: React.FC<OverviewProps> = ({ me }) => {
-    const style = 'bg-white rounded-3xl p-4 xs:p-4.5 sm:p-6 md:p-8 min-h-25 sm:min-h-37 flex flex-col justify-between transform rotate-0 overflow-hidden dark:bg-true-gray-900'
+  return (
+    <div className="grid grid-cols-2 gap-4 md:gap-6 select-none">
 
-    return (
-        <div className="grid grid-cols2 gap-3 select-none md:gap-6">
-            <div
-                data-aos="fade-up"
-                data-aos-duration="800"
-                className={`${style} bg-gradient-to-br from-[#a78bfa] to-[#d946ef] text-white`}
-            >
-                <div className="text-xs font-semibold xs:text-lg md:text-xl">
-                    Hey there 👋
-                </div>
-                <div className="text-lg font-semibold xs:text-xl sm:text-3xl md:text-4xl whitespace-nowrap">
-                    {`I'm ${me.name}`}
-                </div>
-            </div>
-
-            <div
-                data-aos="fade-up"
-                data-aos-duration="800"
-                data-aos-delay="200"
-                className={`${style} row-span-2 text-white bg-gradient-to-br from-green-400 to-blue-500`}
-            >
-                <p className="text-xs font-semibold xs:text-lg md:text-xl">
-                    Intersted in
-                </p>
-                <div className="text-center">
-                    <p className="text-sm font-semibold xs:text-xl sm:text-2xl md:text-3xl">
-                        Web & Mobile Development, <br /> Tech Startup
-                    </p>
-                </div>
-                <p className="text-xs text-center sm:text-sm text-true-gray-100">
-                    ... and any other interesting or challenging technology
-                </p>
-            </div>
-
-            <div
-                data-aos="fade-up"
-                data-aos-duration="800"
-                className={`${style} justify-between`}
-            >
-                <p className="text-xs font-semibold xs:text-lg md:text-xl">{`I'm a`}</p>
-                <div className="text-sm font-semibold xs:text-xl sm:text-2xl md:text-3xl lg:text-4xl">
-                    <div>
-                        <span className="inline-block mr-2 text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-blue-500">
-                            Frontend Developer
-                        </span>
-                        {/* <span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-indigo-500">
-                Designer
-              </span> */}
-                    </div>
-                    <div>
-                        <span className="inline-block mr-2 text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-yellow-500">
-                            Gamer
-                        </span>
-                        <span className="inline-block mr-2 text-transparent bg-clip-text bg-gradient-to-r from-true-gray-400 to-gray-500">
-                            Writer
-                        </span>
-                        <span className="inline-block text-xs text-red-500 line-through xs:text-sm ">
-                            Musician
-                        </span>
-                    </div>
-                </div>
-            </div>
-
-            <div
-                data-aos="fade-up"
-                data-aos-duration="800"
-                data-aos-delay="200"
-                className={`${style} text-center`}
-            >
-                <p className="text-sm font-semibold text-left xs:text-lg sm:text-xl md:text-3xl lg:text-4xl">
-                    Love{' '}
-                    <span className="text-white text-stroke-1 text-stroke-orange-500">
-                        Open Source
-                    </span>
-                </p>
-                <p className="text-xs font-semibold xs:text-lg sm:text-xl lg:text-2xl">
-                    &
-                </p>
-                <p className="text-sm font-semibold text-right xs:text-lg sm:text-xl md:text-3xl lg:text-4xl whitespace-nowrap">
-                    <span className="italic text-transparent bg-gradient-to-br from-pink-300 to-purple-300 bg-clip-text">
-                        Exquisite
-                    </span>{' '}
-                    Things
-                </p>
-                {/* {` and `} */}
-            </div>
-
-            <div
-                data-aos="fade-up"
-                data-aos-duration="800"
-                data-aos-delay="400"
-                className={`${style} overflow-hidden !justify-end relative`}
-            >
-                <p
-                    className="z-10 py-2 px-4 xs:px-4.5 sm:px-3 md:px-6 -m-4 xs:-m-4.5 sm:-m-6 md:-m-8 text-xs sm:text-lg font-semibold opacity-90 bg-gray-200 md:text-xl
-                    dark:bg-gray-700"
-                >
-                    <span className="text-gray-600 dark:text-gray-400">Located in</span>
-                    {` ${me.location.name}`}
-                </p>
-                <LocationCard location={me.location} />
-            </div>
-
-            <div
-                data-aos="fade-up"
-                data-aos-duration="800"
-                data-aos-delay="200"
-                className={`${style} col-span-2 gap-3  relative !flex-row items-center`}
-            >
-                <p className="z-10 text-sm font-semibold text-left xs:text-lg sm:text-2xl md:text-3xl lg:text-4xl whitespace-nowrap">
-                    Find me on 👉
-                </p>
-                <SocialLinks links={me.social} />
-            </div>
-
-            <SkillsSection skills={me.skills} />
-            <EducationSection education={me.education} />
-            <div
-                data-aos="fade-up"
-                data-aos-duration="800"
-                data-aos-delay="200"
-                className={`${style} col-span-2 gap-3  relative !flex-row items-center`}
-            >
-                <OpenSourceSection openSources={me.openSources} />
-            </div>
+      {/* ── Row 1: Greeting + What I do ── */}
+      <div
+        data-aos="fade-up"
+        className="bg-gradient-to-br from-violet-500 to-fuchsia-600 text-white rounded-[2.5rem] p-6 md:p-8 flex flex-col justify-between min-h-40 shadow-xl shadow-violet-500/30"
+      >
+        <p className="text-xs font-black uppercase tracking-[0.25em] opacity-70">Hey there 👋</p>
+        <div>
+          <p className="text-2xl md:text-4xl font-black tracking-tighter leading-none mt-4">
+            I&apos;m {me.name}
+          </p>
+          <p className="text-sm font-medium opacity-75 mt-2">@{me.nickname}</p>
         </div>
-    )
+      </div>
+
+      <div
+        data-aos="fade-up"
+        data-aos-delay="100"
+        className="row-span-2 bg-gradient-to-br from-emerald-400 to-cyan-500 text-white rounded-[2.5rem] p-6 md:p-8 flex flex-col justify-between shadow-xl shadow-emerald-500/20"
+      >
+        <p className="text-xs font-black uppercase tracking-[0.25em] opacity-70">Specialised in</p>
+        <div className="my-6 text-center">
+          <p className="text-xl md:text-2xl font-black leading-tight">
+            Cloud Infrastructure,<br />DevOps & SRE
+          </p>
+          <div className="mt-4 flex flex-wrap gap-2 justify-center">
+            {['Azure', 'AWS', 'Kubernetes', 'Terraform'].map((t) => (
+              <span
+                key={t}
+                className="bg-white/20 text-white text-[0.6rem] font-black uppercase tracking-widest px-3 py-1 rounded-full backdrop-blur-sm"
+              >
+                {t}
+              </span>
+            ))}
+          </div>
+        </div>
+        <p className="text-xs opacity-60 text-center">...and any other challenging technology</p>
+      </div>
+
+      <div
+        data-aos="fade-up"
+        className="bg-white/70 dark:bg-zinc-900/70 backdrop-blur-3xl rounded-[2.5rem] p-6 md:p-8 flex flex-col justify-between min-h-40 border border-white/30 dark:border-zinc-800 shadow-xl shadow-zinc-200/30 dark:shadow-none"
+      >
+        <p className="text-xs font-black uppercase tracking-[0.25em] text-zinc-400 dark:text-zinc-500">I&apos;m a</p>
+        <div className="mt-3">
+          <p className="text-xl md:text-3xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-500">
+            DevOps Engineer
+          </p>
+          <p className="text-lg md:text-2xl font-black tracking-tighter text-zinc-400 dark:text-zinc-500 mt-0.5">
+            & Cloud Architect
+          </p>
+        </div>
+      </div>
+
+      {/* ── Row 2: Location ── */}
+      <div
+        data-aos="fade-up"
+        data-aos-delay="200"
+        className="relative bg-zinc-100 dark:bg-zinc-800 rounded-[2.5rem] overflow-hidden min-h-48 flex flex-col justify-end shadow-inner"
+      >
+        <LocationCard location={me.location} />
+        <div className="relative z-10 p-5 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md">
+          <p className="text-[0.6rem] font-black uppercase tracking-widest text-zinc-400 dark:text-zinc-500">
+            Located in
+          </p>
+          <p className="font-black text-zinc-900 dark:text-zinc-100 text-lg">
+            📍 {me.location.name}
+          </p>
+        </div>
+      </div>
+
+      {/* ── Row 3: Social full width ── */}
+      <div
+        data-aos="fade-up"
+        data-aos-delay="100"
+        className="col-span-2 bg-white/70 dark:bg-zinc-900/70 backdrop-blur-3xl rounded-[2.5rem] p-6 md:p-8 border border-white/30 dark:border-zinc-800 shadow-xl shadow-zinc-200/30 dark:shadow-none"
+      >
+        <div className="flex flex-col sm:flex-row sm:items-center gap-6">
+          <div className="shrink-0">
+            <p className="text-[0.6rem] font-black uppercase tracking-[0.3em] text-zinc-400 dark:text-zinc-500 mb-1">
+              Connect
+            </p>
+            <p className="text-2xl md:text-3xl font-black tracking-tighter text-zinc-900 dark:text-zinc-100">
+              Find me on 👇
+            </p>
+          </div>
+          <div className="overflow-x-auto">
+            <SocialLinks links={me.social} />
+          </div>
+        </div>
+      </div>
+
+      {/* ── Row 4: Skills full width ── */}
+      <SkillsSection skills={me.skills} />
+
+      {/* ── Row 5: Education full width ── */}
+      <EducationSection education={me.education} />
+
+      {/* ── Row 6: Open source full width ── */}
+      <OpenSourceSection openSources={me.openSources} />
+    </div>
+  )
 }
 
 export default Overview

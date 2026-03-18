@@ -1,7 +1,5 @@
-const { CONFIG } = require("./src/config/blog")
-
 module.exports = {
-  siteUrl: CONFIG.link,
+  siteUrl: 'https://interittus.in',
   generateRobotsTxt: true,
   sitemapSize: 7000,
   generateIndexSitemap: false,

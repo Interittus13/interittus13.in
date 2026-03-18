@@ -23,7 +23,7 @@ export type LinkType = {
 export const links: readonly SocialLink[] = [
   {
     url: 'https://github.com/interittus13',
-    icon: SiGithub,
+    icon: 'SiGithub',
     color: 'from-bg-[#24292f] to-bg-[#040d21]',
     fill: 'fill-[#181717]',
     border: 'border-[#181717]',
@@ -34,7 +34,7 @@ export const links: readonly SocialLink[] = [
   },
   {
     url: 'http://linkedin.com/in/interittus13/',
-    icon: SiLinkedin,
+    icon: 'SiLinkedin',
     fill: 'fill-[#0A66C2]',
     border: 'border-[#0A66C2]',
     shadow: 'shadow-blue-300',
@@ -44,7 +44,7 @@ export const links: readonly SocialLink[] = [
   },
   {
     url: 'https://www.facebook.com/people/%EC%9D%B4%EC%83%81%EB%AF%BC/pfbid0B4L2YBvSqKVkJ5JKGcUeJTGMhRj8puad8dAnbtKAVbZC7Y1zHnbLGAnym6P6thsxl/',
-    icon: SiFacebook,
+    icon: 'SiFacebook',
     fill: 'fill-[#1877F2]',
     border: 'border-[#1877F2]',
     shadow: 'shadow-blue-300',
@@ -54,7 +54,7 @@ export const links: readonly SocialLink[] = [
   },
   {
     url: 'https://twitter.com/more_than_min',
-    icon: SiX,
+    icon: 'SiX',
     color:
       'from-bg-[#1DA1F2] to-bg-[#1DA1F2] dark:(from-bg-[#1DA1F2] to-bg-[#1DA1F2])',
     fill: 'fill-[#1DA1F2]',
@@ -66,7 +66,7 @@ export const links: readonly SocialLink[] = [
   },
   {
     url: 'https://instagram.com/more-dev-min',
-    icon: SiInstagram,
+    icon: 'SiInstagram',
     color: 'from-bg-[#C13584] to-bg-[#F56040]',
     fill: 'fill-[#da282a]',
     border: 'border-[#da282a]',

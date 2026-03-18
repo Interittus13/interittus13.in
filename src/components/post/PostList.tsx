@@ -21,24 +21,24 @@ const PostList = ({ posts, filter, color, count }: PostListProps) => {
   const postSize = {
     big: filter == null
       ? {
-        cardSize: 'w-full col-span-6 h-117 md:(flex flex-row h-65) lg:h-90',
-        imgSize: 'h-6/8 md:(h-full w-115) lg:w-160',
-        title: 'line-clamp-2 text-2xl md:(text-xl leading-tight line-clamp-3) lg:text-3xl',
+        cardSize: 'w-full col-span-6 h-117 md:flex md:flex-row md:h-65 lg:h-90',
+        imgSize: 'h-6/8 md:h-full md:w-115 lg:w-160',
+        title: 'line-clamp-2 text-2xl md:text-xl md:leading-tight md:line-clamp-3 lg:text-3xl',
       }
       : {
-        cardSize: 'h-90 w-full col-span-6 md:(col-span-3 h-85) lg:(h-90 col-span-6 flex flex-row)',
-        imgSize: 'h-3/5 md:h-5/9 lg:(h-full w-160)',
-        title: 'line-clamp-2 md:line-clamp-5 lg:line-clamp-6 text-xl leading-tight md:(text-lg leading-tight) lg:text-3xl',
+        cardSize: 'h-90 w-full col-span-6 md:col-span-3 md:h-85 lg:h-90 lg:col-span-6 lg:flex lg:flex-row',
+        imgSize: 'h-3/5 md:h-5/9 lg:h-full lg:w-160',
+        title: 'line-clamp-2 md:line-clamp-5 lg:line-clamp-6 text-xl leading-tight md:text-lg md:leading-tight lg:text-3xl',
       },
     medium: {
-      cardSize: 'col-span-6 md:(col-span-3 h-85) h-90 lg:h-107',
+      cardSize: 'col-span-6 md:col-span-3 md:h-85 h-90 lg:h-107',
       imgSize: 'h-3/5 md:h-5/9 lg:h-3/5',
-      title: 'line-clamp-2 text-xl leading-tight md:(text-lg leading-tight) lg:(text-2xl leading-tight)',
+      title: 'line-clamp-2 text-xl leading-tight md:text-lg md:leading-tight lg:text-2xl lg:leading-tight',
     },
     small: {
       cardSize: 'col-span-6 md:col-span-3 lg:col-span-2 h-90 md:h-85',
       imgSize: 'h-3/5 md:h-5/9',
-      title: 'line-clamp-2 text-xl leading-tight md:(text-lg leading-tight)',
+      title: 'line-clamp-2 text-xl leading-tight md:text-lg md:leading-tight',
     },
   }
 
@@ -136,8 +136,7 @@ const PostList = ({ posts, filter, color, count }: PostListProps) => {
         ) : (
           <div data-aos="fade-up" className="text-center mb-10">
             <Link href='/archive'
-              className="text-center border-2 border-black inline-block py-2 px-5 rounded-full hover:(bg-black  text-white) transition ease-in-out duration-400
-              dark:hover:(bg-white text-black) border-white"
+              className="text-center border-2 border-black inline-block py-2 px-5 rounded-full hover:bg-black hover:text-white transition ease-in-out duration-400 dark:hover:bg-white dark:hover:text-black border-white"
             >
               View Archive
             </Link>

@@ -1,54 +1,56 @@
+'use client'
+
 import Image from 'next/image'
-<<<<<<<< HEAD:src/components/widgets/MeWidget.tsx
-import { links, LinkType } from '@/src/config/links'
-import { me } from '@/src/config/me'
-========
-import { links, LinkType } from '../../../config/links'
-import { me } from '../../../config/me'
->>>>>>>> d9a87f57ecf39d0c8edfc5a86eb2e6075acbfe03:src/components/widget/WidgetMe.tsx
 import Link from 'next/link'
+import { LinkType } from '@/src/config/links'
+import { getIconByName } from '@/src/lib/utils/iconMap'
+import { me } from '@/src/config/me'
 
 const portraitPlaceholder = `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAIAAAACUFjqAAAACXBIWXMAAAsTAAALEwEAmpwYAAABQUlEQVQYlQE2Acn+ANV6g9Z8hdV6htZ9iNFseO7KzfDQ1NJyfdZ/iNV6gwCvACStAButABioAAjJU2X78vTANUeqABCsABWvACIAqAAArwAA1n+Gy1th0nZc1oF2z2hv3I+UuAosqAAAANF/APXis/////////Tt4sbCvf////////HaeNF+AADt5wD////j8+ZSunYAnDUAgw8ArWSZ0UXw3wDq4QAA0OQA//7/NpJWAH0uKng4U5tWAGUlAGwArNIAw90AADe4qv///7yOg9eAg7CSjtm3ss54e8F3cK7eowCbhAAAQq+6yOL89+rfx6OvoYynnH3p173+/PJipNsAObAAAABKFxpuR5R9AJUAn60+SaASAJsUZoWVAAtcAABLAG4fUXIHUQBAHwCjAIlPN3KCOQCKAEElNnEQUG0hUclYmR7EScPpAAAAAElFTkSuQmCC`
 
 export const WidgetMeSmall: React.FC = () => {
   return (
-    <div data-aos="fade-up">
-      <div
-        className="aspect-square overflow-hidden transition duration-500 ease-in-out shadow-sm transform-gpu rounded-3xl hover:scale-105 hover:shadow-lg border border-true-gray-100 dark:border-true-gray-900">
-        <div
-          className="flex flex-col justify-between h-full bg-white shadow-sm p-3.5 dark:bg-true-gray-900">
-          <Link href={'/me'} className='h-1/2 rounded-2xl overflow-hidden block'>
-            <div className="relative w-full h-full rounded-2xl overflow-hidden transform rotate-0">
-              <Image
-                className="rounded-2xl"
-                src={me.image}
-                alt="Portrait"
-                fill
-                style={{ objectFit: "cover" }}
-                placeholder="blur"
-                blurDataURL={portraitPlaceholder}
-              />
-            </div>
-          </Link>
-          <div className="h-1/2 flex flex-col justify-between mt-3">
-            <p className="text-left text-sm xs:text-base font-semibold line-clamp-1 tracking-tighter">
-              <Link href={'/me'}>{me.name}</Link>
-            </p>
-            <div className="flex items-center justify-between w-full gap-1.5 ">
-              {links.map((link: LinkType) =>
-                link.id !== 'optional' ? (
-                  <a
-                    key={link.url}
-                    href={link.url}
-                    rel="noopener noreferrer"
-                    className={`w-full  h-full rounded-md flex items-center font-medium text-white justify-center bg-gradient-to-tr ${link.color} transform transition ease-in-out duration-200 hover:scale-95 aspect-square`}
-                  >
-                    <link.icon className="w-3 h-3 fill-white"></link.icon>
-                  </a>
-                ) : null
-              )}
-            </div>
-          </div>
+    <div
+      className="group relative h-full bg-white/70 dark:bg-zinc-900/70 backdrop-blur-3xl rounded-[2.5rem] p-6 border border-zinc-100 dark:border-zinc-800 shadow-2xl shadow-zinc-200/50 dark:shadow-none transition-all duration-700 hover:scale-[1.05] hover:shadow-3xl"
+      data-aos="fade-up"
+    >
+      <Link href="/me" className="absolute inset-0 z-10" />
+      <div className="flex flex-col h-full items-center justify-between text-center">
+        <div className="relative w-24 h-24 rounded-[1.5rem] overflow-hidden rotate-[-4deg] group-hover:rotate-0 transition-transform duration-700 shadow-xl border-4 border-white dark:border-zinc-800">
+          <Image
+            src={me.image}
+            fill
+            className="object-cover"
+            alt={me.name}
+            placeholder="blur"
+            blurDataURL={portraitPlaceholder}
+          />
+        </div>
+
+        <div className="mt-4">
+          <h3 className="text-lg font-black tracking-tight text-zinc-900 dark:text-zinc-100 transition-colors group-hover:text-orange-500">
+            {me.name}
+          </h3>
+          <p className="text-[0.6rem] font-bold text-zinc-400 uppercase tracking-widest mt-1">
+            {me.nickname}
+          </p>
+        </div>
+
+        <div className="flex gap-2.5 mt-4 z-20">
+          {me.social.slice(0, 4).map((link) => (
+            <a
+              key={link.url}
+              href={link.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`w-8 h-8 flex items-center justify-center rounded-xl bg-gradient-to-tr ${link.color} text-white shadow-lg shadow-zinc-200 dark:shadow-none transition-all hover:scale-110 active:scale-90`}
+            >
+              {(() => {
+                const Icon = typeof link.icon === 'string' ? getIconByName(link.icon) : link.icon
+                return Icon ? <Icon className="w-3.5 h-3.5 fill-current" /> : null
+              })()}
+            </a>
+          ))}
         </div>
       </div>
     </div>
@@ -57,68 +59,54 @@ export const WidgetMeSmall: React.FC = () => {
 
 export const WidgetMeMedium: React.FC<{ fix?: boolean }> = ({ fix }) => {
   return (
-    <div data-aos="fade-up">
-      <div
-        className={`overflow-hidden transition duration-500 ease-in-out shadow-sm transform-gpu ${fix ? 'h-35 lg:h-40' : 'h-40 lg:h-48'
-          } rounded-3xl mobile-hover:hover:scale-105 mobile-hover:hover:shadow-lg hover:rotate-0 hover:active:scale-105 hover:active:shadow-lg border-[0.5px] border-true-gray-100
-          dark:border-true-gray-900 border-none`}
-      // data-aos="fade-up"
-      >
-        <div
-          className="flex flex-col justify-between h-full bg-white shadow-sm dark:bg-true-gray-900"
-        //  data-aos="fade-up"
-        >
-          <Link href={'/me'}
-            className={`flex flex-row items-center h-4/7 p-3 pb-2.5 ${fix ? '' : 'lg:(px-4)'
-              }`}
-          >
-            <div className="rounded-full aspect-square h-full relative overflow-hidden transform rotate-0">
-              <Image
-                className="rounded-full"
-                src={me.image}
-                alt="Portrait"
-                fill
-                style={{ objectFit:"cover" }}
-                placeholder="blur"
-                blurDataURL={portraitPlaceholder}
-              />
-            </div>
-            <div
-              className={`flex flex-col justify-between p-3 ${fix ? '' : 'lg:p-4'
-                }`}
-            >
-              <p className="text-2xl font-medium line-clamp-1">{me.name}</p>
-              <p className="text-xl line-clamp-1">{me.bio}</p>
-            </div>
-          </Link>
-          <div className="h-3/7 bg-true-gray-100 dark:bg-true-gray-800">
-            <div
-              className={`flex items-center justify-between p-3 ${fix ? '' : 'lg:(px-4)'
-                } h-full gap-1 overflow-scroll scrollbar-hide`}
-            >
-              {links.map((link: LinkType, index: number) => (
-                <a
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  key={link.url}
-                  href={link.url}
-                  className={`rounded-lg lg:rounded-xl flex items-center font-medium text-white justify-center h-full bg-gradient-to-tr ${link.color
-                    } ${index === 0
-                      ? 'col-span-2 text-10px gap-0.7 px-2 lg:(text-sm gap-1)'
-                      : 'aspect-square'
-                    } transform transition ease-in-out duration-200 hover:scale-95 `}
-                >
-                  <link.icon
-                    className={`w-4 h-4 fill-white ${fix ? '' : 'lg:(w-5 h-5)'
-                      }`}
-                  ></link.icon>
-                  {index === 0 ? link.id : ''}
-                </a>
-              ))}
-            </div>
+    <div
+      className={`group relative overflow-hidden bg-white/70 dark:bg-zinc-900/70 backdrop-blur-3xl rounded-[3rem] border border-zinc-100 dark:border-zinc-800 shadow-2xl shadow-zinc-200/50 dark:shadow-none transition-all duration-700 hover:scale-[1.02] hover:shadow-3xl ${fix ? 'h-35 lg:h-40' : 'h-40 lg:h-48'}`}
+      data-aos="fade-up"
+    >
+      <Link href="/me" className="absolute inset-0 z-10" />
+      <div className="flex h-full">
+        <div className="w-1/3 p-6 flex items-center justify-center">
+          <div className="relative aspect-square w-full rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white dark:border-zinc-800 transition-transform duration-700 group-hover:rotate-3 group-hover:scale-105">
+            <Image
+              src={me.image}
+              fill
+              className="object-cover"
+              alt={me.name}
+              placeholder="blur"
+              blurDataURL={portraitPlaceholder}
+            />
+          </div>
+        </div>
+
+        <div className="w-2/3 p-6 flex flex-col justify-center">
+          <h3 className="text-2xl lg:text-3xl font-black tracking-tighter text-zinc-900 dark:text-zinc-100 group-hover:text-orange-500 transition-colors duration-500">
+            {me.name}
+          </h3>
+          <p className="text-sm lg:text-base font-medium text-zinc-500 dark:text-zinc-400 mt-1 line-clamp-1 opacity-80 decoration-orange-500/20 underline decoration-2 underline-offset-4">
+            {me.bio}
+          </p>
+
+          <div className="flex gap-3 mt-6 z-20 overflow-x-auto scrollbar-hide pb-2">
+            {me.social.map((link) => (
+              <a
+                key={link.url}
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`flex-shrink-0 min-w-8 h-8 flex items-center gap-2 px-3 rounded-xl bg-gradient-to-tr ${link.color} text-white shadow-lg transition-all hover:scale-105 active:scale-95`}
+              >
+                {(() => {
+                  const Icon = typeof link.icon === 'string' ? getIconByName(link.icon) : link.icon
+                  return Icon ? <Icon className="w-3.5 h-3.5 fill-current" /> : null
+                })()}
+                <span className="text-[0.6rem] font-black uppercase tracking-widest hidden lg:block">
+                  {link.id !== 'optional' && link.name}
+                </span>
+              </a>
+            ))}
           </div>
         </div>
       </div>
-    </div >
+    </div>
   )
 }

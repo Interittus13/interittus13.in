@@ -1,130 +1,110 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
-import { Skill } from "@/src/types";
+'use client'
+
+import { useState } from 'react'
+import { Skill } from '@/src/types'
+import { getIconByName } from '@/src/lib/utils/iconMap'
 
 interface SkillsSectionProps {
-    skills: Skill[][]
+  skills: Skill[][]
+}
+
+// Flatten all skill groups into a single list
+function flattenSkills(skills: Skill[][]): Skill[] {
+  return skills.flat()
 }
 
 const SkillsSection: React.FC<SkillsSectionProps> = ({ skills }) => {
-    const [more, setMore] = useState(false)
+  const [expanded, setExpanded] = useState(false)
+  const allSkills = flattenSkills(skills)
 
-    const handleMore = () => {
-        setMore(!more)
-    }
-
-    return (
-        <div
-            data-aos="fade-up"
-            data-aos-duration="800"
-            className={`bg-white rounded-3xl overflow-hidden min-h-25 sm:min-h-37 col-span-2 sm:col-span-1 flex flex-col relative justify-between dark:bg-true-gray-900`}
-        >
-            <div
-                className={`absolute transition duration-200  ease-in-out h-full w-full bg-true-gray-900 z-40 rounded-3xl text-white ${more ? 'opacity-100' : 'opacity-0'
-                    } overflow-auto scrollbar-hide justify-between flex flex-col`}
-            >
-                <p
-                    className="p-4 xs:p-4.5 sm:p-6 md:p-8  text-sm font-semibold text-left xs:text-lg sm:text-2xl md:text-3xl lg:text-4xl z-50 line-clamp-1 text-transparent"
-                >
-                    Technical Skills
-                </p>
-                <div className="flex flex-col justify-end items-start w-full p-4 xs:p-4.5 sm:p-6 md:p-8 gap-3 lg: gap-4">
-                    {skills.map((skillGroup, index) => (
-                        <div className="flex flex-wrap gap-1 lg:gap-3" key={index}>
-                            {skillGroup.map((skill, i) => (
-                                <div
-                                    className="flex flex-row gap-1 text-xs xs:text-sm md:text-normal lg:text-lg place-items-center"
-                                    key={skill.name + i.toString()}
-                                >
-                                    {skill.icon && (
-                                        <skill.icon
-                                            className={`w-3 h-3 lg:(w-5 h-5) p-1 rounded-full ${skill.color}`}
-                                        />
-                                    )}
-                                    {skill.name}
-                                </div>
-                            ))}
-                            ...
-                        </div>
-                    ))}
-                </div>
-            </div>
-            <div className="flex flex-row items-center justify-between p-4 xs:p-4.5 sm:p-6 md:p-8">
-                <p
-                    className={`text-2xl font-semibold text-left sm:text-2xl md:text-3xl lg:text-4xl z-10 z-50  line-clamp-1 ${more ? 'text-white dark:text-black' : 'text-black dark:text-white'
-                        }`}
-                >
-                    Technical Skills
-                </p>
-                <button
-                    className={`h-full aspect-square grid place-items-center transition duration-500  ease-in-out z-50 hover:cursor-pointer transform ${more
-                        ? 'rotate-45 bg-white text-black hover:bg-true-gray-200'
-                        : 'rotate-0 bg-black text-white hover:bg-true-gray-500'
-                        } rounded-full dark:bg-true-gray-900`}
-                    onClick={handleMore}
-                    aria-label={more ? "Close skills details" : "Show skills details"}
-                >
-                    <FontAwesomeIcon
-                        className="md:(transform scale-150)"
-                        icon={faPlus}
-                    />
-                </button>
-            </div>
-            <div className="pb-4 xs:pb-4.5 sm:pb-6 lg:pb-8">
-                {skills.map((skillGroup, i) => (
-                    <div className={`${i === 1 ? 'my-1 md:my-1 lg:my-2' : ''}`} key={i}>
-                        <div className="w-[1560px] animate-scroll-md lg:(w-[2200px] animate-scroll-lg) flex justify-between">
-                            {Array(20)
-                                .fill(0)
-                                .map((_, index) => skillGroup[index % skillGroup.length])
-                                .map((skill, skillIndex) => (
-                                    <div
-                                        className={`w-[78px] mx-[4px] h-[70px] rounded-xl lg:(w-[110px] mx-[5px] h-[100px] rounded-3xl) text-white grid place-items-center ${skill.color
-                                            } ${i === 1
-                                                ? 'transform -translate-x-5 sm:-translate-x-10 lg:-translate-x-15'
-                                                : ''
-                                            }`}
-                                        key={skill.name + skillIndex.toString()}
-                                    >
-                                        {skill.icon && (
-                                            <skill.icon className="w-9 h-9 lg:(w-12 h-12)" />
-                                        )}
-                                    </div>
-                                ))}
-                        </div>
-                    </div>
-                ))}
-                {/* <div className="slider">
-                  <div className="duration-1000 ease-linear slide-track animate-scroll-lg">
-                      {Array(20).fill(0).map((_, index) => skills[0][index % skills[0].length]).map(s =>
-                          <div className={`slide ${s.color}`} key={s.name}>
-                              <s.icon size="50"></s.icon>
-                          </div>)
-                      }
-                  </div>
-              </div>
-              <div className="my-2 slider">
-                  <div className="duration-1000 ease-linear slide-track animate-scroll-lg">
-                      {Array(20).fill(0).map((_, index) => skills[1][index % skills[1].length]).map(s =>
-                          <div className={`slide ${s.color} transform -translate-x-15`} key={s.name}>
-                              <s.icon size="50"></s.icon>
-                          </div>)
-                      }
-                  </div>
-              </div>
-              <div className="slider">
-                  <div className="duration-1000 ease-linear slide-track animate-scroll-lg">
-                      {Array(20).fill(0).map((_, index) => skills[2][index % skills[2].length]).map(s =>
-                          <div className={`slide ${s.color}`} key={s.name}>
-                              <s.icon size="50"></s.icon>
-                          </div>)
-                      }
-                  </div>
-              </div> */}
-            </div>
+  return (
+    <div
+      data-aos="fade-up"
+      className="col-span-2 bg-white/70 dark:bg-zinc-900/70 backdrop-blur-3xl rounded-[2.5rem] overflow-hidden border border-white/30 dark:border-zinc-800 shadow-2xl shadow-zinc-200/40 dark:shadow-none"
+    >
+      {/* Header */}
+      <div className="flex items-center justify-between px-8 pt-8 pb-6">
+        <div>
+          <p className="text-[0.6rem] font-black uppercase tracking-[0.3em] text-zinc-400 dark:text-zinc-500 mb-1">
+            Expertise
+          </p>
+          <h2 className="text-3xl md:text-4xl font-black tracking-tighter text-zinc-900 dark:text-zinc-100">
+            Technical Skills
+          </h2>
         </div>
-    )
+        <button
+          onClick={() => setExpanded((v) => !v)}
+          aria-label={expanded ? 'Collapse skills' : 'Expand skills'}
+          className={`w-11 h-11 rounded-2xl flex items-center justify-center transition-all duration-500 font-black text-xl ${
+            expanded
+              ? 'bg-orange-500 text-white rotate-45 shadow-lg shadow-orange-500/30'
+              : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-700'
+          }`}
+        >
+          +
+        </button>
+      </div>
+
+      {/* Scrolling skill strips */}
+      <div className="pb-6 overflow-hidden">
+        {skills.map((skillGroup, rowIdx) => (
+          <div
+            key={rowIdx}
+            className={`flex gap-3 mb-3 ${rowIdx % 2 === 1 ? 'pl-8' : ''}`}
+            style={{
+              animation: `scroll-${rowIdx % 2 === 0 ? 'left' : 'right'} 30s linear infinite`,
+            }}
+          >
+            {Array(3)
+              .fill(skillGroup)
+              .flat()
+              .map((skill: Skill, i: number) => {
+                const iconName = typeof skill.icon === 'string' ? skill.icon : null
+                const Icon = iconName ? getIconByName(iconName) : null
+                return (
+                  <div
+                    key={`${skill.name}-${i}`}
+                    className={`flex-shrink-0 flex flex-col items-center justify-center gap-2 w-20 h-20 md:w-24 md:h-24 rounded-3xl text-white transition-transform hover:scale-110 ${skill.color}`}
+                  >
+                    {Icon && <Icon className="w-7 h-7 md:w-8 md:h-8" />}
+                    <span className="text-[0.5rem] font-black uppercase tracking-widest text-center leading-tight px-1 opacity-90">
+                      {skill.name}
+                    </span>
+                  </div>
+                )
+              })}
+          </div>
+        ))}
+      </div>
+
+      {/* Expanded grid */}
+      {expanded && (
+        <div className="px-8 pb-8 border-t border-zinc-100 dark:border-zinc-800 pt-6">
+          <div className="flex flex-wrap gap-3">
+            {allSkills.map((skill) => {
+              const iconName = typeof skill.icon === 'string' ? skill.icon : null
+              const Icon = iconName ? getIconByName(iconName) : null
+              return (
+                <div
+                  key={skill.name}
+                  className="flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-zinc-100/70 dark:bg-zinc-800/70 border border-zinc-200/50 dark:border-zinc-700/50"
+                >
+                  {Icon && (
+                    <div className={`w-5 h-5 rounded-lg flex items-center justify-center ${skill.color}`}>
+                      <Icon className="w-3 h-3 text-white" />
+                    </div>
+                  )}
+                  <span className="text-xs font-bold text-zinc-700 dark:text-zinc-300">
+                    {skill.name}
+                  </span>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      )}
+    </div>
+  )
 }
 
 export default SkillsSection

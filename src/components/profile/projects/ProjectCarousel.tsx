@@ -120,7 +120,7 @@ const SingleProject: React.FC<{ project: Project }> = ({ project }) => {
                         />
                     </div>
                     <video
-                        className="absolute z-0 w-53 left-11.5 top-10 md:(left-8) lg:(top-10 left-17.5 w-53)"
+                        className="absolute z-0 w-53 left-11.5 top-10 md:left-8 lg:top-10 lg:left-17.5 lg:w-53"
                         src={project['video']}
                         preload="none"
                         playsInline

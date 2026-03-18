@@ -1,40 +1,47 @@
-import React from 'react'
-import Navbar from './Navbar'
-import Footer from './Footer'
+'use client'
 
-/**
- * Default blog layout component that wraps the main content with a navbar and footer.
- */
-export const BlogLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+import React, { cloneElement, useState } from 'react'
+import Navbar from '../layout/Navbar'
+import Footer from '../layout/Footer'
+
+export default function BlogLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex flex-col min-h-screen bg-true-gray-50 dark:bg-black">
-      <Navbar />
-      <main className='flex-1'>{children}</main>
-      <Footer />
-    </div>
+    <>
+      <div className="bg-true-gray-50 dark:bg-black">
+        <Navbar />
+        <main>{children}</main>
+        <div className="mt-auto">
+          <Footer />
+        </div>
+      </div>
+    </>
   )
 }
 
-export const BlogLayoutPure: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export function BlogLayoutPure({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex flex-col min-h-screen bg-white dark:bg-black">
-      <Navbar />
-      <main className='flex-1'>{children}</main>
-      <Footer />
-    </div>
+    <>
+      <div className="flex flex-col justify-start min-h-screen bg-white dark:bg-black">
+        <Navbar />
+        <main>{children}</main>
+        <div className="mt-auto">
+          <Footer />
+        </div>
+      </div>
+    </>
   )
 }
 
-// export function BlogLayoutWhite({ children }) {
-//   // const [toc, setToc] = useState(null)
-//   // const tocChild = cloneElement(children, { setToc })
-//   return (
-//     <>
-//       <div className="min-h-screen bg-white dark:bg-gradient-to-b from-true-gray-900 to-black">
-//         {/* <Navbar toc={toc} /> */}
-//         {/* <main>{tocChild}</main> */}
-//         <Footer />
-//       </div>
-//     </>
-//   )
-// }
+export function BlogLayoutWhite({ children }: { children: React.ReactElement }) {
+  const [toc, setToc] = useState(null)
+  const tocChild = cloneElement(children, { setToc } as any)
+  return (
+    <>
+      <div className="min-h-screen bg-white dark:bg-gradient-to-b from-true-gray-900 to-black">
+        <Navbar toc={toc} />
+        <main>{tocChild}</main>
+        <Footer />
+      </div>
+    </>
+  )
+}

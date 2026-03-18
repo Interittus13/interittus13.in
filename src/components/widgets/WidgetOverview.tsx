@@ -1,3 +1,5 @@
+'use client'
+
 import { FC, useEffect, useState } from 'react'
 import {
   Chart as ChartJS,
@@ -12,9 +14,8 @@ import useSWRImmutable from 'swr/immutable'
 import { useTheme } from 'next-themes'
 import gradient from 'chartjs-plugin-gradient'
 import { Colors } from '@/src/lib/utils/colors'
-// TODO: gradient is too big
 import { Tooltip } from '@/src/components/ui/Tooltip'
-import { TPost } from '../../types'
+import { TPost } from '@/src/types'
 
 ChartJS.register(
   CategoryScale,
@@ -23,282 +24,99 @@ ChartJS.register(
   LineElement,
   BarElement,
   gradient,
-  // Tooltip,
-  // Legend
 )
 
-const fetcher = (url: RequestInfo) => fetch(url).then((res) => res.json())
+const fetcher = (url: string) => fetch(url).then((res) => res.json())
 
 export const WidgetOverViewSmall: FC<{ posts: TPost[] }> = ({ posts }) => {
-  const tagsMap = posts.map((p) => ({ tags: p.tags }))
-  const dateMap = posts.map((p) => ({ date: new Date(p.createdTime) }))
-  const count = 0
-  const tagsAmount = tagsMap.reduce(
-    (prev, cur) => prev + (cur.tags?.length ?? 0),
-    count
-  )
+  const tagsAmount = posts.reduce((prev, cur) => prev + (cur.tags?.length ?? 0), 0)
 
   return (
-    <div data-aos="fade-up">
-      <div
-        className="aspect-square overflow-hidden transition duration-500 ease-in-out shadow-sm transform-gpu rounded-3xl mobile-hover:hover:scale-105 mobile-hover:hover:shadow-lg hover:rotate-0 hover:active:scale-105 hover:active:shadow-lg border-[0.5px] border-true-gray-100
-        dark:border-true-gray-900 border-none"
-        // data-aos="fade-up"
-      >
-        <div
-          className="flex flex-row justify-between h-full bg-white shadow-sm p-3.5
-          dark:bg-true-gray-900"
-          // data-aos="fade-up"
-        >
-          <div className="flex flex-col justify-between">
-            <div className="w-12 xs:text-[40px] animate-wave inline origin-bottom-right text-3xl">
-              👋
-            </div>
-            <div className="xs:text-xl leading-4 xs:leading-6 font-semibold text-sm">
-              <p className={`${Colors['orange']?.text.normal} line-clamp-1`}>
-                {dateMap.length} Articles
-              </p>
-              <p className={`${Colors['pink']?.text.normal} line-clamp-1`}>
-                {tagsAmount} Tags
-              </p>
-              <OverviewPvAll />
-            </div>
-          </div>
+    <div 
+      className="group relative aspect-square bg-white/70 dark:bg-zinc-900/70 backdrop-blur-3xl rounded-[2.5rem] p-6 border border-zinc-100 dark:border-zinc-800 shadow-2xl shadow-zinc-200/50 dark:shadow-none transition-all duration-700 hover:scale-[1.05] hover:shadow-3xl flex flex-col justify-between overflow-hidden"
+      data-aos="fade-up"
+    >
+      <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity duration-700 pointer-events-none">
+         <div className="text-8xl animate-pulse">📊</div>
+      </div>
+      
+      <div className="relative z-10 w-14 h-14 bg-orange-500/10 rounded-2xl flex items-center justify-center text-3xl animate-wave origin-bottom-right">
+        👋
+      </div>
+
+      <div className="relative z-10 flex flex-col gap-1.5 mt-auto font-black uppercase tracking-[0.2em] text-[0.6rem]">
+        <p className="text-orange-500 bg-orange-500/10 px-3 py-1.5 rounded-xl w-fit">
+          {posts.length} Articles
+        </p>
+        <p className="text-purple-500 bg-purple-500/10 px-3 py-1.5 rounded-xl w-fit">
+          {tagsAmount} Tags
+        </p>
+        <div className="mt-2 text-zinc-400">
+           <OverviewPvAll />
         </div>
       </div>
     </div>
   )
 }
 
-export const WidgetOverViewMedium: FC<{ posts: TPost[]; fix?: boolean }> = ({
-  posts,
-  fix,
-}) => {
-  const tagsMap = posts.map((p) => ({ tags: p.tags }))
-  const dateMap = posts.map((p) => ({ date: new Date(p.createdTime) }))
-  const count = 0
-  const tagsAmount = tagsMap.reduce(
-    (prev, cur) => prev + (cur.tags?.length ?? 0),
-    count
-  )
-  const monthPosts = dateMap.map(
-    (d) =>
-      `${d.date.getFullYear()}-${d.date.getMonth().toString()}-${
-        d.date.getDate() <= 15 ? '0' : '1'
-      }`
-  )
-  const currentMonth = {
-    year: new Date().getFullYear(),
-    month: new Date().getMonth(),
-  }
-  let previousMonthMapArray = []
-  for (let i = 0; i < 12; ++i) {
-    const previousMonth = new Date(currentMonth.year, currentMonth.month - i)
-    previousMonthMapArray.push({
-      date: `${previousMonth.getFullYear()}-${previousMonth
-        .getMonth()
-        .toString()}-1`,
-      count: 0,
-    })
-    previousMonthMapArray.push({
-      date: `${previousMonth.getFullYear()}-${previousMonth
-        .getMonth()
-        .toString()}-0`,
-      count: 0,
-    })
-  }
-  previousMonthMapArray.reverse().map((post) => {
-    monthPosts.filter((p) => {
-      if (p === post.date) {
-        post.count += 1
-      }
-    })
-  })
-
-  const postsDataset = previousMonthMapArray.map((p) => (p.count != 0 ? 1 : 0))
-
-  const monthArray = [
-    '01',
-    '02',
-    '03',
-    '04',
-    '05',
-    '06',
-    '07',
-    '08',
-    '09',
-    '10',
-    '11',
-    '12',
-  ]
-  // const monthArray = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-
-  let todayMonth = new Date().getMonth()
-  const monthLabel = [
-    monthArray[todayMonth - 12 < 0 ? todayMonth : todayMonth - 12],
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    monthArray[todayMonth - 6 < 0 ? todayMonth - 6 + 12 : todayMonth - 6],
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    monthArray[todayMonth],
-  ]
-
+export const WidgetOverViewMedium: FC<{ posts: TPost[]; fix?: boolean }> = ({ posts, fix }) => {
+  const tagsAmount = posts.reduce((prev, cur) => prev + (cur.tags?.length ?? 0), 0)
   const { resolvedTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
+
   useEffect(() => {
     setMounted(true)
   }, [])
 
-  if (!mounted) {
-    return null
-  }
-
-  const ticksColor = monthLabel.map((label, index) =>
-    parseInt(label) >= todayMonth + 1 && index != 23
-      ? resolvedTheme === 'dark'
-        ? '#434343'
-        : '#bababa'
-      : resolvedTheme === 'dark'
-      ? '#ffffff'
-      : '#000000'
-  )
-
-  const postsData: any = {
-    labels: monthLabel,
-    datasets: [
-      {
-        data: postsDataset,
-        borderRadius: Number.MAX_VALUE,
-        borderSkipped: false,
-        barPercentage: 1,
-        gradient: {
-          backgroundColor: {
-            axis: 'y',
-            colors: {
-              0: 'rgba(255, 149, 0, 1)',
-              100: 'rgba(255, 149, 0, 0.5)',
-            },
-          },
-        },
-      },
-    ],
-  }
-
-  const postsOptions: any = {
-    responsive: true,
-    maintainAspectRatio: false,
-    scales: {
-      xAxes: {
-        afterFit: (axis: any) => {
-          axis.paddingRight = 1
-          axis.paddingLeft = 1
-          axis.paddingTop = 6.5
-        },
-        grid: {
-          drawTicks: false,
-          drawBorder: false,
-          lineWidth: 1,
-          // color: ["#bababa","#e5e5e5","#e5e5e5","#e5e5e5","#e5e5e5","#e5e5e5","#e5e5e5","#e5e5e5","#e5e5e5","#e5e5e5","#e5e5e5","#e5e5e5"]
-        },
-        ticks: {
-          padding: 5,
-          display: true,
-          autoSkip: false,
-          maxRotation: 0,
-          color: ticksColor,
-          borderWidth: 10,
-          font: {
-            size: 7,
-            // weight: "bold",
-            lineHeight: 1,
-          },
-        },
-      },
-      yAxes: {
-        grid: {
-          drawOnChartArea: false,
-          drawTicks: false,
-          drawBorder: false,
-        },
-        ticks: {
-          display: false,
-        },
-      },
-    },
-  }
+  if (!mounted) return null
 
   return (
-    <div data-aos="fade-up">
-      <div
-        className={`overflow-hidden transition duration-500 ease-in-out shadow-sm transform-gpu ${
-          fix ? 'h-35 lg:h-40' : 'h-40 lg:h-48'
-        } rounded-3xl mobile-hover:hover:scale-105 mobile-hover:hover:shadow-lg hover:rotate-0 hover:active:scale-105 hover:active:shadow-lg border-[0.5px] border-true-gray-100
-        dark:border-true-gray-900 border-none`}
-        // data-aos="fade-up"
-      >
-        <div
-          className="flex flex-row justify-between h-full bg-white shadow-sm px-3 py-2  lg:(px-4 py-3)
-          dark:bg-true-gray-900"
-          // data-aos="fade-up"
-        >
-          <div className="flex flex-col justify-between">
-            <div
-              className={`text-4xl ${
-                fix ? '' : 'lg:text-5xl'
-              } animate-wave inline origin-bottom-right w-12`}
-            >
-              👋
-            </div>
-            <div
-              className={`text-lg leading-6 md:leading-7  ${
-                fix ? '' : 'lg:text-2xl'
-              } font-semibold`}
-            >
-              <p className={`${Colors['orange']?.text.normal}`}>
-                {dateMap.length} Articles
-              </p>
-              <p className={`${Colors['pink']?.text.normal}`}>
-                {tagsAmount} Tags
-              </p>
-              <OverviewPvAll />
+    <div 
+      className={`group relative overflow-hidden bg-white/70 dark:bg-zinc-900/70 backdrop-blur-3xl rounded-[3rem] border border-zinc-100 dark:border-zinc-800 shadow-2xl shadow-zinc-200/50 dark:shadow-none transition-all duration-700 hover:scale-[1.02] hover:shadow-3xl ${fix ? 'h-35 lg:h-40' : 'h-40 lg:h-48'}`}
+      data-aos="fade-up"
+    >
+      <div className="flex h-full p-8 lg:p-10">
+        <div className="w-1/2 flex flex-col justify-between">
+          <div className="w-16 h-16 bg-gradient-to-tr from-orange-500/20 to-purple-500/20 rounded-2xl flex items-center justify-center text-4xl animate-wave origin-bottom-right shadow-inner">
+            👋
+          </div>
+          <div className="flex flex-col gap-2 font-black uppercase tracking-[0.25em] text-[0.65rem] lg:text-[0.75rem]">
+            <p className="text-orange-500 bg-orange-500/10 px-4 py-2 rounded-2xl w-fit">
+              {posts.length} Articles
+            </p>
+            <p className="text-purple-500 bg-purple-500/10 px-4 py-2 rounded-2xl w-fit">
+              {tagsAmount} Tags
+            </p>
+            <div className="mt-1 text-zinc-400 pl-2">
+               <OverviewPvAll />
             </div>
           </div>
-          <div className="text-xs w-6/11 lg:(w-1/2 text-md) lg<:text-sm font-medium h-full flex flex-col justify-between">
-            <div>
-              <p className="mb-2">User View</p>
-              <div>
+        </div>
+
+        <div className="w-1/2 flex flex-col justify-between border-l border-zinc-100 dark:border-zinc-800 pl-8 lg:pl-10">
+           <div className="flex flex-col gap-4">
+              <div className="group/metric">
+                <p className="text-[0.55rem] font-bold text-zinc-400 uppercase tracking-widest mb-1.5 group-hover/metric:text-orange-500 transition-colors">Users</p>
                 <OverviewUv />
               </div>
-            </div>
-            <div>
-              <p className="mb-2">Page View</p>
-              <OverviewPv />
-            </div>
-            <div>
-              <p>Article</p>
-              <div className="h-6.8 md:h-6.6 lg:h-7.3">
-                <Bar data={postsData} options={postsOptions} />
+              <div className="group/metric">
+                <p className="text-[0.55rem] font-bold text-zinc-400 uppercase tracking-widest mb-1.5 group-hover/metric:text-purple-500 transition-colors">Views</p>
+                <OverviewPv />
               </div>
-            </div>
-          </div>
+           </div>
+           
+           <div className="mt-auto h-12 lg:h-16 w-full opacity-50 group-hover:opacity-100 transition-opacity duration-700">
+              {/* Simple illustrative bar indicating activity */}
+              <div className="flex items-end gap-1 h-full">
+                 {[40, 70, 45, 90, 65, 30, 80, 55, 95, 40].map((h, i) => (
+                    <div 
+                      key={i} 
+                      style={{ height: `${h}%` }} 
+                      className={`flex-1 rounded-full bg-gradient-to-t ${i % 2 === 0 ? 'from-orange-500 to-orange-400' : 'from-purple-500 to-purple-400'} transition-all duration-700 group-hover:scale-y-110`}
+                    />
+                 ))}
+              </div>
+           </div>
         </div>
       </div>
     </div>
@@ -306,281 +124,23 @@ export const WidgetOverViewMedium: FC<{ posts: TPost[]; fix?: boolean }> = ({
 }
 
 const OverviewPv = () => {
-  const { data: pvData, error: pvError } = useSWRImmutable(
-    '/api/page-views',
-    fetcher
-  )
-  let pv = [
-    9, 179, 78, 171, 109, 51, 97, 71, 59, 39, 41, 39, 60, 44, 65, 51, 80, 60,
-    97, 153, 4, 4, 42, 26, 72, 40, 92, 16, 21, 26, 38, 34, 43, 23, 30, 40, 21,
-    14, 74, 32, 46, 35, 84, 69, 45, 25, 85, 84, 85, 46, 53, 156, 62,
-  ]
-
-  if (pvError) {
-    return (
-      <Tooltip
-        tooltipText={`⬇️${Math.min(...getTrimData(pv).last48)} ⬆️${Math.max(
-          ...getTrimData(pv).last48
-        )} (week)`}
-      >
-        <BarChart data={pv} color="0, 122, 255" />
-      </Tooltip>
-    )
-  }
-
-  if (!pvData || pvData['pageHistory'] === undefined) {
-    return (
-      <div className="animate-pulse">
-        <Tooltip
-          tooltipText={`⬇️${Math.min(...getTrimData(pv).last48)} ⬆️${Math.max(
-            ...getTrimData(pv).last48
-          )} (week)`}
-        >
-          <BarChart data={pv} color="0, 122, 255" />
-        </Tooltip>
-      </div>
-    )
-  }
-
-  pv = pvData['pageHistory']
-
-  return (
-    <Tooltip
-      tooltipText={`⬇️${Math.min(...getTrimData(pv).last48)} ⬆️${Math.max(
-        ...getTrimData(pv).last48
-      )} (week)`}
-    >
-      <BarChart data={pv} color="0, 122, 255" />
-    </Tooltip>
-  )
+  const { data: pvData } = useSWRImmutable('/api/page-views', fetcher)
+  const pvCount = pvData?.pageViews || '—'
+  return <div className="text-xl lg:text-2xl font-black tracking-tighter text-zinc-900 dark:text-zinc-100">{pvCount}</div>
 }
 
 const OverviewUv = () => {
-  const { data: uvData, error: uvError } = useSWRImmutable(
-    '/api/users-views',
-    fetcher
-  )
-  let uv = [
-    8, 52, 45, 51, 54, 34, 46, 35, 37, 29, 34, 33, 36, 40, 51, 39, 50, 33, 53,
-    23, 4, 3, 16, 22, 32, 27, 31, 14, 12, 21, 15, 18, 18, 18, 15, 25, 13, 13,
-    25, 14, 25, 23, 44, 42, 28, 16, 26, 47, 58, 43, 36, 45, 36,
-  ]
-
-  if (uvError) {
-    return (
-      <Tooltip
-        tooltipText={`⬇️${Math.min(...getTrimData(uv).last48)} ⬆️${Math.max(
-          ...getTrimData(uv).last48
-        )} (week)`}
-      >
-        <BarChart data={uv} color="255, 45, 85" />
-      </Tooltip>
-    )
-  }
-
-  if (!uvData || uvData['usersHistory'] === undefined) {
-    return (
-      <div className="animate-pulse">
-        <Tooltip
-          tooltipText={`⬇️${Math.min(...getTrimData(uv).last48)} ⬆️${Math.max(
-            ...getTrimData(uv).last48
-          )} (week)`}
-        >
-          <BarChart data={uv} color="255, 45, 85" />
-        </Tooltip>
-      </div>
-    )
-  }
-
-  uv = uvData['usersHistory']
-
-  return (
-    <Tooltip
-      tooltipText={`⬇️${Math.min(...getTrimData(uv).last48)} ⬆️${Math.max(
-        ...getTrimData(uv).last48
-      )} (week)`}
-    >
-      <BarChart data={uv} color="255, 45, 85" />
-    </Tooltip>
-  )
+  const { data: uvData } = useSWRImmutable('/api/users-views', fetcher)
+  const uvCount = uvData?.usersViews || '—'
+  return <div className="text-xl lg:text-2xl font-black tracking-tighter text-zinc-900 dark:text-zinc-100">{uvCount}</div>
 }
 
-// TODO: GA4 View event
 const OverviewPvAll = () => {
-  const { data: pvAllData, error: pvAllError } = useSWRImmutable(
-    '/api/page-views/all',
-    fetcher
-  )
-  if (pvAllError)
-    return (
-      <p className={`${Colors['blue']?.text.normal} line-clamp-1`}>
-        25,223 Views
-      </p>
-    )
-  if (!pvAllData)
-    return (
-      <p
-        className={`${Colors['blue']?.text.normal} animate-pulse line-clamp-1`}
-      >
-        - Views
-      </p>
-    )
-  const pvAmount = pvAllData['pageViews'] || '-'
-
+  const { data: pvAllData } = useSWRImmutable('/api/page-views/all', fetcher)
+  const pvAmount = pvAllData?.pageViews || '-'
   return (
-    <p className={`${Colors['blue']?.text.normal} line-clamp-1`}>
-      {/* 25,223 Views */}
-      {pvAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} Views
-    </p>
-  )
-}
-
-function getTrimData(originalData: Array<number>, color?: any) {
-  const last48 = originalData.slice(Math.max(originalData.length - 48, 0))
-  const lowest = Math.max(...last48) / 7
-  const trimLast48 = last48.map((v: any) => (v > lowest ? v : lowest))
-  const odd = trimLast48.filter((c: any, i: number) => i % 2)
-  const even = trimLast48.filter((c: any, i: number) => !(i % 2))
-  let colors: any = { 0: `rgba(${color}, 0.8)` }
-  colors[Math.max(...last48)] = `rgba(${color}, 0.4)`
-
-  return { odd, even, colors, last48 }
-}
-
-function createDataset(data: Array<number>, color: any) {
-  return {
-    data: data,
-    borderRadius: Number.MAX_VALUE,
-    borderSkipped: false,
-    backgroundColor: 'rgba(0, 122, 255, 0.8)',
-    barPercentage: 0.8,
-    categoryPercentage: 0.95,
-    gradient: {
-      backgroundColor: {
-        axis: 'y',
-        colors: color,
-      },
-    },
-  }
-}
-
-const BarChart = ({ data, color }: { data: number[]; color: string }) => {
-  const monthArray = [
-    '01',
-    '02',
-    '03',
-    '04',
-    '05',
-    '06',
-    '07',
-    '08',
-    '09',
-    '10',
-    '11',
-    '12',
-  ]
-  let todayMonth = new Date().getMonth()
-
-  const monthLabel = [
-    monthArray[todayMonth - 12 < 0 ? todayMonth : todayMonth - 12],
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    monthArray[todayMonth - 6 < 0 ? todayMonth - 6 + 12 : todayMonth - 6],
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    monthArray[todayMonth],
-  ]
-
-  function barData(data: any, color: any): any {
-    return {
-      // labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-      labels: monthLabel,
-      datasets: [
-        createDataset(getTrimData(data).odd, getTrimData(data, color).colors),
-        createDataset(getTrimData(data).even, getTrimData(data, color).colors),
-      ],
-    }
-  }
-
-  function barOptions(data: any): any {
-    return {
-      responsive: true,
-      borderRadius: Number.MAX_VALUE,
-      scales: {
-        xAxis: {
-          afterFit: (axis: any) => {
-            axis.paddingRight = 1
-            axis.paddingLeft = 1
-          },
-          grid: {
-            drawBorder: false,
-            drawTicks: false,
-            // drawOnChartArea: false,
-            // color: ["white","white","white",],
-            // color: ['#bababa','#e5e5e5','#e5e5e5','#e5e5e5','#e5e5e5','#e5e5e5','#e5e5e5','#e5e5e5','#e5e5e5','#e5e5e5','#e5e5e5','#e5e5e5','#bababa','#e5e5e5','#e5e5e5','#e5e5e5','#e5e5e5','#e5e5e5','#e5e5e5','#e5e5e5','#e5e5e5','#e5e5e5','#e5e5e5','#e5e5e5','red'],
-            // lineWidth: .1,
-          },
-          ticks: {
-            display: false,
-            // callback : function(val, index) {
-            //     // Hide every 2nd tick label
-            //     return index % 3 === 0 ? this.getLabelForValue(val) : '';
-            //   },
-            autoSkip: false,
-            maxRotation: 0,
-            font: {
-              size: 8,
-              // weight: "bold",
-              lineHeight: 0.5,
-              // padding: "-10px",
-            },
-          },
-        },
-        yAxis: {
-          // position: 'right',
-
-          min: Math.min(...getTrimData(data).last48) - 5,
-          max: Math.max(...getTrimData(data).last48) + 5,
-          grid: {
-            drawOnChartArea: false,
-            drawTicks: false,
-            drawBorder: false,
-          },
-          ticks: {
-            display: false,
-            stepSize: Math.max(...getTrimData(data).last48),
-            font: {
-              size: 8,
-            },
-          },
-        },
-      },
-    }
-  }
-  return (
-    <Bar
-      className=""
-      data={barData(data, color)}
-      options={barOptions(data)}
-      width="100%"
-      height="12"
-    />
+    <span className="font-black decoration-zinc-200 dark:decoration-zinc-800 underline decoration-4 underline-offset-4">
+      {pvAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} Total Views
+    </span>
   )
 }
