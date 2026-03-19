@@ -3,6 +3,8 @@ import { Colors } from '@/src/lib/utils/colors'
 
 interface EducationSectionProps {
   education: Education[]
+  header: string
+  title: string
 }
 
 const COLOR_MAP: Record<string, string> = {
@@ -14,7 +16,7 @@ const COLOR_MAP: Record<string, string> = {
   orange: 'from-orange-400 to-amber-600',
 }
 
-const EducationSection: React.FC<EducationSectionProps> = ({ education }) => {
+const EducationSection: React.FC<EducationSectionProps> = ({ education, header, title }) => {
   return (
     <div
       data-aos="fade-up"
@@ -24,10 +26,10 @@ const EducationSection: React.FC<EducationSectionProps> = ({ education }) => {
       {/* Header */}
       <div className="px-8 pt-8 pb-6">
         <p className="text-[0.6rem] font-black uppercase tracking-[0.3em] text-zinc-400 dark:text-zinc-500 mb-1">
-          Journey
+          {header}
         </p>
         <h2 className="text-3xl md:text-4xl font-black tracking-tighter text-zinc-900 dark:text-zinc-100">
-          Education & Career
+          {title}
         </h2>
       </div>
 

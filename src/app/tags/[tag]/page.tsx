@@ -28,12 +28,11 @@ export default async function TagPage({ params }: { params: Promise<{ tag: strin
            </h1>
            <div className="h-1.5 w-24 bg-pink-500 rounded-full mt-4" />
         </div>
+        <PostInfiniteList 
+          initialPosts={tagPosts.slice(0, 10)} 
+          tag={tag}
+        />
       </ListLayout>
-
-      <PostInfiniteList 
-        initialPosts={tagPosts.slice(0, 10)} 
-        tag={tag}
-      />
     </main>
   )
 }

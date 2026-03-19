@@ -3,15 +3,6 @@ import {
   SiGmail,
   SiKubernetes,
   SiTypescript,
-  SiAzuredevops,
-  SiTerraform,
-  SiDocker,
-  SiGrafana,
-  SiSonarqube,
-  SiAqua,
-  SiAzurepipelines,
-  SiAzurefunctions,
-  SiMicrosoftazure,
   SiPrometheus,
   // SiAmazonaws,
   SiAwslambda,
@@ -36,6 +27,25 @@ export const me = {
     },
   },
   bio: "💻 🎨 🎮 ⚡️",
+  intro: {
+    line1: "Building scalable cloud infrastructure on ",
+    highlight: "Azure & AWS",
+    line2: " with Kubernetes, Terraform, and CI/CD pipelines.",
+  },
+  titles: {
+    about: "About Me",
+    portfolio: "Portfolio",
+    projects: "Featured Projects",
+    journeyHeader: "Journey",
+    journeyTitle: "Education & Career",
+    spotlightHeader: "Spotlight",
+    spotlightTitle: "Professional Work",
+    openSourceHeader: "Contributions",
+    openSourceTitle: "Open Source",
+    otherHeader: "Experiments",
+    otherTitle: "Other Works",
+  },
+  roles: ['DevOps Engineer', 'Cloud Architect', 'SRE'],
   social: [
     ...links,
     {
@@ -52,11 +62,11 @@ export const me = {
   overview: [],
   education: [
     {
-      name: "Myongji University",
-      time: "2019-2022",
-      degree: "BS, Computer Science",
-      color: "blue",
-      logo: "/static/images/njupt.png",
+      name: "Empower Solutions",
+      time: "2024",
+      degree: "DevOps Engineer",
+      color: "red",
+      logo: "/static/images/nyit.png",
     },
     {
       name: "Mantec Consultants",
@@ -66,92 +76,67 @@ export const me = {
       logo: "/static/images/neu.png",
     },
     {
-      name: "Empower Solutions",
-      time: "2024",
-      degree: "DevOps Engineer",
-      color: "red",
-      logo: "/static/images/nyit.png",
+      name: "Myongji University",
+      time: "2019-2022",
+      degree: "BS, Computer Science",
+      color: "blue",
+      logo: "/static/images/njupt.png",
     },
   ],
-  openSources: [
-    {
-      title: "morethan-log",
-      description: "A static blog using notion database 😎",
-      website: "",
-      link: "https://github.com/morethanmin/morethan-log",
-      tags: [
-        {
-          name: "⭐ 600+",
-          color: "yellow",
+  projects: {
+    employee: [
+      {
+        name: "BoomerangFx",
+        description:
+          "BoomerangFX is a cloud-based SaaS platform designed for aesthetic medicine, cosmetic surgery, and wellness clinics.",
+        link: "https://www.boomerangfx.com",
+        image: "/static/images/coquality/view.svg",
+        logo: {
+          light: "/static/images/boomerangfx/logo_dark.svg",
+          dark: "/static/images/boomerangfx/logo_dark.svg",
         },
-        {
-          name: "🍴 300+",
-          color: "blue",
-        },
-        {
-          name: "Next.js",
-          color: "red",
-        },
-        {
-          name: "Blog Template",
-          color: "orange",
-        },
-        {
-          name: "Notion API",
-          color: "green",
-        },
-      ],
-    },
-    {
-      title: "Azure Cost Tracker - ACT",
-      description:
-        "A Python tool for tracking Azure subscription costs, generating reports, and sending automated email notifications.",
-      website: "",
-      link: "https://github.com/interittus13/AzureCostTracker",
-      tags: [
-        {
-          name: "React",
-          color: "gray",
-        },
-        {
-          name: "Library",
-          color: "pink",
-        },
-        {
-          name: "Component",
-          color: "brown",
-        },
-      ],
-    },
-  ],
-  projects: [
-    {
-      name: "BoomerangFx",
-      description:
-        "BoomerangFX is a cloud-based SaaS platform designed for aesthetic medicine, cosmetic surgery, and wellness clinics.",
-      link: "https://www.boomerangfx.com",
-      image: "/static/images/coquality/view.svg",
-      logo: {
-        light: "/static/images/boomerangfx/logo_dark.svg",
-        dark: "/static/images/boomerangfx/logo_dark.svg",
+        tip: "Coming Soon on App Store",
+        spotlight: true,
       },
-      tip: "Coming Soon on App Store",
-      spotlight: true,
-    },
-    {
-      name: "PlanOmatic",
-      description:
-        "PlanOmatic provides property insights, 3D tours, floor plans, and photography services for real estate professionals.",
-      logo: {
-        light: "/static/images/planomatic/logo.svg",
-        dark: "/static/images/planomatic/logo.svg",
+      {
+        name: "PlanOmatic",
+        description:
+          "PlanOmatic provides property insights, 3D tours, floor plans, and photography services for real estate professionals.",
+        logo: {
+          light: "/static/images/planomatic/logo.svg",
+          dark: "/static/images/planomatic/logo.svg",
+        },
+        link: "https://www.planomatic.com/",
+        video: "/static/videos/highlight.mov",
+        tags: ["Web App", "Database Design", "Recommendation algorithm"],
       },
-      link: "https://www.planomatic.com/",
-      video: "/static/videos/highlight.mov",
-      tags: ["Web App", "Database Design", "Recommendation algorithm"],
-    },
-
-  ],
+    ],
+    openSource: [
+      {
+        name: "morethan-log",
+        description: "A static blog using notion database 😎",
+        link: "https://github.com/morethanmin/morethan-log",
+        logo: {
+          light: "/static/images/github-logo.svg",
+          dark: "/static/images/github-logo.svg",
+        },
+        tags: ["Next.js", "Notion API", "Blog Template"],
+        spotlight: true,
+      },
+      {
+        name: "Azure Cost Tracker - ACT",
+        description:
+          "A Python tool for tracking Azure subscription costs, generating reports, and sending automated email notifications.",
+        link: "https://github.com/interittus13/AzureCostTracker",
+        logo: {
+          light: "/static/images/github-logo.svg",
+          dark: "/static/images/github-logo.svg",
+        },
+        tags: ["Python", "Azure", "Automation"],
+      },
+    ],
+    other: [],
+  },
   skills: [
     [
       { name: "Azure", color: "bg-[#06B6D4]", icon: 'SiMicrosoftazure' },

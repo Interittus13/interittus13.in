@@ -6,7 +6,7 @@ import React from "react"
  */
 export const ListLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
-    <div className="px-4 mt-6 mx-auto max-w-7xl w-full">
+    <div className="px-5 pt-32 md:pt-40 mx-auto max-w-5xl w-full">
         {children}
     </div>
   )

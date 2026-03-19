@@ -8,7 +8,6 @@ import { TPost } from '@/src/types'
 import { Colors, getColorClassByName } from '@/src/lib/utils/colors'
 import FormattedDate from '@/src/components/ui/FormattedDate'
 import ThemedImage from './ThemedImage'
-import ListLayout from '@/src/components/layout/ListLayout'
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json())
 
@@ -51,16 +50,29 @@ export default function PostInfiniteList({
   }, [inView, isReachingEnd, isLoadingMore, size, setSize])
 
   return (
-    <ListLayout>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 py-10">
+    <>
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-8 py-10">
         {posts.map((post, index) => {
           const postCategory = post.category?.[0] || 'Other'
           const categoryColor = Colors[getColorClassByName(postCategory)]?.text.normal
 
+          // Dynamic grid pattern calculation
+          const patternIndex = index % 6
+          let colSpan = 'md:col-span-4' // Default: 3 per row (1/3)
+          let imageHeight = 'h-64'
+
+          if (patternIndex === 0) {
+            colSpan = 'md:col-span-12' // Full width
+            imageHeight = 'h-80 md:h-[400px]'
+          } else if (patternIndex === 1 || patternIndex === 2) {
+            colSpan = 'md:col-span-6' // Half width
+            imageHeight = 'h-72'
+          }
+
           return (
             <div
               key={post.id}
-              className="group relative flex flex-col bg-white dark:bg-zinc-900 rounded-[2.5rem] overflow-hidden shadow-2xl shadow-zinc-200/50 dark:shadow-none transition-all duration-700 hover:scale-[1.03] active:scale-[0.97] border border-transparent hover:border-zinc-200 dark:hover:border-zinc-700"
+              className={`group relative flex flex-col bg-white dark:bg-zinc-900 rounded-[2.5rem] overflow-hidden shadow-2xl shadow-zinc-200/50 dark:shadow-none transition-all duration-700 hover:scale-[1.03] active:scale-[0.97] border border-transparent hover:border-zinc-200 dark:hover:border-zinc-700 ${colSpan}`}
               data-aos="fade-up"
               data-aos-delay={(index % 3) * 100}
             >
@@ -68,7 +80,7 @@ export default function PostInfiniteList({
                 <span className="sr-only">View {post.title}</span>
               </Link>
               
-              <div className="relative h-64 w-full overflow-hidden">
+              <div className={`relative ${imageHeight} w-full overflow-hidden`}>
                 <ThemedImage
                   post={post}
                   className="object-cover w-full h-full transition-transform duration-1000 group-hover:scale-110"
@@ -122,6 +134,6 @@ export default function PostInfiniteList({
           — End of transmission —
         </div>
       )}
-    </ListLayout>
+    </>
   )
 }

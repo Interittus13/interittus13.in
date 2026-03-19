@@ -254,12 +254,28 @@ function Block({ block }: { block: BlockObjectResponse }) {
             style={oneDark}
             customStyle={{
               margin: 0,
+              padding: '1.5rem',
               borderRadius: 0,
               fontSize: '0.9rem',
               lineHeight: '1.7',
-              background: '#1a1a2e',
+              backgroundColor: '#1a1a2e', // Deep premium navy
+            }}
+            codeTagProps={{
+              style: {
+                backgroundColor: 'transparent',
+                fontFamily: 'var(--font-mono)',
+              }
             }}
             showLineNumbers={codeText.split('\n').length > 5}
+            lineNumberStyle={{
+              minWidth: '2.5em',
+              paddingRight: '1em',
+              color: '#5c6370',
+              textAlign: 'right',
+              userSelect: 'none',
+              borderRight: '1px solid rgba(255,255,255,0.05)',
+              marginRight: '1.5em',
+            }}
           >
             {codeText}
           </SyntaxHighlighter>

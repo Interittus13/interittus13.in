@@ -111,19 +111,30 @@ export default function Navbar({ toc }: { toc?: any }) {
       {/* Mobile drawer — slides in from top */}
       <div
         ref={drawerRef}
-        className={`fixed top-0 left-0 right-0 z-[99] lg:hidden transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${menuOpen ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'
+        className={`fixed top-0 left-0 right-0 z-[101] lg:hidden transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${menuOpen ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'
           }`}
       >
-        <div className="m-4 mt-4 rounded-[2.5rem] bg-white/95 dark:bg-zinc-900/95 backdrop-blur-3xl border border-white/30 dark:border-zinc-800 shadow-2xl overflow-hidden pt-24 pb-8 px-6">
+        <div className="m-4 rounded-[2.5rem] bg-white/95 dark:bg-zinc-900/95 backdrop-blur-3xl border border-white/30 dark:border-zinc-800 shadow-2xl overflow-hidden pt-20 pb-8 px-6 relative">
+          {/* Close Button inside drawer */}
+          <button
+            onClick={() => setMenuOpen(false)}
+            className="absolute top-6 right-6 w-10 h-10 flex items-center justify-center rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 border border-white/30 dark:border-zinc-700/50 shadow-lg active:scale-90 transition-all z-50"
+            aria-label="Close menu"
+          >
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+
           {/* Nav links */}
-          <nav className="space-y-2">
+          <nav className="space-y-2 mt-4">
             {NAV_ITEMS.map((item) => (
               <Link
                 key={item.name}
                 href={item.link}
                 onClick={() => setMenuOpen(false)}
                 className={`flex items-center px-5 py-4 rounded-2xl text-sm font-black uppercase tracking-widest transition-all duration-300 ${pathname === item.link
-                    ? 'bg-orange-500 text-white shadow-lg shadow-orange-500/30'
+                    ? 'bg-orange-500 text-white shadow-lg shadow-orange-500/30 font-bold'
                     : 'text-zinc-600 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800/80 active:scale-95'
                   }`}
               >

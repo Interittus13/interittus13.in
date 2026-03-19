@@ -64,8 +64,18 @@ export interface MeConfig {
   overview: any[];
   skills: Skill[][];
   education: Education[];
-  openSources: OpenSource[];
-  projects: Project[];
+  intro: {
+    line1: string;
+    highlight: string;
+    line2: string;
+  };
+  titles: Record<string, string>;
+  roles: string[];
+  projects: {
+    employee: Project[];
+    openSource: Project[];
+    other: Project[];
+  };
 }
 
 export interface Skill {
