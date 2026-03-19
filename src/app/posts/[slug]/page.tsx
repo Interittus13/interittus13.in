@@ -166,7 +166,7 @@ function PostHero({ post }: { post: TPost }) {
 
       {/* Summary */}
       {post.summary && (
-        <p className="text-xl md:text-2xl text-zinc-500 dark:text-zinc-400 font-medium leading-relaxed max-w-4xl">
+        <p className="text-2xl md:text-3xl text-zinc-500 dark:text-zinc-400 font-light leading-relaxed max-w-4xl italic opacity-85">
           {post.summary}
         </p>
       )}

@@ -97,15 +97,20 @@ const calloutBgMap: Record<string, string> = {
 // ────────────────────────────────────────────────────────────────────────────
 // Single block renderer
 // ────────────────────────────────────────────────────────────────────────────
-function Block({ block }: { block: BlockObjectResponse }) {
+function Block({ block, isFirst }: { block: BlockObjectResponse; isFirst?: boolean }) {
   const children: BlockObjectResponse[] = (block as any).__children ?? []
 
   switch (block.type) {
     case 'paragraph': {
       const content = (block as any).paragraph.rich_text
       if (!content?.length) return <div className="h-4" />
+      
+      const dropCapClass = isFirst 
+        ? "first-letter:text-7xl first-letter:font-black first-letter:mr-3 first-letter:float-left first-letter:mt-2 first-letter:text-zinc-900 dark:first-letter:text-white first-letter:leading-none"
+        : ""
+
       return (
-        <p className="text-lg md:text-xl text-zinc-700 dark:text-zinc-300 leading-relaxed mb-4">
+        <p className={`text-lg md:text-xl text-zinc-700 dark:text-zinc-300 leading-relaxed mb-6 ${dropCapClass}`}>
           <RichTextContent richText={content} />
         </p>
       )
@@ -543,7 +548,9 @@ export function NotionBlockRenderer({ blocks, isTableContext, hasColumnHeader }:
       elements.push(<Block key={block.id} block={tableRowBlock as any} />)
       i++
     } else {
-      elements.push(<Block key={block.id} block={block} />)
+      // Set isFirst only for the very first block in the main content stream
+      const isFirst = !isTableContext && i === 0
+      elements.push(<Block key={block.id} block={block} isFirst={isFirst} />)
       i++
     }
   }
