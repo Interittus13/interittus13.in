@@ -11,4 +11,7 @@ export const CONFIG = {
       label: '💬 Utterances',
     }, 
   },
+  REVALIDATE: 60,
 }
+
+export const REVALIDATE = CONFIG.REVALIDATE

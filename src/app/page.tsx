@@ -25,7 +25,7 @@ export default async function HomePage() {
                 priority
               />
             </div>
-            
+
             <div className="text-center md:text-left">
               <p className="text-[0.6rem] font-black uppercase tracking-[0.4em] text-zinc-400 dark:text-zinc-500 mb-2">
                 Digital Garden & Notes
@@ -36,7 +36,7 @@ export default async function HomePage() {
               <p className="text-xl text-zinc-500 dark:text-zinc-400 font-medium max-w-xl leading-relaxed italic opacity-90">
                 &quot;{me.bio}&quot;
               </p>
-              
+
               <div className="flex items-center justify-center md:justify-start gap-4 mt-6">
                 {me.social.slice(0, 4).map((link, i) => {
                   const Icon = typeof link.icon === 'string' ? getIconByName(link.icon) : null
@@ -55,7 +55,7 @@ export default async function HomePage() {
               </div>
             </div>
           </div>
-          
+
         </section>
 
         {/* --- Posts Section --- */}

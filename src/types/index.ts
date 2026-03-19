@@ -12,6 +12,8 @@ export type TPost = {
   createdTime: string;
   fullWidth: boolean;
   thumbnail?: string;
+  seoTitle?: string;
+  seoDescription?: string;
   cover?: string;
   coverBlur?: {
     blurLight?: string;

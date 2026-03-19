@@ -82,6 +82,14 @@ export async function getPosts(): Promise<TPost[]> {
       ? (thumbnailFiles[0]?.file?.url ?? thumbnailFiles[0]?.external?.url ?? undefined)
       : (page.cover as any)?.external?.url ?? (page.cover as any)?.file?.url ?? undefined
 
+    // SEO properties
+    const seoTitle = richTextToPlainText(
+      props['SEO Title']?.type === 'rich_text' ? (props['SEO Title'] as any).rich_text : []
+    )
+    const seoDescription = richTextToPlainText(
+      props['SEO Description']?.type === 'rich_text' ? (props['SEO Description'] as any).rich_text : []
+    )
+
     return {
       id: page.id,
       title,
@@ -94,6 +102,8 @@ export async function getPosts(): Promise<TPost[]> {
       createdTime: page.created_time,
       fullWidth: false,
       thumbnail,
+      seoTitle,
+      seoDescription,
     } satisfies TPost
   })
 
