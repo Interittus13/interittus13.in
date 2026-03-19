@@ -376,9 +376,13 @@ function Block({ block }: { block: BlockObjectResponse }) {
     case 'table': {
       const tb = (block as any).table
       return (
-        <div className="my-6 overflow-x-auto rounded-2xl border border-zinc-200 dark:border-zinc-700/50">
-          <table className="w-full text-sm">
-            <NotionBlockRenderer blocks={children} isTableContext />
+        <div className="my-10 overflow-x-auto rounded-2xl border border-zinc-200 dark:border-zinc-700/50 shadow-sm bg-white dark:bg-zinc-900/50">
+          <table className="w-full text-sm border-collapse">
+            <NotionBlockRenderer 
+              blocks={children} 
+              isTableContext 
+              hasColumnHeader={tb.has_column_header}
+            />
           </table>
         </div>
       )
@@ -386,13 +390,21 @@ function Block({ block }: { block: BlockObjectResponse }) {
 
     case 'table_row': {
       const tr = (block as any).table_row
+      const isHeader = (block as any).__isFirstRow && (block as any).__hasColumnHeader
+      
       return (
-        <tr className="border-b border-zinc-200 dark:border-zinc-700/50 even:bg-zinc-50 dark:even:bg-zinc-800/30">
-          {tr.cells.map((cell: RichText[], i: number) => (
-            <td key={i} className="px-4 py-3 text-zinc-700 dark:text-zinc-300">
-              <RichTextContent richText={cell} />
-            </td>
-          ))}
+        <tr className={`border-b border-zinc-200 dark:border-zinc-700/50 transition-colors hover:bg-zinc-50/50 dark:hover:bg-zinc-800/20 ${isHeader ? 'bg-zinc-100/50 dark:bg-zinc-800/80' : ''}`}>
+          {tr.cells.map((cell: RichText[], i: number) => {
+            const CellTag = isHeader ? 'th' : 'td'
+            return (
+              <CellTag 
+                key={i} 
+                className={`px-5 py-4 text-zinc-700 dark:text-zinc-300 ${isHeader ? 'font-black text-zinc-900 dark:text-zinc-100 text-left border-r border-zinc-200/50 dark:border-zinc-700/50 last:border-r-0' : 'border-r border-zinc-200/50 dark:border-zinc-700/50 last:border-r-0'}`}
+              >
+                <RichTextContent richText={cell} />
+              </CellTag>
+            )
+          })}
         </tr>
       )
     }
@@ -491,9 +503,10 @@ function Block({ block }: { block: BlockObjectResponse }) {
 interface RendererProps {
   blocks: BlockObjectResponse[]
   isTableContext?: boolean
+  hasColumnHeader?: boolean
 }
 
-export function NotionBlockRenderer({ blocks, isTableContext }: RendererProps) {
+export function NotionBlockRenderer({ blocks, isTableContext, hasColumnHeader }: RendererProps) {
   const elements: React.ReactNode[] = []
   let i = 0
 
@@ -521,7 +534,13 @@ export function NotionBlockRenderer({ blocks, isTableContext }: RendererProps) {
         </ol>
       )
     } else if (isTableContext && block.type === 'table_row') {
-      elements.push(<Block key={block.id} block={block} />)
+      // Annotate block for the renderer
+      const tableRowBlock = { 
+        ...block, 
+        __isFirstRow: i === 0, 
+        __hasColumnHeader: hasColumnHeader 
+      }
+      elements.push(<Block key={block.id} block={tableRowBlock as any} />)
       i++
     } else {
       elements.push(<Block key={block.id} block={block} />)
