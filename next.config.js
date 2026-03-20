@@ -18,6 +18,8 @@ module.exports = withPWA(
       return config
     },
     images: {
+      qualities: [75, 80, 85, 100],
+      minimumCacheTTL: 60,
       remotePatterns: [
         {
           protocol: 'https',

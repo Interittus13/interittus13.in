@@ -34,7 +34,7 @@ const Comment = ({}: Props) => {
         Comments
       </h1>
       <div className="my-8">
-        <Giscus theme={resolvedTheme === "dark" ? "light" : "light"} />
+        <Giscus theme={resolvedTheme === "dark" ? "dark" : "light"} />
       </div>
     </div>
   )

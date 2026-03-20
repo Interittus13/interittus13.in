@@ -29,6 +29,7 @@ const LocationCard: React.FC<LocationProps> = ({ location }) => {
                     placeholder="blur"
                     priority={false}
                     quality={85}
+                    sizes="(max-width: 768px) 100vw, 50vw"
                 />
             )}
         </>

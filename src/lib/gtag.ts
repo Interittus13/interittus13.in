@@ -1,9 +1,10 @@
-export const GA_TRACKING_ID = process.env.GOOGLE_ANALYTICS_VIEW_ID || "G-HGPG08YYC4"
+export const GA_TRACKING_ID = process.env.NEXT_PUBLIC_GA_ID || "G-HGPG08YYC4"
 
 export const pageview = (url: string, title: string) => {
   window.gtag('config', GA_TRACKING_ID, {
     page_location: url,
     page_title: title,
+    debug_mode: 1,
   })
 }
 

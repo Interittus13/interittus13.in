@@ -31,6 +31,7 @@ async function fetchBlocksRecursively(blockId: string): Promise<BlockObjectRespo
           block.type === 'synced_block' ||
           block.type === 'template' ||
           block.type === 'to_do' ||
+          block.type === 'table' ||
           block.type === 'paragraph')
       ) {
         const children = await fetchBlocksRecursively(block.id)

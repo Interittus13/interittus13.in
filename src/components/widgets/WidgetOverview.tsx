@@ -72,7 +72,7 @@ export const WidgetOverViewMedium: FC<{ posts: TPost[]; fix?: boolean }> = ({ po
 
   return (
     <div 
-      className={`group relative overflow-hidden bg-white/70 dark:bg-zinc-900/70 backdrop-blur-3xl rounded-[3rem] border border-zinc-100 dark:border-zinc-800 shadow-2xl shadow-zinc-200/50 dark:shadow-none transition-all duration-700 hover:scale-[1.02] hover:shadow-3xl ${fix ? 'h-35 lg:h-40' : 'h-40 lg:h-48'}`}
+      className={`group relative overflow-hidden bg-white/70 dark:bg-zinc-900/70 backdrop-blur-3xl rounded-[3rem] border border-zinc-100 dark:border-zinc-800 shadow-2xl shadow-zinc-200/50 dark:shadow-none transition-all duration-700 hover:scale-[1.02] hover:shadow-3xl ${fix ? 'min-h-[160px] lg:min-h-[180px]' : 'min-h-[180px] lg:min-h-[200px]'}`}
       data-aos="fade-up"
     >
       <div className="flex h-full p-8 lg:p-10">

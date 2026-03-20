@@ -12,6 +12,8 @@ export type TPost = {
   createdTime: string;
   fullWidth: boolean;
   thumbnail?: string;
+  seoTitle?: string;
+  seoDescription?: string;
   cover?: string;
   coverBlur?: {
     blurLight?: string;
@@ -53,14 +55,29 @@ export interface Location {
 }
 
 export interface MeConfig {
+  site: string;
   name: string;
+  nickname: string;
   image: string;
+  email: string;
   location: Location;
+  bio: string;
   social: SocialLink[];
+  overview: any[];
   skills: Skill[][];
   education: Education[];
-  openSources: OpenSource[];
-  projects: Project[];
+  intro: {
+    line1: string;
+    highlight: string;
+    line2: string;
+  };
+  titles: Record<string, string>;
+  roles: string[];
+  projects: {
+    employee: Project[];
+    openSource: Project[];
+    other: Project[];
+  };
 }
 
 export interface Skill {
@@ -73,6 +90,8 @@ export interface Education {
   name: string;
   degree: string;
   color: string;
+  time: string;
+  logo: string;
 }
 
 export interface OpenSource {

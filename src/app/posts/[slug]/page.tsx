@@ -15,6 +15,7 @@ import type { TPost } from '@/src/types'
 import React from 'react'
 import ReadingProgress from '@/src/components/post/ReadingProgress'
 
+
 // ─── Metadata ────────────────────────────────────────────────────────────────
 
 export async function generateStaticParams() {
@@ -34,18 +35,22 @@ export async function generateMetadata({
   const { slug } = await params
   const post = filterPosts(await getPosts()).find((p) => p.slug === slug)
   if (!post) return { title: 'Post Not Found' }
+
+  const metaTitle = post.seoTitle || post.title
+  const metaDescription = post.seoDescription || post.summary
+
   return {
-    title: post.title,
-    description: post.summary,
+    title: metaTitle,
+    description: metaDescription,
     openGraph: {
-      title: post.title,
-      description: post.summary,
+      title: metaTitle,
+      description: metaDescription,
       images: post.thumbnail ? [post.thumbnail] : [],
     },
     twitter: {
       card: 'summary_large_image',
-      title: post.title,
-      description: post.summary,
+      title: metaTitle,
+      description: metaDescription,
     },
   }
 }
@@ -84,7 +89,7 @@ export default async function PostPage({
         {post.thumbnail && <PostCover post={post} />}
 
         {/* ── Article body ── */}
-        <section className="max-w-3xl mx-auto px-5 md:px-8 mt-16 md:mt-24">
+        <section className="max-w-4xl mx-auto px-5 md:px-8 mt-8 md:mt-12">
           <ContentRenderer blocks={blocks} />
         </section>
 
@@ -94,7 +99,7 @@ export default async function PostPage({
         )}
 
         {/* ── Share ── */}
-        <div className="max-w-3xl mx-auto px-5 md:px-8 mt-12 pt-8 border-t border-zinc-100 dark:border-zinc-800/50">
+        <div className="max-w-4xl mx-auto px-5 md:px-8 mt-8 pt-8 border-t border-zinc-100 dark:border-zinc-800/50">
           <p className="text-xs font-black uppercase tracking-widest text-zinc-400 mb-4">Share</p>
           <Share />
         </div>
@@ -111,7 +116,7 @@ export default async function PostPage({
         </div>
 
         {/* ── Comments ── */}
-        <div className="max-w-3xl mx-auto px-5 md:px-8 mt-20 mb-32">
+        <div className="max-w-4xl mx-auto px-5 md:px-8 mt-12 mb-32">
           <Comment />
         </div>
       </main>
@@ -128,7 +133,7 @@ function PostHero({ post }: { post: TPost }) {
     : undefined
 
   return (
-    <header className="max-w-4xl mx-auto px-5 md:px-8 pt-32 md:pt-40 pb-12">
+    <header className="max-w-4xl mx-auto px-5 md:px-8 pt-32 md:pt-40 pb-8">
       {/* Breadcrumb row */}
       <div className="flex items-center gap-3 mb-8 flex-wrap">
         {category && (
@@ -161,7 +166,7 @@ function PostHero({ post }: { post: TPost }) {
 
       {/* Summary */}
       {post.summary && (
-        <p className="text-xl md:text-2xl text-zinc-500 dark:text-zinc-400 font-medium leading-relaxed max-w-2xl">
+        <p className="text-2xl md:text-3xl text-zinc-500 dark:text-zinc-400 font-light leading-relaxed max-w-4xl italic opacity-85">
           {post.summary}
         </p>
       )}
@@ -186,7 +191,7 @@ function PostCover({ post }: { post: TPost }) {
 
 function PostTags({ tags }: { tags: string[] }) {
   return (
-    <div className="max-w-3xl mx-auto px-5 md:px-8 mt-16 pt-10 border-t border-zinc-100 dark:border-zinc-800/50">
+    <div className="max-w-4xl mx-auto px-5 md:px-8 mt-12 pt-10 border-t border-zinc-100 dark:border-zinc-800/50">
       <p className="text-xs font-black uppercase tracking-widest text-zinc-400 mb-4">Tagged</p>
       <div className="flex flex-wrap gap-2">
         {tags.map((tag) => (

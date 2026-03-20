@@ -66,7 +66,7 @@ export interface ThemedImageProps {
       <Image
         priority={priority}
         src={src}
-        quality={quality}
+        {...(src !== EMPTY_IMAGE ? { quality } : {})}
         fill
         style={{ objectFit: 'cover' }}
         alt={post.title}
