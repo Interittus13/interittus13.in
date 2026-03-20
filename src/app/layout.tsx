@@ -3,8 +3,6 @@ import { CONFIG } from '../config/blog'
 import Providers from '../components/Providers'
 import BlogLayout from '../components/layout/BlogLayout'
 import '../styles/globals.css'
-import Script from 'next/script'
-import { GA_TRACKING_ID } from '../lib/gtag'
 import GoogleAnalytics from '../components/analytics/GoogleAnalytics'
 
 export const metadata: Metadata = {
@@ -43,7 +41,7 @@ export default function RootLayout({
             {children}
           </BlogLayout>
         </Providers>
-        
+
         <GoogleAnalytics />
       </body>
     </html>

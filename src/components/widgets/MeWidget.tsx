@@ -60,13 +60,13 @@ export const WidgetMeSmall: React.FC = () => {
 export const WidgetMeMedium: React.FC<{ fix?: boolean }> = ({ fix }) => {
   return (
     <div
-      className={`group relative overflow-hidden bg-white/70 dark:bg-zinc-900/70 backdrop-blur-3xl rounded-[3rem] border border-zinc-100 dark:border-zinc-800 shadow-2xl shadow-zinc-200/50 dark:shadow-none transition-all duration-700 hover:scale-[1.02] hover:shadow-3xl ${fix ? 'h-35 lg:h-40' : 'h-40 lg:h-48'}`}
+      className={`group relative overflow-hidden bg-white/70 dark:bg-zinc-900/70 backdrop-blur-3xl rounded-[3rem] border border-zinc-100 dark:border-zinc-800 shadow-2xl shadow-zinc-200/50 dark:shadow-none transition-all duration-700 hover:scale-[1.02] hover:shadow-3xl ${fix ? 'min-h-[160px] lg:min-h-[180px]' : 'min-h-[180px] lg:min-h-[200px]'}`}
       data-aos="fade-up"
     >
       <Link href="/me" className="absolute inset-0 z-10" />
-      <div className="flex h-full">
-        <div className="w-1/3 p-6 flex items-center justify-center">
-          <div className="relative aspect-square w-full rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white dark:border-zinc-800 transition-transform duration-700 group-hover:rotate-3 group-hover:scale-105">
+      <div className="flex h-full items-center">
+        <div className="w-1/3 p-6 pr-0 flex items-center justify-center">
+          <div className="relative aspect-square w-full max-w-[120px] rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white dark:border-zinc-800 transition-transform duration-700 group-hover:rotate-3 group-hover:scale-105">
             <Image
               src={me.image}
               fill
@@ -86,22 +86,20 @@ export const WidgetMeMedium: React.FC<{ fix?: boolean }> = ({ fix }) => {
             {me.bio}
           </p>
 
-          <div className="flex gap-3 mt-6 z-20 overflow-x-auto scrollbar-hide pb-2">
+          <div className="flex flex-wrap gap-2.5 mt-6 z-20">
             {me.social.map((link) => (
               <a
                 key={link.url}
                 href={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`flex-shrink-0 min-w-8 h-8 flex items-center gap-2 px-3 rounded-xl bg-gradient-to-tr ${link.color} text-white shadow-lg transition-all hover:scale-105 active:scale-95`}
+                className={`w-10 h-10 flex items-center justify-center rounded-2xl bg-gradient-to-tr ${link.color} text-white shadow-lg shadow-zinc-200/50 dark:shadow-none transition-all hover:scale-110 active:scale-90 hover:rotate-3`}
+                title={link.name}
               >
                 {(() => {
                   const Icon = typeof link.icon === 'string' ? getIconByName(link.icon) : link.icon
-                  return Icon ? <Icon className="w-3.5 h-3.5 fill-current" /> : null
+                  return Icon ? <Icon className="w-4 h-4 fill-current" /> : null
                 })()}
-                <span className="text-[0.6rem] font-black uppercase tracking-widest hidden lg:block">
-                  {link.id !== 'optional' && link.name}
-                </span>
               </a>
             ))}
           </div>
