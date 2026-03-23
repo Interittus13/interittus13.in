@@ -32,7 +32,7 @@ function AnalyticsContent() {
             gtag('js', new Date());
             gtag('config', '${GA_TRACKING_ID}', {
               page_path: window.location.pathname,
-              debug_mode: 1,
+              // debug_mode: 1,
             });
           `,
         }}

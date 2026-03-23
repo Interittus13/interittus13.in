@@ -4,7 +4,7 @@ export const pageview = (url: string, title: string) => {
   window.gtag('config', GA_TRACKING_ID, {
     page_location: url,
     page_title: title,
-    debug_mode: 1,
+    // debug_mode: 1,
   })
 }
 

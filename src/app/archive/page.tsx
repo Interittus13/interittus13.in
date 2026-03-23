@@ -5,7 +5,7 @@ import moment from "moment"
 import Link from "next/link"
 import FormattedDate from "@/src/components/ui/FormattedDate"
 import ThemedImage from "@/src/components/post/ThemedImage"
-import { Colors, getColorClassByName } from "@/src/lib/utils/colors"
+import { getCategoryTextColor } from "@/src/lib/utils/categoryColors"
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -60,7 +60,7 @@ export default async function ArchivePage() {
                <div className="flex flex-col gap-8 md:pl-16">
                   {postsByYear[year].map((post, postIndex) => {
                     const category = post.category?.[0] || 'Other'
-                    const categoryColor = Colors[getColorClassByName(category)]?.text.normal
+                    const categoryColor = getCategoryTextColor(category)
 
                     return (
                       <article 

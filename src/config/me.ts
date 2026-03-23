@@ -42,6 +42,8 @@ export const me = {
     spotlightTitle: "Professional Work",
     openSourceHeader: "Contributions",
     openSourceTitle: "Open Source",
+    freelancerHeader: "Freelance",
+    freelancerTitle: "Independent Work",
     otherHeader: "Experiments",
     otherTitle: "Other Works",
   },
@@ -63,7 +65,7 @@ export const me = {
   education: [
     {
       name: "Empower Solutions",
-      time: "2024",
+      time: "2024-2025",
       degree: "DevOps Engineer",
       color: "red",
       logo: "/static/images/nyit.png",
@@ -76,7 +78,7 @@ export const me = {
       logo: "/static/images/neu.png",
     },
     {
-      name: "Myongji University",
+      name: "Subharti University",
       time: "2019-2022",
       degree: "BS, Computer Science",
       color: "blue",
@@ -84,57 +86,9 @@ export const me = {
     },
   ],
   projects: {
-    employee: [
-      {
-        name: "BoomerangFx",
-        description:
-          "BoomerangFX is a cloud-based SaaS platform designed for aesthetic medicine, cosmetic surgery, and wellness clinics.",
-        link: "https://www.boomerangfx.com",
-        image: "/static/images/coquality/view.svg",
-        logo: {
-          light: "/static/images/boomerangfx/logo_dark.svg",
-          dark: "/static/images/boomerangfx/logo_dark.svg",
-        },
-        tip: "Coming Soon on App Store",
-        spotlight: true,
-      },
-      {
-        name: "PlanOmatic",
-        description:
-          "PlanOmatic provides property insights, 3D tours, floor plans, and photography services for real estate professionals.",
-        logo: {
-          light: "/static/images/planomatic/logo.svg",
-          dark: "/static/images/planomatic/logo.svg",
-        },
-        link: "https://www.planomatic.com/",
-        video: "/static/videos/highlight.mov",
-        tags: ["Web App", "Database Design", "Recommendation algorithm"],
-      },
-    ],
-    openSource: [
-      {
-        name: "morethan-log",
-        description: "A static blog using notion database 😎",
-        link: "https://github.com/morethanmin/morethan-log",
-        logo: {
-          light: "/static/images/github-logo.svg",
-          dark: "/static/images/github-logo.svg",
-        },
-        tags: ["Next.js", "Notion API", "Blog Template"],
-        spotlight: true,
-      },
-      {
-        name: "Azure Cost Tracker - ACT",
-        description:
-          "A Python tool for tracking Azure subscription costs, generating reports, and sending automated email notifications.",
-        link: "https://github.com/interittus13/AzureCostTracker",
-        logo: {
-          light: "/static/images/github-logo.svg",
-          dark: "/static/images/github-logo.svg",
-        },
-        tags: ["Python", "Azure", "Automation"],
-      },
-    ],
+    employee: [],
+    freelancer: [],
+    openSource: [],
     other: [],
   },
   skills: [

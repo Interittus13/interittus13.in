@@ -13,7 +13,6 @@ import { Bar } from 'react-chartjs-2'
 import useSWRImmutable from 'swr/immutable'
 import { useTheme } from 'next-themes'
 import gradient from 'chartjs-plugin-gradient'
-import { Colors } from '@/src/lib/utils/colors'
 import { Tooltip } from '@/src/components/ui/Tooltip'
 import { TPost } from '@/src/types'
 
