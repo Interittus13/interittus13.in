@@ -9,7 +9,7 @@ export const me = {
   name: "Arpit Gupta",
   nickname: "interittus13",
   image: "/static/images/portrait.png",
-  email: "mailto:morethanmin.dev@gmail.com",
+  email: "mailto:arpit.gupta.0121@gmail.com",
   location: {
     name: "Indore, India",
     map: {
