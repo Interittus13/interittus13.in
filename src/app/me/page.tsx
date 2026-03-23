@@ -37,8 +37,6 @@ export default async function MePage() {
                   sizes="(max-width: 768px) 160px, 208px"
                 />
               </div>
-              {/* Status dot */}
-              <div className="absolute bottom-3 right-3 w-5 h-5 rounded-full bg-emerald-400 border-4 border-white dark:border-zinc-800 shadow-lg" />
             </div>
 
             {/* Text */}
