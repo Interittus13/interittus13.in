@@ -1,38 +1,14 @@
-import notion from '@/src/lib/notion/client'
+import { fetchNotionPages, richTextToPlainText } from '../notion/fetchNotionDatabase'
 import { TPost } from '../../types'
 import type { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints'
 
 /**
- * Extract plain text from Notion rich text array
- */
-function richTextToPlainText(richText: any[]): string {
-  return richText?.map((t: any) => t.plain_text).join('') ?? ''
-}
-
-/**
  * Fetch all published posts from the Notion database using the official API.
+ * Defaults to fetching items with type === 'Post'.
  */
 export async function getPosts(): Promise<TPost[]> {
-  const databaseId = process.env.NOTION_DATABASE_ID
-  if (!databaseId) {
-    console.warn('NOTION_DATABASE_ID is not set. Returning empty posts array.')
-    return []
-  }
-
-  const pages: PageObjectResponse[] = []
-  let cursor: string | undefined = undefined
-
-  // Paginate through all results
-  do {
-    const response = await notion.databases.query({
-      database_id: databaseId,
-      start_cursor: cursor,
-      page_size: 100,
-    })
-    pages.push(...(response.results as PageObjectResponse[]))
-    cursor = response.has_more ? (response.next_cursor ?? undefined) : undefined
-  } while (cursor)
-
+  const pages = await fetchNotionPages(process.env.NOTION_DATABASE_ID, 'Post')
+  
   const posts: TPost[] = pages.map((page) => {
     const props = page.properties
 
@@ -51,7 +27,7 @@ export async function getPosts(): Promise<TPost[]> {
       props['summary']?.type === 'rich_text' ? (props['summary'] as any).rich_text : []
     )
 
-    // status property (single select) — wrap in array for TPost compatibility
+    // status property (single select)
     const statusSelect = props['status']?.type === 'select'
       ? (props['status'] as any).select?.name
       : undefined
@@ -62,7 +38,7 @@ export async function getPosts(): Promise<TPost[]> {
       ? (props['tags'] as any).multi_select.map((s: any) => s.name)
       : []
 
-    // category property (single select — wrapped in array for TPost compatibility)
+    // category property (single select)
     const categorySelect = props['category']?.type === 'select'
       ? (props['category'] as any).select?.name
       : undefined

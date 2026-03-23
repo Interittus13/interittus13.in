@@ -75,6 +75,7 @@ export interface MeConfig {
   roles: string[];
   projects: {
     employee: Project[];
+    freelancer: Project[];
     openSource: Project[];
     other: Project[];
   };
@@ -112,6 +113,7 @@ export interface Project {
   tip?: string;
   tags?: string[];
   spotlight?: boolean;
+  category?: string;
 }
 
 export type ThemeType = "dark" | "light";

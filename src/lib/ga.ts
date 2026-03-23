@@ -26,7 +26,7 @@ if (fs.existsSync(keyFilePath)) {
       credentials: JSON.parse(serviceAccountKey),
     })
   } catch (error) {
-    console.error('Failed to parse GA_SERVICE_ACCOUNT_KEY:', error)
+    // Silent fail in production
     analyticsDataClient = new BetaAnalyticsDataClient()
   }
 } else {
@@ -37,7 +37,6 @@ export async function getGA4Metrics(dateRange = '30daysAgo') {
   const isAuthReady = fs.existsSync(keyFilePath) || !!serviceAccountKey
 
   if (!propertyId || !isAuthReady) {
-    console.warn('GA4 credentials or Property ID missing. Returning fallback data.')
     return { pageViews: 0, activeUsers: 0 }
   }
 
@@ -61,7 +60,6 @@ export async function getGA4Metrics(dateRange = '30daysAgo') {
 
     return { pageViews, activeUsers }
   } catch (error) {
-    console.error('GA4 Fetch Insight:', error instanceof Error ? error.message : 'Unknown error')
     return { pageViews: 0, activeUsers: 0 }
   }
 }

@@ -1,5 +1,5 @@
 import { Education } from '@/src/types'
-import { Colors } from '@/src/lib/utils/colors'
+import Image from 'next/image'
 
 interface EducationSectionProps {
   education: Education[]
@@ -45,11 +45,14 @@ const EducationSection: React.FC<EducationSectionProps> = ({ education, header, 
               <div key={item.name} className="flex gap-5 items-start relative" data-aos="fade-up" data-aos-delay={index * 100}>
                 {/* Dot */}
                 <div
-                  className={`relative z-10 flex-shrink-0 w-9 h-9 rounded-2xl bg-gradient-to-br ${gradient} flex items-center justify-center shadow-lg`}
+                  className="relative z-10 flex-shrink-0 w-10 h-10 rounded-2xl bg-white dark:bg-zinc-800 flex items-center justify-center shadow-lg border-2 border-white dark:border-zinc-800"
                 >
-                  <span className="text-white font-black text-[0.55rem]">
-                    {item.time.split('-')[0]}
-                  </span>
+                  <Image
+                    src={item.logo}
+                    fill
+                    className="object-contain p-1"
+                    alt={item.name}
+                  />
                 </div>
 
                 {/* Content */}

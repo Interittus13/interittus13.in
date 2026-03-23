@@ -1,4 +1,6 @@
-import React from 'react'
+"use client"
+
+import React, { useRef, useState } from 'react'
 import Image from 'next/image'
 import { Project } from '@/src/types'
 
@@ -9,7 +11,31 @@ interface ProjectSpotlightProps {
 }
 
 export const ProjectSpotlight: React.FC<ProjectSpotlightProps> = ({ projects, header, title }) => {
+  const scrollRef = useRef<HTMLDivElement>(null)
+  const [isDragging, setIsDragging] = useState(false)
+  const [startX, setStartX] = useState(0)
+  const [scrollLeft, setScrollLeft] = useState(0)
+
   if (projects.length === 0) return null
+
+  // Drag-to-scroll handlers
+  const onMouseDown = (e: React.MouseEvent) => {
+    if (!scrollRef.current) return
+    setIsDragging(true)
+    setStartX(e.pageX - scrollRef.current.offsetLeft)
+    setScrollLeft(scrollRef.current.scrollLeft)
+  }
+
+  const onMouseUp = () => setIsDragging(false)
+  const onMouseLeave = () => setIsDragging(false)
+
+  const onMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging || !scrollRef.current) return
+    e.preventDefault()
+    const x = e.pageX - scrollRef.current.offsetLeft
+    const walk = (x - startX) * 2 // Scroll speed
+    scrollRef.current.scrollLeft = scrollLeft - walk
+  }
 
   return (
     <div className="relative w-full overflow-hidden mb-24">
@@ -25,11 +51,20 @@ export const ProjectSpotlight: React.FC<ProjectSpotlightProps> = ({ projects, he
       </div>
 
       {/* Carousel Container */}
-      <div className="flex gap-6 overflow-x-auto px-5 md:px-8 pb-10 snap-x snap-mandatory scrollbar-hide no-scrollbar">
+      <div 
+        ref={scrollRef}
+        onMouseDown={onMouseDown}
+        onMouseMove={onMouseMove}
+        onMouseUp={onMouseUp}
+        onMouseLeave={onMouseLeave}
+        className={`flex gap-6 overflow-x-auto px-5 md:px-12 pb-10 snap-x snap-mandatory scrollbar-hide no-scrollbar cursor-grab active:cursor-grabbing select-none ${
+          projects.length <= 2 ? 'md:justify-center' : 'justify-start'
+        }`}
+      >
         {projects.map((project, i) => (
           <div 
             key={project.name}
-            className="flex-shrink-0 w-[85vw] md:w-[600px] snap-center"
+            className="flex-shrink-0 w-[85vw] md:w-[500px] lg:w-[600px] snap-center py-4"
             data-aos="fade-left"
             data-aos-delay={i * 150}
           >
@@ -56,7 +91,7 @@ export const ProjectSpotlight: React.FC<ProjectSpotlightProps> = ({ projects, he
                     <Image
                       src={project.logo.light}
                       fill
-                      className="object-contain p-2"
+                      className="object-contain p-1"
                       alt={project.name}
                     />
                   </div>
@@ -86,8 +121,8 @@ export const ProjectSpotlight: React.FC<ProjectSpotlightProps> = ({ projects, he
             </div>
           </div>
         ))}
-        {/* Spacer for end of scroll */}
-        <div className="flex-shrink-0 w-8 md:w-32 h-1" />
+        {/* Spacer for end of scroll - Only if many projects */}
+        {projects.length > 2 && <div className="flex-shrink-0 w-8 md:w-32 h-1" />}
       </div>
     </div>
   )

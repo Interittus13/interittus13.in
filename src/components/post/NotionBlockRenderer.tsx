@@ -4,8 +4,7 @@ import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
-// eslint-disable-next-line
-const oneDark = require('react-syntax-highlighter/dist/cjs/styles/prism').oneDark
+import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import type { BlockObjectResponse } from '@notionhq/client/build/src/api-endpoints'
 
 type RichText = {
@@ -301,12 +300,14 @@ function Block({ block, isFirst }: { block: BlockObjectResponse; isFirst?: boole
       return (
         <figure className="my-8">
           <div className="relative w-full rounded-2xl overflow-hidden border border-zinc-200 dark:border-zinc-700/50 shadow-sm">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+            <Image
               src={url}
               alt={caption || 'Blog image'}
+              width={1200}
+              height={800}
               className="w-full h-auto object-cover"
               loading="lazy"
+              unoptimized // Notion signed URLs often change
             />
           </div>
           {caption && (

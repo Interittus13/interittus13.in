@@ -50,7 +50,6 @@ async function fetchBlocksRecursively(blockId: string): Promise<BlockObjectRespo
  */
 export const getPostBlocks = async (pageId: string): Promise<BlockObjectResponse[] | null> => {
   if (!pageId || pageId === 'undefined') {
-    console.warn('Invalid pageId provided to getPostBlocks.')
     return null
   }
 
@@ -58,7 +57,6 @@ export const getPostBlocks = async (pageId: string): Promise<BlockObjectResponse
     const blocks = await fetchBlocksRecursively(pageId)
     return blocks
   } catch (error) {
-    console.error('Failed to fetch post blocks:', error)
     return null
   }
 }
