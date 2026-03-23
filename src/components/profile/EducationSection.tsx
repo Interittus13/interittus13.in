@@ -1,3 +1,6 @@
+'use client'
+
+import React, { useState } from 'react'
 import { Education } from '@/src/types'
 import Image from 'next/image'
 
@@ -14,6 +17,30 @@ const COLOR_MAP: Record<string, string> = {
   green: 'from-emerald-400 to-teal-600',
   purple: 'from-violet-500 to-purple-700',
   orange: 'from-orange-400 to-amber-600',
+}
+
+const LogoWithFallback: React.FC<{ src: string; alt: string; time: string; gradient: string }> = ({ src, alt, time, gradient }) => {
+  const [error, setError] = useState(false)
+
+  if (error || !src) {
+    return (
+      <div className={`w-full h-full rounded-2xl bg-gradient-to-br ${gradient} flex items-center justify-center`}>
+        <span className="text-white font-black text-[0.55rem]">
+          {time.split('-')[0]}
+        </span>
+      </div>
+    )
+  }
+
+  return (
+    <Image
+      src={src}
+      fill
+      className="object-contain p-1"
+      alt={alt}
+      onError={() => setError(true)}
+    />
+  )
 }
 
 const EducationSection: React.FC<EducationSectionProps> = ({ education, header, title }) => {
@@ -45,13 +72,13 @@ const EducationSection: React.FC<EducationSectionProps> = ({ education, header, 
               <div key={item.name} className="flex gap-5 items-start relative" data-aos="fade-up" data-aos-delay={index * 100}>
                 {/* Dot */}
                 <div
-                  className="relative z-10 flex-shrink-0 w-10 h-10 rounded-2xl bg-white dark:bg-zinc-800 flex items-center justify-center shadow-lg border-2 border-white dark:border-zinc-800"
+                  className="relative z-10 flex-shrink-0 w-10 h-10 rounded-2xl bg-white dark:bg-zinc-800 flex items-center justify-center shadow-lg border border-zinc-100 dark:border-zinc-800 overflow-hidden"
                 >
-                  <Image
+                  <LogoWithFallback
                     src={item.logo}
-                    fill
-                    className="object-contain p-1"
                     alt={item.name}
+                    time={item.time}
+                    gradient={gradient}
                   />
                 </div>
 

@@ -2,7 +2,7 @@ import { getPosts } from '@/src/lib/apis'
 import { filterPosts } from '@/src/lib/apis/filterPosts'
 import { getAllSelectItemsFromPosts } from '@/src/lib/apis/getAllSelectItemsFromPosts'
 import { ListLayout } from '@/src/components/layout/ListLayout'
-import { Colors, getColorClassByName } from '@/src/lib/utils/colors'
+import { getCategoryBgColor, getCategoryTextColor } from '@/src/lib/utils/categoryColors'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 
@@ -33,9 +33,8 @@ export default async function TagsPage() {
         {/* Tags Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {Object.entries(tags).map(([tagName, count], index) => {
-            const color = getColorClassByName(tagName)
-            const colorClass = Colors[color]?.bg.msg || Colors['gray'].bg.msg
-            const textColor = Colors[color]?.text.normal || Colors['gray'].text.normal
+            const colorClass = getCategoryBgColor(tagName)
+            const textColor = getCategoryTextColor(tagName)
 
             return (
               <Link

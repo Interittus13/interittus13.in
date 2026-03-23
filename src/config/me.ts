@@ -65,7 +65,7 @@ export const me = {
   education: [
     {
       name: "Empower Solutions",
-      time: "2024",
+      time: "2024-2025",
       degree: "DevOps Engineer",
       color: "red",
       logo: "/static/images/nyit.png",
@@ -78,7 +78,7 @@ export const me = {
       logo: "/static/images/neu.png",
     },
     {
-      name: "Myongji University",
+      name: "Subharti University",
       time: "2019-2022",
       degree: "BS, Computer Science",
       color: "blue",

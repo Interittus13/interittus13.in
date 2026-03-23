@@ -2,7 +2,7 @@ import { getPostBlocks, getPosts } from '@/src/lib/apis'
 import { filterPosts } from '@/src/lib/apis/filterPosts'
 import ContentRenderer from '@/src/components/post/ContentRenderer'
 import ThemedImage from '@/src/components/post/ThemedImage'
-import { Colors, getColorClassByName } from '@/src/lib/utils/colors'
+import { getCategoryTextColor } from '@/src/lib/utils/categoryColors'
 import Link from 'next/link'
 import FormattedDate from '@/src/components/ui/FormattedDate'
 import { WidgetMeMedium } from '@/src/components/widgets/MeWidget'
@@ -129,7 +129,7 @@ export default async function PostPage({
 function PostHero({ post }: { post: TPost }) {
   const category = post.category?.[0]
   const categoryColor = category
-    ? Colors[getColorClassByName(category)]?.text.normal
+    ? getCategoryTextColor(category)
     : undefined
 
   return (

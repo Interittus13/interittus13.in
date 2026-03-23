@@ -5,7 +5,7 @@ import Link from 'next/link'
 import useSWRInfinite from 'swr/infinite'
 import { useInView } from 'react-intersection-observer'
 import { TPost } from '@/src/types'
-import { Colors, getColorClassByName } from '@/src/lib/utils/colors'
+import { getCategoryTextColor } from '@/src/lib/utils/categoryColors'
 import FormattedDate from '@/src/components/ui/FormattedDate'
 import ThemedImage from './ThemedImage'
 
@@ -54,7 +54,7 @@ export default function PostInfiniteList({
       <div className="grid grid-cols-1 md:grid-cols-12 gap-8 py-10">
         {posts.map((post, index) => {
           const postCategory = post.category?.[0] || 'Other'
-          const categoryColor = Colors[getColorClassByName(postCategory)]?.text.normal
+          const categoryColor = getCategoryTextColor(postCategory)
 
           // Dynamic grid pattern calculation
           const patternIndex = index % 6
