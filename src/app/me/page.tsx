@@ -3,11 +3,12 @@ import Image from 'next/image'
 import Overview from '@/src/components/profile/Overview'
 import { ModernProjectSection } from '@/src/components/profile/projects/ModernProjectSection'
 import { getIconByName } from '@/src/lib/utils/iconMap'
+import { me } from '@/src/config/me'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'About Me',
-  description: 'DevOps Engineer & Cloud Architect. Building scalable infrastructure on Azure & AWS with Kubernetes, Terraform and CI/CD pipelines.',
+  title: me.metadata.title,
+  description: me.metadata.description,
 }
 
 export default async function MePage() {
@@ -64,8 +65,26 @@ export default async function MePage() {
                 {me.intro.line2} {me.bio}
               </p>
 
-              {/* Social icons row ... */}
-              {/* (Social snippet remains roughly the same but data-driven) */}
+              {/* ── Social Icons ── */}
+              <div className="flex items-center gap-4 mb-8" data-aos="fade-up" data-aos-delay="100">
+                {me.social.map((s) => {
+                  const Icon = getIconByName(s.icon)
+                  if (!Icon) return null
+                  return (
+                    <a
+                      key={s.name}
+                      href={s.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`group relative flex items-center justify-center w-12 h-12 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 shadow-xl transition-all duration-500 hover:scale-110 active:scale-90 hover:shadow-2xl hover:-translate-y-1`}
+                      aria-label={s.name}
+                    >
+                      <div className={`absolute inset-0 bg-gradient-to-br ${s.color?.replace(/-bg-/g, '-')} opacity-0 group-hover:opacity-10 dark:group-hover:opacity-20 transition-opacity duration-500 rounded-2xl`} />
+                      <Icon className={`w-5 h-5 transition-all duration-500 ${s.fill} ${s.text} dark:fill-zinc-100 dark:text-zinc-100 group-hover:scale-110 group-hover:fill-current group-hover:text-current`} />
+                    </a>
+                  )
+                })}
+              </div>
             </div>
           </div>
         </div>

@@ -1,19 +1,10 @@
 import { links } from "../config/links";
-import {
-  SiGmail,
-  SiKubernetes,
-  SiTypescript,
-  SiPrometheus,
-  // SiAmazonaws,
-  SiAwslambda,
-  SiAmazons3,
-  SiAmazonec2,
-  SiAmazonecs,
-  SiAmazoneks,
-  SiArgo,
-} from "@icons-pack/react-simple-icons";
 
 export const me = {
+  metadata: {
+    title: 'About Me | Arpit Gupta',
+    description: 'DevOps Engineer & Cloud Architect. Turning infrastructure into code. Turning complexity into scale.',
+  },
   site: "https://www.interittus.in",
   name: "Arpit Gupta",
   nickname: "interittus13",
@@ -26,7 +17,7 @@ export const me = {
       dark: "/static/images/map_dark.png",
     },
   },
-  bio: "💻 🎨 🎮 ⚡️",
+  bio: "Turning infrastructure into code. Turning complexity into scale.",
   intro: {
     line1: "Building scalable cloud infrastructure on ",
     highlight: "Azure & AWS",
@@ -51,7 +42,7 @@ export const me = {
   social: [
     ...links,
     {
-      url: "mailto:morethanmin.dev@gmail.com",
+      url: "mailto:arpit.gupta.0121@gmail.com",
       icon: 'SiGmail',
       fill: "fill-[#DB4437]",
       border: "border-[#DB4437]",

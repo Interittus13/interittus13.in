@@ -2,7 +2,7 @@
 
 import React, { useCallback, useMemo, useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
-import { SiX, SiLinkedin, SiWhatsapp, SiDiscord, SiInstagram } from '@icons-pack/react-simple-icons'
+import { SiX, SiLinkedin, SiWhatsapp, SiDiscord, SiInstagram, SiGithub } from '@icons-pack/react-simple-icons'
 import { me } from '@/src/config/me'
 
 const LinkIcon = () => (
@@ -78,6 +78,13 @@ export const Share = () => {
       color: "text-zinc-500 hover:text-[#5865F2]",
       hoverBg: "hover:bg-[#5865F2]/10",
       action: handleCopy, // Discord/Instagram don't have standard share intents, fallback to copy
+    },
+    {
+      name: "GitHub",
+      icon: <SiGithub size={18} />,
+      color: "text-zinc-500 hover:text-zinc-900 dark:hover:text-white",
+      hoverBg: "hover:bg-zinc-900/10 dark:hover:bg-white/10",
+      action: () => window.open(me.social.find(s => s.name === 'GitHub')?.url || 'https://github.com/interittus13', '_blank'),
     },
     {
       name: "Instagram",

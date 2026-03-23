@@ -5,6 +5,12 @@ import ListLayout from '@/src/components/layout/ListLayout'
 import Image from 'next/image'
 import { me } from '@/src/config/me'
 import { getIconByName } from '@/src/lib/utils/iconMap'
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: me.name,
+  description: me.metadata.description,
+}
 
 export default async function HomePage() {
   const posts = await getPosts()
