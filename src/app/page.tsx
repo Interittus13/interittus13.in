@@ -19,7 +19,7 @@ export default async function HomePage() {
   return (
     <main className="min-h-screen">
       <ListLayout>
-        {/* --- Home Hero Section --- */}
+        {/* Home Hero Section */}
         <section className="mb-12" data-aos="fade-up">
           <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
             <div className="relative w-32 h-32 md:w-40 md:h-40 rounded-[2.5rem] overflow-hidden border-4 border-white dark:border-zinc-800 shadow-2xl shrink-0 rotate-[-3deg] hover:rotate-0 transition-transform duration-700">
@@ -64,7 +64,7 @@ export default async function HomePage() {
 
         </section>
 
-        {/* --- Posts Section --- */}
+        {/*Posts Section */}
         <section className="w-full">
           <div className="flex items-center gap-4 mb-10">
             <h2 className="text-2xl font-black tracking-tight text-zinc-900 dark:text-zinc-100">

@@ -20,9 +20,7 @@ type RichText = {
   }
 }
 
-// ────────────────────────────────────────────────────────────────────────────
 // Rich text span renderer
-// ────────────────────────────────────────────────────────────────────────────
 function RichTextSpan({ text }: { text: RichText }) {
   const { annotations, href, plain_text } = text
   const colorMap: Record<string, string> = {
@@ -78,9 +76,7 @@ function RichTextContent({ richText }: { richText: RichText[] }) {
   )
 }
 
-// ────────────────────────────────────────────────────────────────────────────
 // Callout icons
-// ────────────────────────────────────────────────────────────────────────────
 const calloutBgMap: Record<string, string> = {
   blue_background: 'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800',
   red_background: 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800',
@@ -93,9 +89,7 @@ const calloutBgMap: Record<string, string> = {
   default: 'bg-zinc-50 dark:bg-zinc-800/50 border-zinc-200 dark:border-zinc-700',
 }
 
-// ────────────────────────────────────────────────────────────────────────────
 // Single block renderer
-// ────────────────────────────────────────────────────────────────────────────
 function Block({ block, isFirst }: { block: BlockObjectResponse; isFirst?: boolean }) {
   const children: BlockObjectResponse[] = (block as any).__children ?? []
 
@@ -503,9 +497,7 @@ function Block({ block, isFirst }: { block: BlockObjectResponse; isFirst?: boole
   }
 }
 
-// ────────────────────────────────────────────────────────────────────────────
 // Group consecutive list items into <ul> / <ol>
-// ────────────────────────────────────────────────────────────────────────────
 interface RendererProps {
   blocks: BlockObjectResponse[]
   isTableContext?: boolean

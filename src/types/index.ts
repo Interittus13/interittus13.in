@@ -61,7 +61,6 @@ export interface MeConfig {
   nickname: string;
   image: string;
   email: string;
-  location: Location;
   bio: string;
   social: SocialLink[];
   overview: any[];

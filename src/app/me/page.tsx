@@ -16,7 +16,7 @@ export default async function MePage() {
 
   return (
     <main className="min-h-screen">
-      {/* ── Hero ── */}
+      {/* Hero */}
       <section className="relative pt-32 md:pt-44 pb-20 px-5 md:px-8 overflow-hidden">
         {/* Background glow */}
         <div className="absolute inset-0 pointer-events-none">
@@ -63,7 +63,7 @@ export default async function MePage() {
                 {me.intro.line2} {me.bio}
               </p>
 
-              {/* ── Social Icons ── */}
+              {/* Social Icons */}
               <div className="flex items-center gap-4 mb-8" data-aos="fade-up" data-aos-delay="100">
                 {me.social.map((s) => {
                   const Icon = getIconByName(s.icon)
@@ -88,7 +88,7 @@ export default async function MePage() {
         </div>
       </section>
 
-      {/* ── Bento overview grid ── */}
+      {/* Bento overview grid */}
       <section className="max-w-5xl mx-auto px-5 md:px-8 mb-24">
         <div className="p-1 rounded-[3rem] bg-gradient-to-tr from-orange-500/15 via-transparent to-violet-500/15">
           <div className="bg-white/50 dark:bg-zinc-900/50 backdrop-blur-3xl rounded-[2.9rem] p-5 md:p-8 border border-white/20 dark:border-zinc-800/50">
@@ -97,7 +97,7 @@ export default async function MePage() {
         </div>
       </section>
 
-      {/* ── Featured Projects ── */}
+      {/* Featured Projects */}
       <section id="projects" className="pb-32">
         <div className="max-w-5xl mx-auto px-5 md:px-8 mb-14 text-center" data-aos="fade-up">
           <p className="text-[0.6rem] font-black uppercase tracking-[0.35em] text-zinc-400 dark:text-zinc-500 mb-3">

@@ -10,9 +10,6 @@ export const me = {
   nickname: "interittus13",
   image: "/static/images/portrait.png",
   email: "mailto:arpit.gupta.0121@gmail.com",
-  location: {
-    name: "Indore, India",
-  },
   bio: "Turning infrastructure into code. Turning complexity into scale.",
   intro: {
     line1: "Building scalable cloud infrastructure on ",
