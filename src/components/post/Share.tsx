@@ -34,14 +34,17 @@ export const Share = () => {
   const [copied, setCopied] = useState(false)
   const [scrolled, setScrolled] = useState(false)
 
-  const shareUrl = useMemo(() => me.site + pathname, [pathname])
-  const shareText = "Check out this post on interittus.in!"
+  const [origin, setOrigin] = useState('')
 
   useEffect(() => {
+    setOrigin(window.location.origin)
     const handleScroll = () => setScrolled(window.scrollY > 400)
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
+
+  const shareUrl = useMemo(() => (origin || me.site) + pathname, [pathname, origin])
+  const shareText = "Check out this post on interittus.in!"
 
   const handleCopy = useCallback(() => {
     navigator.clipboard.writeText(shareUrl)

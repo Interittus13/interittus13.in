@@ -1,6 +1,7 @@
 export const CONFIG = {
   BLOG_TITLE: 'interittus13',
-  link: 'https://interittus.in',
+  link: process.env.NEXT_PUBLIC_SITE_URL || 
+        (process.env.NEXT_PUBLIC_VERCEL_URL ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` : 'https://interittus.in'),
   NOTION_PAGE_ID: process.env.NOTION_PAGE_ID as string,
   DATE_FORMAT: 'DD MMM YYYY',
   GISCUS: {
