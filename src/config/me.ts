@@ -1,32 +1,16 @@
 import { links } from "../config/links";
-import {
-  SiGmail,
-  SiKubernetes,
-  SiTypescript,
-  SiPrometheus,
-  // SiAmazonaws,
-  SiAwslambda,
-  SiAmazons3,
-  SiAmazonec2,
-  SiAmazonecs,
-  SiAmazoneks,
-  SiArgo,
-} from "@icons-pack/react-simple-icons";
 
 export const me = {
+  metadata: {
+    title: 'About Me | Arpit Gupta',
+    description: 'DevOps Engineer & Cloud Architect. Turning infrastructure into code. Turning complexity into scale.',
+  },
   site: "https://www.interittus.in",
   name: "Arpit Gupta",
   nickname: "interittus13",
   image: "/static/images/portrait.png",
-  email: "mailto:morethanmin.dev@gmail.com",
-  location: {
-    name: "Indore, India",
-    map: {
-      light: "/static/images/map_light.png",
-      dark: "/static/images/map_dark.png",
-    },
-  },
-  bio: "💻 🎨 🎮 ⚡️",
+  email: "mailto:arpit.gupta.0121@gmail.com",
+  bio: "Turning infrastructure into code. Turning complexity into scale.",
   intro: {
     line1: "Building scalable cloud infrastructure on ",
     highlight: "Azure & AWS",
@@ -42,6 +26,8 @@ export const me = {
     spotlightTitle: "Professional Work",
     openSourceHeader: "Contributions",
     openSourceTitle: "Open Source",
+    freelancerHeader: "Freelance",
+    freelancerTitle: "Independent Work",
     otherHeader: "Experiments",
     otherTitle: "Other Works",
   },
@@ -49,7 +35,7 @@ export const me = {
   social: [
     ...links,
     {
-      url: "mailto:morethanmin.dev@gmail.com",
+      url: "mailto:arpit.gupta.0121@gmail.com",
       icon: 'SiGmail',
       fill: "fill-[#DB4437]",
       border: "border-[#DB4437]",
@@ -63,105 +49,62 @@ export const me = {
   education: [
     {
       name: "Empower Solutions",
-      time: "2024",
+      time: "2024-2025",
       degree: "DevOps Engineer",
       color: "red",
-      logo: "/static/images/nyit.png",
     },
     {
       name: "Mantec Consultants",
       time: "2022-2024",
       degree: "DevOps Engineer",
       color: "yellow",
-      logo: "/static/images/neu.png",
     },
     {
-      name: "Myongji University",
+      name: "Subharti University",
       time: "2019-2022",
       degree: "BS, Computer Science",
       color: "blue",
-      logo: "/static/images/njupt.png",
     },
   ],
   projects: {
-    employee: [
-      {
-        name: "BoomerangFx",
-        description:
-          "BoomerangFX is a cloud-based SaaS platform designed for aesthetic medicine, cosmetic surgery, and wellness clinics.",
-        link: "https://www.boomerangfx.com",
-        image: "/static/images/coquality/view.svg",
-        logo: {
-          light: "/static/images/boomerangfx/logo_dark.svg",
-          dark: "/static/images/boomerangfx/logo_dark.svg",
-        },
-        tip: "Coming Soon on App Store",
-        spotlight: true,
-      },
-      {
-        name: "PlanOmatic",
-        description:
-          "PlanOmatic provides property insights, 3D tours, floor plans, and photography services for real estate professionals.",
-        logo: {
-          light: "/static/images/planomatic/logo.svg",
-          dark: "/static/images/planomatic/logo.svg",
-        },
-        link: "https://www.planomatic.com/",
-        video: "/static/videos/highlight.mov",
-        tags: ["Web App", "Database Design", "Recommendation algorithm"],
-      },
-    ],
-    openSource: [
-      {
-        name: "morethan-log",
-        description: "A static blog using notion database 😎",
-        link: "https://github.com/morethanmin/morethan-log",
-        logo: {
-          light: "/static/images/github-logo.svg",
-          dark: "/static/images/github-logo.svg",
-        },
-        tags: ["Next.js", "Notion API", "Blog Template"],
-        spotlight: true,
-      },
-      {
-        name: "Azure Cost Tracker - ACT",
-        description:
-          "A Python tool for tracking Azure subscription costs, generating reports, and sending automated email notifications.",
-        link: "https://github.com/interittus13/AzureCostTracker",
-        logo: {
-          light: "/static/images/github-logo.svg",
-          dark: "/static/images/github-logo.svg",
-        },
-        tags: ["Python", "Azure", "Automation"],
-      },
-    ],
+    employee: [],
+    freelancer: [],
+    openSource: [],
     other: [],
   },
   skills: [
-    [
-      { name: "Azure", color: "bg-[#06B6D4]", icon: 'SiMicrosoftazure' },
-      { name: "Kubernetes", color: "bg-[#326CE5]", icon: 'SiKubernetes' },
-      { name: "Azure DevOps", color: "bg-[#339933]", icon: 'SiAzuredevops' },
-      { name: "Azure Pipelines", color: "bg-[#F7931E]", icon: 'SiAzurepipelines' },
-      { name: "Azure Function", color: "bg-[#007396]", icon: 'SiAzurefunctions' },
-      { name: "AWS ECS", color: "bg-[#FF9900]", icon: 'SiAmazonecs' },
-      { name: "Terraform", color: "bg-[#844FBA]", icon: 'SiTerraform' },
-    ],
-    [
-      { name: "AWS EC2", color: "bg-[#FF9900]", icon: 'SiAmazonec2' },
-      // { name: "Amazon Web Service", color: "bg-[#232F3E]", icon: 'SiAmazonaws' },
-      { name: "AWS Lambda", color: "bg-[#FF9900]", icon: 'SiAwslambda' },
-      { name: "AWS S3 Bucket", color: "bg-[#569A31]", icon: 'SiAmazons3' },
-      { name: "AWS EKS", color: "bg-[#FF9900]", icon: 'SiAmazoneks' },
-      { name: "Grafana", color: "bg-[#F46800]", icon: 'SiGrafana' },
-    ],
-    [
-      { name: "Trivy", color: "bg-[#1904DA]", icon: 'SiAqua' },
-      { name: "Argo CD", color: "bg-[#EF7B4D]", icon: 'SiArgo' },
-      { name: "Prometheus", color: "bg-[#E6522C]", icon: 'SiPrometheus' },
-      { name: "Docker", color: "bg-[#0AA6D8]", icon: 'SiDocker' },
-      { name: "Sonar Qube", color: "bg-[#4E9BCD]", icon: 'SiSonarqube' },
-      { name: "Typescript", color: "bg-[#3178C6]", icon: 'SiTypescript' },
-    ],
+    {
+      title: "Cloud Infrastructure",
+      items: [
+        { name: "Azure", color: "bg-[#06B6D4]", icon: 'SiMicrosoftazure' },
+        { name: "Kubernetes", color: "bg-[#326CE5]", icon: 'SiKubernetes' },
+        { name: "Azure DevOps", color: "bg-[#339933]", icon: 'SiAzuredevops' },
+        { name: "Azure Pipelines", color: "bg-[#F7931E]", icon: 'SiAzurepipelines' },
+        { name: "Azure Function", color: "bg-[#007396]", icon: 'SiAzurefunctions' },
+        { name: "AWS ECS", color: "bg-[#FF9900]", icon: 'SiAmazonecs' },
+        { name: "Terraform", color: "bg-[#844FBA]", icon: 'SiTerraform' },
+      ],
+    },
+    {
+      title: "DevOps & Monitoring",
+      items: [
+        { name: "AWS EC2", color: "bg-[#FF9900]", icon: 'SiAmazonec2' },
+        { name: "AWS Lambda", color: "bg-[#FF9900]", icon: 'SiAwslambda' },
+        { name: "AWS S3 Bucket", color: "bg-[#569A31]", icon: 'SiAmazons3' },
+        { name: "AWS EKS", color: "bg-[#FF9900]", icon: 'SiAmazoneks' },
+        { name: "Grafana", color: "bg-[#F46800]", icon: 'SiGrafana' },
+      ],
+    },
+    {
+      title: "Security & Tools",
+      items: [
+        { name: "Trivy", color: "bg-[#1904DA]", icon: 'SiAqua' },
+        { name: "Argo CD", color: "bg-[#EF7B4D]", icon: 'SiArgo' },
+        { name: "Prometheus", color: "bg-[#E6522C]", icon: 'SiPrometheus' },
+        { name: "Docker", color: "bg-[#0AA6D8]", icon: 'SiDocker' },
+        { name: "Sonar Qube", color: "bg-[#4E9BCD]", icon: 'SiSonarqube' },
+        { name: "Typescript", color: "bg-[#3178C6]", icon: 'SiTypescript' },
+      ],
+    },
   ],
 };

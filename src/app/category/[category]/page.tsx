@@ -2,7 +2,7 @@ import { getPosts } from '@/src/lib/apis'
 import { filterPosts } from '@/src/lib/apis/filterPosts'
 import PostInfiniteList from '@/src/components/post/PostInfiniteList'
 import { ListLayout } from '@/src/components/layout/ListLayout'
-import { Colors, getColorClassByName } from '@/src/lib/utils/colors'
+import { getCategoryBgColor } from '@/src/lib/utils/categoryColors'
 import type { Metadata } from 'next'
 
 export async function generateMetadata({ params }: { params: Promise<{ category: string }> }): Promise<Metadata> {
@@ -21,8 +21,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
   const filteredPosts = filterPosts(allPosts)
   const categoryPosts = filteredPosts.filter(post => (post.category || []).includes(category))
 
-  const color = getColorClassByName(category)
-  const colorClass = Colors[color]?.bg.msg || 'bg-orange-500'
+  const colorClass = getCategoryBgColor(category)
 
   return (
     <main className="min-h-screen pt-32 pb-20">

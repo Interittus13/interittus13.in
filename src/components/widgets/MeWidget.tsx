@@ -2,7 +2,6 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { LinkType } from '@/src/config/links'
 import { getIconByName } from '@/src/lib/utils/iconMap'
 import { me } from '@/src/config/me'
 

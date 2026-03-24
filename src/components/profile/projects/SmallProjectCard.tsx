@@ -22,7 +22,7 @@ export const SmallProjectCard: React.FC<SmallProjectCardProps> = ({ project, ind
           <Image
             src={project.logo.light}
             fill
-            className="object-contain p-1.5"
+            className="object-contain p-0.5"
             alt={project.name}
           />
         </div>

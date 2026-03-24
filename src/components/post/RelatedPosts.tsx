@@ -1,6 +1,6 @@
 import Moment from 'react-moment'
 import Link from 'next/link'
-import { Colors, getColorClassByName } from '@/src/lib/utils/colors'
+import { getCategoryTextColor } from '@/src/lib/utils/categoryColors'
 import ThemedImage from './ThemedImage'
 import { TPost } from '@/src/types'
 import FormattedDate from '../ui/FormattedDate'
@@ -38,9 +38,7 @@ const PostMore: React.FC<{ posts: TPost[] }> = ({ posts }) => {
               <div className="pl-4 md:pl-6 basis-0 flex-shrink-0 flex-grow">
                 <Link
                   href={`/category/${post.category?.[0] ?? 'Other'}`}
-                  className={`inline-block mb-2 text-xs font-bold leading-2 ${Colors[getColorClassByName(post.category?.[0] || '')]
-                    .text.normal
-                    }`}
+                  className={`inline-block mb-2 text-xs font-bold leading-2 ${getCategoryTextColor(post.category?.[0])}`}
                 >
                   {post.category?.[0]}
                 </Link>

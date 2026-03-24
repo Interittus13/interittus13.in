@@ -6,7 +6,6 @@ import { FC } from 'react'
 import { ListLayout } from '@/src/components/layout/ListLayout'
 import { friends, FriendType } from '@/src/config/friends'
 import Comment from '@/src/components/post/Comment'
-import { Colors } from '@/src/lib/utils/colors'
 
 const previewFetcher = (url: string) =>
   fetch(`/api/bookmark/${encodeURIComponent(url)}`).then((res) => res.json())

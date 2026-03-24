@@ -49,9 +49,10 @@ export interface SocialLink {
   name?: string;
 }
 
-export interface Location {
-  name: string;
-  map: { light: string; dark: string };
+
+export interface SkillGroup {
+  title: string;
+  items: Skill[];
 }
 
 export interface MeConfig {
@@ -60,11 +61,10 @@ export interface MeConfig {
   nickname: string;
   image: string;
   email: string;
-  location: Location;
   bio: string;
   social: SocialLink[];
   overview: any[];
-  skills: Skill[][];
+  skills: SkillGroup[];
   education: Education[];
   intro: {
     line1: string;
@@ -75,6 +75,7 @@ export interface MeConfig {
   roles: string[];
   projects: {
     employee: Project[];
+    freelancer: Project[];
     openSource: Project[];
     other: Project[];
   };
@@ -91,7 +92,6 @@ export interface Education {
   degree: string;
   color: string;
   time: string;
-  logo: string;
 }
 
 export interface OpenSource {
@@ -112,6 +112,7 @@ export interface Project {
   tip?: string;
   tags?: string[];
   spotlight?: boolean;
+  category?: string;
 }
 
 export type ThemeType = "dark" | "light";

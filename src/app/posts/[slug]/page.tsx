@@ -2,7 +2,7 @@ import { getPostBlocks, getPosts } from '@/src/lib/apis'
 import { filterPosts } from '@/src/lib/apis/filterPosts'
 import ContentRenderer from '@/src/components/post/ContentRenderer'
 import ThemedImage from '@/src/components/post/ThemedImage'
-import { Colors, getColorClassByName } from '@/src/lib/utils/colors'
+import { getCategoryTextColor } from '@/src/lib/utils/categoryColors'
 import Link from 'next/link'
 import FormattedDate from '@/src/components/ui/FormattedDate'
 import { WidgetMeMedium } from '@/src/components/widgets/MeWidget'
@@ -14,9 +14,6 @@ import { Metadata } from 'next'
 import type { TPost } from '@/src/types'
 import React from 'react'
 import ReadingProgress from '@/src/components/post/ReadingProgress'
-
-
-// ─── Metadata ────────────────────────────────────────────────────────────────
 
 export async function generateStaticParams() {
   try {
@@ -59,8 +56,6 @@ export async function generateMetadata({
   }
 }
 
-// ─── Page ─────────────────────────────────────────────────────────────────────
-
 export default async function PostPage({
   params,
 }: {
@@ -86,40 +81,40 @@ export default async function PostPage({
     <>
       <ReadingProgress />
       <main className="min-h-screen">
-        {/* ── Hero ── */}
+        {/* Hero */}
         <PostHero post={post} />
 
-        {/* ── Cover Image ── */}
+        {/* Cover Image */}
         {post.thumbnail && <PostCover post={post} />}
 
-        {/* ── Article body ── */}
+        {/* Article body */}
         <section className="max-w-4xl mx-auto px-5 md:px-8 mt-8 md:mt-12">
           <ContentRenderer blocks={blocks} />
         </section>
 
-        {/* ── Tags ── */}
+        {/* Tags */}
         {post.tags && post.tags.length > 0 && (
           <PostTags tags={post.tags} />
         )}
 
-        {/* ── Share ── */}
+        {/* Share */}
         <div className="max-w-4xl mx-auto px-5 md:px-8 mt-8 pt-8 border-t border-zinc-100 dark:border-zinc-800/50">
           <p className="text-xs font-black uppercase tracking-widest text-zinc-400 mb-4">Share</p>
           <Share />
         </div>
 
-        {/* ── Pagination ── */}
+        {/* Pagination */}
         <div className="max-w-5xl mx-auto px-5 md:px-8 mt-20">
           <Pagination pagination={{ prev: prevPost, next: nextPost }} />
         </div>
 
-        {/* ── Widgets ── */}
+        {/* Widgets */}
         <div className="max-w-5xl mx-auto px-5 md:px-8 mt-24 mb-4 grid grid-cols-1 lg:grid-cols-2 gap-6">
           <WidgetMeMedium fix />
           <WidgetOverViewMedium posts={filteredPosts} fix />
         </div>
 
-        {/* ── Comments ── */}
+        {/* Comments */}
         <div className="max-w-4xl mx-auto px-5 md:px-8 mt-12 mb-32">
           <Comment />
         </div>
@@ -128,12 +123,10 @@ export default async function PostPage({
   )
 }
 
-// ─── Sub-components ───────────────────────────────────────────────────────────
-
 function PostHero({ post }: { post: TPost }) {
   const category = post.category?.[0]
   const categoryColor = category
-    ? Colors[getColorClassByName(category)]?.text.normal
+    ? getCategoryTextColor(category)
     : undefined
 
   return (

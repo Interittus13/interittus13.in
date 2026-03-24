@@ -1,5 +1,7 @@
+'use client'
+
+import React from 'react'
 import { Education } from '@/src/types'
-import { Colors } from '@/src/lib/utils/colors'
 
 interface EducationSectionProps {
   education: Education[]
@@ -34,39 +36,40 @@ const EducationSection: React.FC<EducationSectionProps> = ({ education, header, 
       </div>
 
       {/* Timeline */}
-      <div className="px-8 pb-8 relative">
+      <div className="px-8 pb-10 relative">
         {/* Vertical line */}
-        <div className="absolute left-[3.25rem] top-0 bottom-8 w-px bg-zinc-100 dark:bg-zinc-800" />
+        <div className="absolute left-[2.75rem] top-0 bottom-10 w-px bg-zinc-100 dark:bg-zinc-800" />
 
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-8">
           {education.map((item, index) => {
             const gradient = COLOR_MAP[item.color] ?? 'from-zinc-400 to-zinc-600'
             return (
-              <div key={item.name} className="flex gap-5 items-start relative" data-aos="fade-up" data-aos-delay={index * 100}>
-                {/* Dot */}
+              <div key={item.name} className="flex gap-6 items-start relative" data-aos="fade-up" data-aos-delay={index * 100}>
+                {/* Visual Dot/Marker */}
                 <div
-                  className={`relative z-10 flex-shrink-0 w-9 h-9 rounded-2xl bg-gradient-to-br ${gradient} flex items-center justify-center shadow-lg`}
+                  className={`relative z-10 flex-shrink-0 w-8 h-8 rounded-xl bg-gradient-to-br ${gradient} flex items-center justify-center shadow-lg shadow-zinc-200 dark:shadow-none mt-2.5`}
                 >
-                  <span className="text-white font-black text-[0.55rem]">
-                    {item.time.split('-')[0]}
-                  </span>
+                  <div className="w-2 h-2 rounded-full bg-white shadow-sm" />
                 </div>
 
-                {/* Content */}
-                <div className="flex-1 bg-zinc-50/80 dark:bg-zinc-800/50 rounded-[1.5rem] p-5 border border-zinc-100/80 dark:border-zinc-700/30 hover:scale-[1.01] transition-transform duration-300">
-                  <div className="flex items-start justify-between gap-4 flex-wrap">
-                    <div>
-                      <h3 className="text-base font-black text-zinc-900 dark:text-zinc-100 tracking-tight">
+                {/* Content Card */}
+                <div className="flex-1 group relative">
+                  <div className="bg-zinc-50/80 dark:bg-zinc-900/40 rounded-3xl p-6 border border-zinc-100/80 dark:border-zinc-800/50 transition-all duration-500 hover:bg-white dark:hover:bg-zinc-800/80 hover:shadow-xl hover:shadow-zinc-200/50 dark:hover:shadow-none group-hover:-translate-y-1">
+                    <div className="flex items-start justify-between gap-4 flex-wrap mb-2">
+                      <h3 className="text-lg md:text-xl font-black text-zinc-900 dark:text-zinc-100 tracking-tight leading-tight">
                         {item.name}
                       </h3>
-                      <p className={`text-sm font-semibold mt-0.5 text-transparent bg-clip-text bg-gradient-to-r ${gradient}`}>
-                        {item.degree}
-                      </p>
+                      <span className="text-[0.6rem] font-black uppercase tracking-widest text-zinc-400 dark:text-zinc-500 bg-zinc-100 dark:bg-zinc-800 px-3 py-1.5 rounded-full shrink-0">
+                        {item.time}
+                      </span>
                     </div>
-                    <span className="text-[0.6rem] font-black uppercase tracking-widest text-zinc-400 dark:text-zinc-500 bg-zinc-100 dark:bg-zinc-700/50 px-3 py-1 rounded-full shrink-0">
-                      {item.time}
-                    </span>
+                    <p className={`text-sm md:text-base font-bold text-transparent bg-clip-text bg-gradient-to-r ${gradient}`}>
+                      {item.degree}
+                    </p>
                   </div>
+
+                  {/* Decorative tag */}
+                  <div className={`absolute -left-2 top-1/2 -translate-y-1/2 w-1 h-8 rounded-full bg-gradient-to-b ${gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
                 </div>
               </div>
             )

@@ -3,8 +3,6 @@
 import React from 'react'
 import EducationSection from './EducationSection'
 import SkillsSection from './SkillsSection'
-import LocationCard from './LocationCard'
-import SocialLinks from './SocialLinks'
 import { MeConfig } from '@/src/types'
 
 interface OverviewProps {
@@ -15,7 +13,7 @@ const Overview: React.FC<OverviewProps> = ({ me }) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 select-none">
 
-      {/* ── Row 1: Greeting + What I do ── */}
+      {/* Row 1: Greeting + What I do*/}
       <div
         data-aos="fade-up"
         className="bg-gradient-to-br from-violet-500 to-fuchsia-600 text-white rounded-[2.5rem] p-6 md:p-8 flex flex-col justify-between min-h-40 md:min-h-48 shadow-xl shadow-violet-500/30"
@@ -68,34 +66,17 @@ const Overview: React.FC<OverviewProps> = ({ me }) => {
         </div>
       </div>
 
-      {/* ── Row 2: Location ── */}
-      <div
-        data-aos="fade-up"
-        data-aos-delay="200"
-        className="relative bg-zinc-100 dark:bg-zinc-800 rounded-[2.5rem] overflow-hidden min-h-48 flex flex-col justify-end shadow-inner"
-      >
-        <LocationCard location={me.location} />
-        <div className="relative z-10 p-5 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md">
-          <p className="text-[0.6rem] font-black uppercase tracking-widest text-zinc-400 dark:text-zinc-500">
-            Located in
-          </p>
-          <p className="font-black text-zinc-900 dark:text-zinc-100 text-lg">
-            📍 {me.location.name}
-          </p>
-        </div>
-      </div>
-
-      {/* ── Row 4: Skills full width ── */}
+      {/* Row 2: Skills full width */}
       <div className="md:col-span-2">
         <SkillsSection skills={me.skills} />
       </div>
 
-      {/* ── Row 5: Education full width ── */}
+      {/* Row 3: Education full width */}
       <div className="md:col-span-2">
-        <EducationSection 
-          education={me.education} 
-          header={me.titles.journeyHeader} 
-          title={me.titles.journeyTitle} 
+        <EducationSection
+          education={me.education}
+          header={me.titles.journeyHeader}
+          title={me.titles.journeyTitle}
         />
       </div>
     </div>
