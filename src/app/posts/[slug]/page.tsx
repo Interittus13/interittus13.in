@@ -36,6 +36,10 @@ export async function generateMetadata({
   const metaTitle = post.seoTitle || post.title
   const metaDescription = post.seoDescription || post.summary
 
+  // Use a proxy API to serve the notion thumbnail to prevent S3 expiry issues
+  // We add a version/timestamp to help force a re-scrape if needed
+  const ogImageUrl = `/api/og-image/${slug}?v=${Date.now()}`
+
   return {
     title: metaTitle,
     description: metaDescription,
@@ -44,14 +48,14 @@ export async function generateMetadata({
       url: `./${slug}`,
       title: metaTitle,
       description: metaDescription,
-      images: post.thumbnail ? [post.thumbnail] : [],
+      images: post.thumbnail ? [ogImageUrl] : [],
       locale: 'en_US',
     },
     twitter: {
       card: 'summary_large_image',
       title: metaTitle,
       description: metaDescription,
-      images: post.thumbnail ? [post.thumbnail] : [],
+      images: post.thumbnail ? [ogImageUrl] : [],
     },
   }
 }
