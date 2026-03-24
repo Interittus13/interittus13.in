@@ -43,14 +43,18 @@ export async function generateMetadata({
     title: metaTitle,
     description: metaDescription,
     openGraph: {
+      type: 'article',
+      url: `./${slug}`,
       title: metaTitle,
       description: metaDescription,
       images: post.thumbnail ? [post.thumbnail] : [],
+      locale: 'en_US',
     },
     twitter: {
       card: 'summary_large_image',
       title: metaTitle,
       description: metaDescription,
+      images: post.thumbnail ? [post.thumbnail] : [],
     },
   }
 }
