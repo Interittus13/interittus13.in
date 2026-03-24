@@ -1,11 +1,12 @@
 import { links } from "../config/links";
+import { CONFIG } from "../config/blog";
 
 export const me = {
   metadata: {
     title: 'About Me | Arpit Gupta',
     description: 'DevOps Engineer & Cloud Architect. Turning infrastructure into code. Turning complexity into scale.',
   },
-  site: "https://www.interittus.in",
+  site: CONFIG.link,
   name: "Arpit Gupta",
   nickname: "interittus13",
   image: "/static/images/portrait.png",

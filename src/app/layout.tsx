@@ -6,11 +6,21 @@ import '../styles/globals.css'
 import GoogleAnalytics from '../components/analytics/GoogleAnalytics'
 
 export const metadata: Metadata = {
+  metadataBase: new URL(CONFIG.link),
   title: {
     default: CONFIG.BLOG_TITLE,
     template: `%s | ${CONFIG.BLOG_TITLE}`,
   },
   description: CONFIG.BLOG_TITLE,
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    siteName: CONFIG.BLOG_TITLE,
+  },
+  twitter: {
+    card: 'summary_large_image',
+    creator: '@interittus13',
+  },
   manifest: '/site.webmanifest',
   icons: {
     icon: [
