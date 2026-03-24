@@ -3,11 +3,12 @@ import Image from 'next/image'
 import Overview from '@/src/components/profile/Overview'
 import { ModernProjectSection } from '@/src/components/profile/projects/ModernProjectSection'
 import { getIconByName } from '@/src/lib/utils/iconMap'
+import { me } from '@/src/config/me'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'About Me',
-  description: 'DevOps Engineer & Cloud Architect. Building scalable infrastructure on Azure & AWS with Kubernetes, Terraform and CI/CD pipelines.',
+  title: me.metadata.title,
+  description: me.metadata.description,
 }
 
 export default async function MePage() {
@@ -15,7 +16,7 @@ export default async function MePage() {
 
   return (
     <main className="min-h-screen">
-      {/* ── Hero ── */}
+      {/* Hero */}
       <section className="relative pt-32 md:pt-44 pb-20 px-5 md:px-8 overflow-hidden">
         {/* Background glow */}
         <div className="absolute inset-0 pointer-events-none">
@@ -36,8 +37,6 @@ export default async function MePage() {
                   sizes="(max-width: 768px) 160px, 208px"
                 />
               </div>
-              {/* Status dot */}
-              <div className="absolute bottom-3 right-3 w-5 h-5 rounded-full bg-emerald-400 border-4 border-white dark:border-zinc-800 shadow-lg" />
             </div>
 
             {/* Text */}
@@ -64,14 +63,32 @@ export default async function MePage() {
                 {me.intro.line2} {me.bio}
               </p>
 
-              {/* Social icons row ... */}
-              {/* (Social snippet remains roughly the same but data-driven) */}
+              {/* Social Icons */}
+              <div className="flex items-center gap-4 mb-8" data-aos="fade-up" data-aos-delay="100">
+                {me.social.map((s) => {
+                  const Icon = getIconByName(s.icon)
+                  if (!Icon) return null
+                  return (
+                    <a
+                      key={s.name}
+                      href={s.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`group relative flex items-center justify-center w-12 h-12 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 shadow-xl transition-all duration-500 hover:scale-110 active:scale-90 hover:shadow-2xl hover:-translate-y-1`}
+                      aria-label={s.name}
+                    >
+                      <div className={`absolute inset-0 bg-gradient-to-br ${s.color?.replace(/-bg-/g, '-')} opacity-0 group-hover:opacity-10 dark:group-hover:opacity-20 transition-opacity duration-500 rounded-2xl`} />
+                      <Icon className={`w-5 h-5 transition-all duration-500 ${s.fill} ${s.text} dark:fill-zinc-100 dark:text-zinc-100 group-hover:scale-110 group-hover:fill-current group-hover:text-current`} />
+                    </a>
+                  )
+                })}
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── Bento overview grid ── */}
+      {/* Bento overview grid */}
       <section className="max-w-5xl mx-auto px-5 md:px-8 mb-24">
         <div className="p-1 rounded-[3rem] bg-gradient-to-tr from-orange-500/15 via-transparent to-violet-500/15">
           <div className="bg-white/50 dark:bg-zinc-900/50 backdrop-blur-3xl rounded-[2.9rem] p-5 md:p-8 border border-white/20 dark:border-zinc-800/50">
@@ -80,7 +97,7 @@ export default async function MePage() {
         </div>
       </section>
 
-      {/* ── Featured Projects ── */}
+      {/* Featured Projects */}
       <section id="projects" className="pb-32">
         <div className="max-w-5xl mx-auto px-5 md:px-8 mb-14 text-center" data-aos="fade-up">
           <p className="text-[0.6rem] font-black uppercase tracking-[0.35em] text-zinc-400 dark:text-zinc-500 mb-3">
