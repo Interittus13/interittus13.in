@@ -14,6 +14,8 @@ import { Metadata } from 'next'
 import type { TPost } from '@/src/types'
 import React from 'react'
 import ReadingProgress from '@/src/components/post/ReadingProgress'
+import { CONFIG } from '@/src/config/blog'
+import { me } from '@/src/config/me'
 
 export async function generateStaticParams() {
   try {
@@ -35,23 +37,33 @@ export async function generateMetadata({
 
   const metaTitle = post.seoTitle || post.title
   const metaDescription = post.seoDescription || post.summary
+  const canonicalUrl = `${CONFIG.link}/posts/${slug}`
+  const defaultOgImage = `${CONFIG.link}/static/images/og.png`
+  const ogImage = post.thumbnail
+    ? { url: post.thumbnail, width: 1200, height: 630, alt: metaTitle }
+    : { url: defaultOgImage, width: 1200, height: 630, alt: metaTitle }
 
   return {
     title: metaTitle,
     description: metaDescription,
+    alternates: { canonical: canonicalUrl },
     openGraph: {
       type: 'article',
-      url: `./${slug}`,
+      publishedTime: post.date.start_date,
+      authors: [me.name],
+      url: canonicalUrl,
+      siteName: CONFIG.BLOG_TITLE,
       title: metaTitle,
       description: metaDescription,
-      images: post.thumbnail ? [post.thumbnail] : [],
+      images: [ogImage],
       locale: 'en_US',
     },
     twitter: {
       card: 'summary_large_image',
       title: metaTitle,
       description: metaDescription,
-      images: post.thumbnail ? [post.thumbnail] : [],
+      images: [ogImage.url],
+      creator: '@interittus13',
     },
   }
 }

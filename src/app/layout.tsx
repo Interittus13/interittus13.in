@@ -11,11 +11,21 @@ export const metadata: Metadata = {
     default: CONFIG.BLOG_TITLE,
     template: `%s | ${CONFIG.BLOG_TITLE}`,
   },
-  description: CONFIG.BLOG_TITLE,
+  description: 'DevOps Engineer & Cloud Architect. Writing about cloud infra, Kubernetes, Terraform, and platform engineering.',
+  keywords: ['DevOps', 'Cloud', 'Kubernetes', 'Terraform', 'Azure', 'AWS', 'SRE', 'Platform Engineering', 'interittus13'],
   openGraph: {
     type: 'website',
     locale: 'en_US',
     siteName: CONFIG.BLOG_TITLE,
+    url: CONFIG.link,
+    images: [
+      {
+        url: '/static/images/og.png',
+        width: 1200,
+        height: 630,
+        alt: CONFIG.BLOG_TITLE,
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
