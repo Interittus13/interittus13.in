@@ -47,9 +47,6 @@
   .dark .tk-expand {
     background-color: rgb(23, 23, 23) !important;
   }
-  .utterances {
-    max-width: 960px;
-  }
 
   .notion-collection-page-properties {
     display: none !important;

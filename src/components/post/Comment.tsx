@@ -4,12 +4,6 @@ import dynamic from 'next/dynamic'
 import { useTheme } from 'next-themes'
 import { useMounted } from '@/src/hooks/useMounted'
 
-// const Utterances = dynamic(
-//   () => {
-//     return import('../components/comments/Utterances')
-//   },
-//   { ssr: false }
-// )
 
 const Giscus = dynamic(
   () => {

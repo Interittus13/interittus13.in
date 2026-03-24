@@ -49,9 +49,10 @@ export interface SocialLink {
   name?: string;
 }
 
-export interface Location {
-  name: string;
-  map: { light: string; dark: string };
+
+export interface SkillGroup {
+  title: string;
+  items: Skill[];
 }
 
 export interface MeConfig {
@@ -64,7 +65,7 @@ export interface MeConfig {
   bio: string;
   social: SocialLink[];
   overview: any[];
-  skills: Skill[][];
+  skills: SkillGroup[];
   education: Education[];
   intro: {
     line1: string;
@@ -92,7 +93,6 @@ export interface Education {
   degree: string;
   color: string;
   time: string;
-  logo: string;
 }
 
 export interface OpenSource {

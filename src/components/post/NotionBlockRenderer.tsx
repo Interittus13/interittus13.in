@@ -103,8 +103,8 @@ function Block({ block, isFirst }: { block: BlockObjectResponse; isFirst?: boole
     case 'paragraph': {
       const content = (block as any).paragraph.rich_text
       if (!content?.length) return <div className="h-4" />
-      
-      const dropCapClass = isFirst 
+
+      const dropCapClass = isFirst
         ? "first-letter:text-7xl first-letter:font-black first-letter:mr-3 first-letter:float-left first-letter:mt-2 first-letter:text-zinc-900 dark:first-letter:text-white first-letter:leading-none"
         : ""
 
@@ -262,7 +262,7 @@ function Block({ block, isFirst }: { block: BlockObjectResponse; isFirst?: boole
               borderRadius: 0,
               fontSize: '0.9rem',
               lineHeight: '1.7',
-              backgroundColor: '#1a1a2e', // Deep premium navy
+              backgroundColor: '#1a1a2e',
             }}
             codeTagProps={{
               style: {
@@ -384,9 +384,9 @@ function Block({ block, isFirst }: { block: BlockObjectResponse; isFirst?: boole
       return (
         <div className="my-10 overflow-x-auto rounded-2xl border border-zinc-200 dark:border-zinc-700/50 shadow-sm bg-white dark:bg-zinc-900/50">
           <table className="w-full text-sm border-collapse">
-            <NotionBlockRenderer 
-              blocks={children} 
-              isTableContext 
+            <NotionBlockRenderer
+              blocks={children}
+              isTableContext
               hasColumnHeader={tb.has_column_header}
             />
           </table>
@@ -397,14 +397,14 @@ function Block({ block, isFirst }: { block: BlockObjectResponse; isFirst?: boole
     case 'table_row': {
       const tr = (block as any).table_row
       const isHeader = (block as any).__isFirstRow && (block as any).__hasColumnHeader
-      
+
       return (
         <tr className={`border-b border-zinc-200 dark:border-zinc-700/50 transition-colors hover:bg-zinc-50/50 dark:hover:bg-zinc-800/20 ${isHeader ? 'bg-zinc-100/50 dark:bg-zinc-800/80' : ''}`}>
           {tr.cells.map((cell: RichText[], i: number) => {
             const CellTag = isHeader ? 'th' : 'td'
             return (
-              <CellTag 
-                key={i} 
+              <CellTag
+                key={i}
                 className={`px-5 py-4 text-zinc-700 dark:text-zinc-300 ${isHeader ? 'font-black text-zinc-900 dark:text-zinc-100 text-left border-r border-zinc-200/50 dark:border-zinc-700/50 last:border-r-0' : 'border-r border-zinc-200/50 dark:border-zinc-700/50 last:border-r-0'}`}
               >
                 <RichTextContent richText={cell} />
@@ -541,10 +541,10 @@ export function NotionBlockRenderer({ blocks, isTableContext, hasColumnHeader }:
       )
     } else if (isTableContext && block.type === 'table_row') {
       // Annotate block for the renderer
-      const tableRowBlock = { 
-        ...block, 
-        __isFirstRow: i === 0, 
-        __hasColumnHeader: hasColumnHeader 
+      const tableRowBlock = {
+        ...block,
+        __isFirstRow: i === 0,
+        __hasColumnHeader: hasColumnHeader
       }
       elements.push(<Block key={block.id} block={tableRowBlock as any} />)
       i++
