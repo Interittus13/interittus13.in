@@ -6,10 +6,12 @@ import { CONFIG } from '@/src/config/blog'
  * social metadata (like OG images) points to the correct domain.
  */
 export function getBaseUrl() {
+  let url = CONFIG.link || 'https://interittus.in'
+  
   if (process.env.NEXT_PUBLIC_VERCEL_URL) {
-    return `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+    url = `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
   }
   
-  // Default to production site URL
-  return CONFIG.link || 'https://interittus.in'
+  // Robustly remove any trailing slashes to prevent double-slashes during concatenation
+  return url.replace(/\/$/, '')
 }

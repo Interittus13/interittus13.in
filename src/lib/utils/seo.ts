@@ -30,8 +30,14 @@ export function getMetadata(options: SeoOptions = {}): Metadata {
   // 3. Resolve Image (ALWAYS ABSOLUTE)
   // Ensure the image URL is absolute and fallback to default if missing or invalid
   const hasValidImage = options.image && typeof options.image === 'string' && options.image.trim() !== ''
-  const imagePath = hasValidImage ? options.image : '/static/images/og.png'
-  const imageUrl = imagePath!.startsWith('http') ? imagePath! : `${baseUrl}${imagePath}`
+  let imagePath = hasValidImage ? options.image! : '/static/images/og.png'
+  
+  // Ensure imagePath starts with / if it's relative
+  if (!imagePath.startsWith('http') && !imagePath.startsWith('/')) {
+    imagePath = `/${imagePath}`
+  }
+
+  const imageUrl = imagePath.startsWith('http') ? imagePath : `${baseUrl}${imagePath}`
   
   // 4. Resolve Canonical URL
   const canonicalUrl = options.url ? (options.url.startsWith('http') ? options.url : `${baseUrl}${options.url}`) : baseUrl
