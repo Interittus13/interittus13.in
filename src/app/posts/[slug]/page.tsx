@@ -35,13 +35,22 @@ export async function generateMetadata({
   const post = filterPosts(await getPosts()).find((p) => p.slug === slug)
   if (!post) return { title: 'Post Not Found' }
 
-  const metaTitle = post.seoTitle || post.title
-  const metaDescription = post.seoDescription || post.summary
+  const rawTitle = post.seoTitle || post.title
+  const metaTitle =
+    rawTitle.length > 60 ? rawTitle.slice(0, 57) + '...' : rawTitle
+
+  const rawDescription = post.seoDescription || post.summary || ''
+  const metaDescription =
+    rawDescription.length > 160
+      ? rawDescription.slice(0, 157) + '...'
+      : rawDescription
+
   const canonicalUrl = `${CONFIG.link}/posts/${slug}`
-  const defaultOgImage = `${CONFIG.link}/static/images/og.png`
+  
+  // Directly use Notion cover as previously working
   const ogImage = post.thumbnail
     ? { url: post.thumbnail, width: 1200, height: 630, alt: metaTitle }
-    : { url: defaultOgImage, width: 1200, height: 630, alt: metaTitle }
+    : { url: `${CONFIG.link}/static/images/og.png`, width: 1200, height: 630, alt: metaTitle }
 
   return {
     title: metaTitle,

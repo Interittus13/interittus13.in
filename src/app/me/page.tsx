@@ -4,11 +4,25 @@ import Overview from '@/src/components/profile/Overview'
 import { ModernProjectSection } from '@/src/components/profile/projects/ModernProjectSection'
 import { getIconByName } from '@/src/lib/utils/iconMap'
 import { me } from '@/src/config/me'
+import { CONFIG } from '@/src/config/blog'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: me.metadata.title,
   description: me.metadata.description,
+  openGraph: {
+    type: 'profile',
+    title: me.metadata.title,
+    description: me.metadata.description,
+    siteName: CONFIG.BLOG_TITLE,
+    locale: 'en_US',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: me.metadata.title,
+    description: me.metadata.description,
+    creator: '@interittus13',
+  },
 }
 
 export default async function MePage() {

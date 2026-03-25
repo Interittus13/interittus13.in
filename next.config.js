@@ -43,7 +43,7 @@ module.exports = withPWA(
         },
         {
           protocol: 'https',
-          hostname: '*.amazonaws.com'
+          hostname: '**.amazonaws.com',
         },
         {
           protocol: 'https',

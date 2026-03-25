@@ -5,11 +5,25 @@ import ListLayout from '@/src/components/layout/ListLayout'
 import Image from 'next/image'
 import { me } from '@/src/config/me'
 import { getIconByName } from '@/src/lib/utils/iconMap'
+import { CONFIG } from '@/src/config/blog'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: me.name,
   description: me.metadata.description,
+  openGraph: {
+    type: 'website',
+    title: me.name,
+    description: me.metadata.description,
+    siteName: CONFIG.BLOG_TITLE,
+    locale: 'en_US',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: me.name,
+    description: me.metadata.description,
+    creator: '@interittus13',
+  },
 }
 
 export default async function HomePage() {

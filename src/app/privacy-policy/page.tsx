@@ -5,6 +5,19 @@ import type { Metadata } from 'next'
 export const metadata: Metadata = {
   title: `Privacy Policy | ${me.name}`,
   description: `Privacy policy for ${CONFIG.BLOG_TITLE}. Information about data collection, GA4, Giscus, and AI-generated content.`,
+  openGraph: {
+    type: 'website',
+    title: `Privacy Policy | ${me.name}`,
+    description: `Privacy policy for ${CONFIG.BLOG_TITLE}. Information about data collection, GA4, Giscus, and AI-generated content.`,
+    siteName: CONFIG.BLOG_TITLE,
+    locale: 'en_US',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: `Privacy Policy | ${me.name}`,
+    description: `Privacy policy for ${CONFIG.BLOG_TITLE}. Information about data collection, GA4, Giscus, and AI-generated content.`,
+    creator: '@interittus13',
+  },
 }
 
 export default function PrivacyPolicyPage() {
