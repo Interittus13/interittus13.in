@@ -2,10 +2,14 @@ import { me } from '@/src/config/me'
 import { CONFIG } from '@/src/config/blog'
 import type { Metadata } from 'next'
 
-export const metadata: Metadata = {
+import { getMetadata } from '@/src/lib/utils/seo'
+
+export const metadata: Metadata = getMetadata({
   title: `Privacy Policy | ${me.name}`,
   description: `Privacy policy for ${CONFIG.BLOG_TITLE}. Information about data collection, GA4, Giscus, and AI-generated content.`,
-}
+  url: '/privacy-policy',
+  image: '/static/images/og.png',
+})
 
 export default function PrivacyPolicyPage() {
   return (
@@ -59,7 +63,7 @@ export default function PrivacyPolicyPage() {
             </h2>
             <div className="p-6 rounded-3xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-100 dark:border-zinc-700/50">
               <p className="leading-relaxed font-medium text-zinc-700 dark:text-zinc-200">
-                Please be advised that many of the <strong>blog cover images</strong> and decorative assets found on this Site are generated using Artificial Intelligence (AI) tools. 
+                Please be advised that many of the <strong>blog cover images</strong> and decorative assets found on this Site are generated using Artificial Intelligence (AI) tools.
               </p>
               <p className="mt-4 leading-relaxed text-sm">
                 These images are curated and processed to match the aesthetic theme of the content. Technical articles and portfolio descriptions remain the original work of {me.name} unless explicitly stated otherwise.
@@ -87,8 +91,8 @@ export default function PrivacyPolicyPage() {
             <p className="leading-relaxed">
               If you have any questions regarding this Privacy Policy or my processing of your data, please feel free to reach out via email:
             </p>
-            <a 
-              href={`mailto:${me.email}`} 
+            <a
+              href={`mailto:${me.email}`}
               className="inline-block text-orange-500 font-bold hover:underline decoration-2 underline-offset-4"
             >
               {me.email}

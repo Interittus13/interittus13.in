@@ -6,10 +6,13 @@ import { getCategoryBgColor, getCategoryTextColor } from '@/src/lib/utils/catego
 import Link from 'next/link'
 import type { Metadata } from 'next'
 
-export const metadata: Metadata = {
+import { getMetadata } from '@/src/lib/utils/seo'
+
+export const metadata: Metadata = getMetadata({
   title: 'Tags',
   description: 'Explore articles by technical keywords and hashtags.',
-}
+  url: '/tags',
+})
 
 export default async function TagsPage() {
   const posts = await getPosts()

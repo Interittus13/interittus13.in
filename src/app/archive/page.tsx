@@ -8,10 +8,13 @@ import ThemedImage from "@/src/components/post/ThemedImage"
 import { getCategoryTextColor } from "@/src/lib/utils/categoryColors"
 import type { Metadata } from 'next'
 
-export const metadata: Metadata = {
+import { getMetadata } from '@/src/lib/utils/seo'
+
+export const metadata: Metadata = getMetadata({
   title: 'Archive',
   description: 'Explore all articles and posts by year and date.',
-}
+  url: '/archive',
+})
 
 export default async function ArchivePage() {
   const posts = await getPosts()

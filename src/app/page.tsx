@@ -7,10 +7,14 @@ import { me } from '@/src/config/me'
 import { getIconByName } from '@/src/lib/utils/iconMap'
 import type { Metadata } from 'next'
 
-export const metadata: Metadata = {
+import { getMetadata } from '@/src/lib/utils/seo'
+
+export const metadata: Metadata = getMetadata({
   title: me.name,
   description: me.metadata.description,
-}
+  url: '/',
+  image: '/static/images/og.png'
+})
 
 export default async function HomePage() {
   const posts = await getPosts()

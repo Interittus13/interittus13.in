@@ -6,10 +6,15 @@ import { getIconByName } from '@/src/lib/utils/iconMap'
 import { me } from '@/src/config/me'
 import type { Metadata } from 'next'
 
-export const metadata: Metadata = {
+import { getMetadata } from '@/src/lib/utils/seo'
+
+export const metadata: Metadata = getMetadata({
   title: me.metadata.title,
   description: me.metadata.description,
-}
+  url: '/me',
+  type: 'profile',
+  image: '/static/images/og.png',
+})
 
 export default async function MePage() {
   const me = await getMeData()

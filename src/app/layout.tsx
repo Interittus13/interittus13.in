@@ -5,31 +5,9 @@ import BlogLayout from '../components/layout/BlogLayout'
 import '../styles/globals.css'
 import GoogleAnalytics from '../components/analytics/GoogleAnalytics'
 
-export const metadata: Metadata = {
-  metadataBase: new URL(CONFIG.link),
-  title: {
-    default: CONFIG.BLOG_TITLE,
-    template: `%s | ${CONFIG.BLOG_TITLE}`,
-  },
-  description: CONFIG.BLOG_TITLE,
-  openGraph: {
-    type: 'website',
-    locale: 'en_US',
-    siteName: CONFIG.BLOG_TITLE,
-  },
-  twitter: {
-    card: 'summary_large_image',
-    creator: '@interittus13',
-  },
-  manifest: '/site.webmanifest',
-  icons: {
-    icon: [
-      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
-      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
-    ],
-    apple: [{ url: '/apple-touch-icon.png', sizes: '180x180' }],
-  },
-}
+import { getMetadata } from '../lib/utils/seo'
+
+export const metadata: Metadata = getMetadata()
 
 export const viewport: Viewport = {
   width: 'device-width',

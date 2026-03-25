@@ -21,96 +21,25 @@ module.exports = withPWA(
       qualities: [75, 80, 85, 100],
       minimumCacheTTL: 60,
       remotePatterns: [
-        {
-          protocol: 'https',
-          hostname: 'static.anzifan.com'
-        },
-        {
-          protocol: 'https',
-          hostname: 'cdn.sspai.com'
-        },
-        {
-          protocol: 'https',
-          hostname: 'cdn.dribbble.com'
-        },
-        {
-          protocol: 'https',
-          hostname: 'image.freepik.com'
-        },
-        {
-          protocol: 'https',
-          hostname: 'avatars.githubusercontent.com'
-        },
-        {
-          protocol: 'https',
-          hostname: 'cdn.jsdelivr.net'
-        },
-        {
-          protocol: 'https',
-          hostname: 'image.cugxuan.cn'
-        },
-        {
-          protocol: 'https',
-          hostname: 'blog-static.mikuchan.top'
-        },
-        {
-          protocol: 'https',
-          hostname: 'amazonaws.com'
-        },
-        {
-          protocol: 'https',
-          hostname: 'img.zhheo.com'
-        },
-        {
-          protocol: 'https',
-          hostname: 'www.aohuiliu.fun'
-        },
-        {
-          protocol: 'https',
-          hostname: 'rxhsk.xicp.fun'
-        },
-        {
-          protocol: 'https',
-          hostname: 'www.fomal.cc'
-        },
-        {
-          protocol: 'https',
-          hostname: 'www.notion.so'
-        },
-        {
-          protocol: 'https',
-          hostname: 'lh5.googleusercontent.com'
-        },
-        {
-          protocol: 'https',
-          hostname: 's3-us-west-2.amazonaws.com'
-        },
-        {
-          protocol: 'https',
-          hostname: 'prod-files-secure.s3.us-west-2.amazonaws.com'
-        },
-        {
-          protocol: 'https',
-          hostname: '*.amazonaws.com'
-        },
-        {
-          protocol: 'https',
-          hostname: 'images.unsplash.com'
-        },
-        {
-          protocol: 'https',
-          hostname: 'upload.wikimedia.org'
-        },
-      ]
+        { protocol: 'https', hostname: 'avatars.githubusercontent.com' },
+        { protocol: 'https', hostname: 'www.notion.so' },
+        { protocol: 'https', hostname: 'lh5.googleusercontent.com' },
+        { protocol: 'https', hostname: 's3-us-west-2.amazonaws.com' },
+        { protocol: 'https', hostname: 'prod-files-secure.s3.us-west-2.amazonaws.com' },
+        { protocol: 'https', hostname: '**.amazonaws.com' },
+        { protocol: 'https', hostname: 'images.unsplash.com' },
+        { protocol: 'https', hostname: 'upload.wikimedia.org' },
+        { protocol: 'https', hostname: 'static.anzifan.com' },
+        { protocol: 'https', hostname: 'cdn.sspai.com' },
+        { protocol: 'https', hostname: 'cdn.dribbble.com' },
+        { protocol: 'https', hostname: 'image.freepik.com' },
+        { protocol: 'https', hostname: 'cdn.jsdelivr.net' },
+        { protocol: 'https', hostname: 'image.cugxuan.cn' },
+        { protocol: 'https', hostname: 'blog-static.mikuchan.top' },
+        { protocol: 'https', hostname: 'img.zhheo.com' },
+        { protocol: 'https', hostname: 'www.aohuiliu.fun' },
+        { protocol: 'https', hostname: 'rxhsk.xicp.fun' },
+        { protocol: 'https', hostname: 'www.fomal.cc' },
+      ],
     },
-
-    // async redirects() {
-    //   return [
-    //     {
-    //       source: '/:path((?!me|tags|friends|archive|categories)[^/]+)',
-    //       destination: '/posts/:path*',
-    //       permanent: true,
-    //     },
-    //   ]
-    // },
   }))

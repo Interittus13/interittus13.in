@@ -5,13 +5,16 @@ import { ListLayout } from '@/src/components/layout/ListLayout'
 import { getCategoryBgColor } from '@/src/lib/utils/categoryColors'
 import type { Metadata } from 'next'
 
+import { getMetadata } from '@/src/lib/utils/seo'
+
 export async function generateMetadata({ params }: { params: Promise<{ category: string }> }): Promise<Metadata> {
   const { category: rawCategory } = await params
   const category = decodeURIComponent(rawCategory)
-  return {
+  return getMetadata({
     title: `${category} Articles`,
     description: `Browse all articles and technical posts in the ${category} category.`,
-  }
+    url: `/category/${rawCategory}`,
+  })
 }
 
 export default async function CategoryPage({ params }: { params: Promise<{ category: string }> }) {

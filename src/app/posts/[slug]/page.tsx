@@ -14,6 +14,7 @@ import { Metadata } from 'next'
 import type { TPost } from '@/src/types'
 import React from 'react'
 import ReadingProgress from '@/src/components/post/ReadingProgress'
+import { me } from '@/src/config/me'
 
 export async function generateStaticParams() {
   try {
@@ -24,6 +25,8 @@ export async function generateStaticParams() {
   }
 }
 
+import { getMetadata } from '@/src/lib/utils/seo'
+
 export async function generateMetadata({
   params,
 }: {
@@ -33,27 +36,15 @@ export async function generateMetadata({
   const post = filterPosts(await getPosts()).find((p) => p.slug === slug)
   if (!post) return { title: 'Post Not Found' }
 
-  const metaTitle = post.seoTitle || post.title
-  const metaDescription = post.seoDescription || post.summary
-
-  return {
-    title: metaTitle,
-    description: metaDescription,
-    openGraph: {
-      type: 'article',
-      url: `./${slug}`,
-      title: metaTitle,
-      description: metaDescription,
-      images: post.thumbnail ? [post.thumbnail] : [],
-      locale: 'en_US',
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: metaTitle,
-      description: metaDescription,
-      images: post.thumbnail ? [post.thumbnail] : [],
-    },
-  }
+  return getMetadata({
+    title: post.seoTitle || post.title,
+    description: post.seoDescription || post.summary,
+    url: `/posts/${slug}`,
+    image: post.thumbnail,
+    type: 'article',
+    publishedTime: post.date.start_date,
+    authors: [me.name],
+  })
 }
 
 export default async function PostPage({
