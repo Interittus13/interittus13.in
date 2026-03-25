@@ -45,23 +45,41 @@ const ThemedImage = ({
     [post, resolvedTheme, mounted])
 
   return (
-    <Image
-      priority={priority}
-      src={imgSrc}
-      {...(imgSrc !== EMPTY_IMAGE ? { quality } : {})}
-      fill
-      style={{ objectFit: 'cover' }}
-      alt={post.title}
-      placeholder="blur"
-      blurDataURL={blurSrc}
-      className={className}
-      sizes='100%'
-      onError={() => {
-        if (imgSrc !== OG_FALLBACK) {
-          setImgSrc(OG_FALLBACK)
-        }
-      }}
-    />
+    <div className={`relative overflow-hidden group/img ${className}`}>
+      <Image
+        priority={priority}
+        src={imgSrc}
+        {...(imgSrc !== EMPTY_IMAGE ? { quality } : {})}
+        fill
+        style={{ 
+          objectFit: 'cover',
+          pointerEvents: 'none', // Prevents direct drag and drop
+          userSelect: 'none'    // Prevents text selection overlay
+        }}
+        alt={post.title}
+        placeholder="blur"
+        blurDataURL={blurSrc}
+        sizes='100%'
+        onError={() => {
+          if (imgSrc !== OG_FALLBACK) {
+            setImgSrc(OG_FALLBACK)
+          }
+        }}
+      />
+      
+      {/* Interaction Protection Overlay */}
+      <div 
+        className="absolute inset-0 z-10" 
+        onContextMenu={(e) => e.preventDefault()} // Disables right-click on this layer
+      />
+
+      {/* Subtle Branded Watermark */}
+      <div className="absolute bottom-4 right-6 z-20 opacity-0 group-hover/img:opacity-40 transition-opacity duration-500 pointer-events-none">
+        <span className="text-[10px] font-black uppercase tracking-[0.3em] text-white/50 drop-shadow-sm select-none">
+          © {new Date().getFullYear()} interittus.in
+        </span>
+      </div>
+    </div>
   )
 }
 
