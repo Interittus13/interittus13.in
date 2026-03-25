@@ -14,9 +14,9 @@ export function getBaseUrl() {
   // 2. On Vercel, check the environment. 
   // If it's PRODUCTION, we MUST use the canonical domain to avoid preview URLs leaking into SEO.
   const isProd = process.env.NEXT_PUBLIC_VERCEL_ENV === 'production' || process.env.VERCEL_ENV === 'production'
-  
+
   if (isProd) {
-    return 'https://interittus.in'
+    return 'https://interittus13.in'
   }
 
   // 3. Fallback to Vercel's deployment-specific URL for Previews
@@ -25,5 +25,5 @@ export function getBaseUrl() {
   }
 
   // 4. Global fallback
-  return 'https://interittus.in'
+  return 'https://interittus13.in'
 }
