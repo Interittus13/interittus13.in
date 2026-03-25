@@ -14,29 +14,25 @@ const propertyId = process.env.GA_PROPERTY_ID
 const serviceAccountKey = process.env.GA_SERVICE_ACCOUNT_KEY
 const keyFilePath = path.join(process.cwd(), 'interittus-GA-key.json')
 
-let analyticsDataClient: BetaAnalyticsDataClient
+// Only instantiate client when credentials are present.
+// Do NOT fall back to new BetaAnalyticsDataClient() with no credentials —
+// that triggers a GCE metadata ping emitting MetadataLookupWarning at build time.
+let analyticsDataClient: BetaAnalyticsDataClient | null = null
 
 if (fs.existsSync(keyFilePath)) {
-  analyticsDataClient = new BetaAnalyticsDataClient({
-    keyFilename: keyFilePath,
-  })
+  analyticsDataClient = new BetaAnalyticsDataClient({ keyFilename: keyFilePath })
 } else if (serviceAccountKey) {
   try {
     analyticsDataClient = new BetaAnalyticsDataClient({
       credentials: JSON.parse(serviceAccountKey),
     })
-  } catch (error) {
-    // Silent fail in production
-    analyticsDataClient = new BetaAnalyticsDataClient()
+  } catch {
+    // Invalid JSON — leave client as null
   }
-} else {
-  analyticsDataClient = new BetaAnalyticsDataClient()
 }
 
 export async function getGA4Metrics(dateRange = '30daysAgo') {
-  const isAuthReady = fs.existsSync(keyFilePath) || !!serviceAccountKey
-
-  if (!propertyId || !isAuthReady) {
+  if (!propertyId || !analyticsDataClient) {
     return { pageViews: 0, activeUsers: 0 }
   }
 

@@ -31,7 +31,19 @@ module.exports = withPWA(
         },
         {
           protocol: 'https',
-          hostname: '*.amazonaws.com',
+          hostname: 'lh5.googleusercontent.com'
+        },
+        {
+          protocol: 'https',
+          hostname: 's3-us-west-2.amazonaws.com'
+        },
+        {
+          protocol: 'https',
+          hostname: 'prod-files-secure.s3.us-west-2.amazonaws.com'
+        },
+        {
+          protocol: 'https',
+          hostname: '*.amazonaws.com'
         },
         {
           protocol: 'https',
@@ -43,14 +55,4 @@ module.exports = withPWA(
         },
       ],
     },
-
-    // async redirects() {
-    //   return [
-    //     {
-    //       source: '/:path((?!me|tags|friends|archive|categories)[^/]+)',
-    //       destination: '/posts/:path*',
-    //       permanent: true,
-    //     },
-    //   ]
-    // },
   }))
