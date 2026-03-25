@@ -6,12 +6,24 @@ import { CONFIG } from '@/src/config/blog'
  * social metadata (like OG images) points to the correct domain.
  */
 export function getBaseUrl() {
-  let url = CONFIG.link || 'https://interittus.in'
-  
-  if (process.env.NEXT_PUBLIC_VERCEL_URL) {
-    url = `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+  // 1. ALWAYS prefer explicit SITE_URL if set (useful for local dev or custom envs)
+  if (process.env.NEXT_PUBLIC_SITE_URL) {
+    return process.env.NEXT_PUBLIC_SITE_URL.replace(/\/$/, '')
   }
+
+  // 2. On Vercel, check the environment. 
+  // If it's PRODUCTION, we MUST use the canonical domain to avoid preview URLs leaking into SEO.
+  const isProd = process.env.NEXT_PUBLIC_VERCEL_ENV === 'production' || process.env.VERCEL_ENV === 'production'
   
-  // Robustly remove any trailing slashes to prevent double-slashes during concatenation
-  return url.replace(/\/$/, '')
+  if (isProd) {
+    return 'https://interittus.in'
+  }
+
+  // 3. Fallback to Vercel's deployment-specific URL for Previews
+  if (process.env.NEXT_PUBLIC_VERCEL_URL) {
+    return `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`.replace(/\/$/, '')
+  }
+
+  // 4. Global fallback
+  return 'https://interittus.in'
 }
