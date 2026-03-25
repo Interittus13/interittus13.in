@@ -26,6 +26,8 @@ export async function generateStaticParams() {
   }
 }
 
+import { getMetadata } from '@/src/lib/utils/seo'
+
 export async function generateMetadata({
   params,
 }: {
@@ -35,46 +37,15 @@ export async function generateMetadata({
   const post = filterPosts(await getPosts()).find((p) => p.slug === slug)
   if (!post) return { title: 'Post Not Found' }
 
-  const rawTitle = post.seoTitle || post.title
-  const metaTitle =
-    rawTitle.length > 60 ? rawTitle.slice(0, 57) + '...' : rawTitle
-
-  const rawDescription = post.seoDescription || post.summary || ''
-  const metaDescription =
-    rawDescription.length > 160
-      ? rawDescription.slice(0, 157) + '...'
-      : rawDescription
-
-  const canonicalUrl = `${CONFIG.link}/posts/${slug}`
-  
-  // Directly use Notion cover as previously working
-  const ogImage = post.thumbnail
-    ? { url: post.thumbnail, width: 1200, height: 630, alt: metaTitle }
-    : { url: `${CONFIG.link}/static/images/og.png`, width: 1200, height: 630, alt: metaTitle }
-
-  return {
-    title: metaTitle,
-    description: metaDescription,
-    alternates: { canonical: canonicalUrl },
-    openGraph: {
-      type: 'article',
-      publishedTime: post.date.start_date,
-      authors: [me.name],
-      url: canonicalUrl,
-      siteName: CONFIG.BLOG_TITLE,
-      title: metaTitle,
-      description: metaDescription,
-      images: [ogImage],
-      locale: 'en_US',
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: metaTitle,
-      description: metaDescription,
-      images: [ogImage.url],
-      creator: '@interittus13',
-    },
-  }
+  return getMetadata({
+    title: post.seoTitle || post.title,
+    description: post.seoDescription || post.summary,
+    url: `/posts/${slug}`,
+    image: post.thumbnail,
+    type: 'article',
+    publishedTime: post.date.start_date,
+    authors: [me.name],
+  })
 }
 
 export default async function PostPage({

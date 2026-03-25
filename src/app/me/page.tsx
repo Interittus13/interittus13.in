@@ -7,30 +7,14 @@ import { me } from '@/src/config/me'
 import { CONFIG } from '@/src/config/blog'
 import type { Metadata } from 'next'
 
-import { getBaseUrl } from '@/src/lib/utils/url'
+import { getMetadata } from '@/src/lib/utils/seo'
 
-const baseUrl = getBaseUrl()
-const ogImage = `${baseUrl}/static/images/og.png`
-
-export const metadata: Metadata = {
+export const metadata: Metadata = getMetadata({
   title: me.metadata.title,
   description: me.metadata.description,
-  openGraph: {
-    type: 'profile',
-    title: me.metadata.title,
-    description: me.metadata.description,
-    siteName: CONFIG.BLOG_TITLE,
-    locale: 'en_US',
-    images: [{ url: ogImage, width: 1200, height: 630, alt: me.metadata.title }],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: me.metadata.title,
-    description: me.metadata.description,
-    images: [ogImage],
-    creator: '@interittus13',
-  },
-}
+  url: '/me',
+  type: 'profile',
+})
 
 export default async function MePage() {
   const me = await getMeData()

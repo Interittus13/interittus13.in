@@ -2,13 +2,18 @@ import { getPosts } from '@/src/lib/apis'
 import { filterPosts } from '@/src/lib/apis/filterPosts'
 import PostInfiniteList from '@/src/components/post/PostInfiniteList'
 import { ListLayout } from '@/src/components/layout/ListLayout'
+import { Metadata } from 'next'
 
-export async function generateMetadata({ params }: { params: Promise<{ tag: string }> }) {
+import { getMetadata } from '@/src/lib/utils/seo'
+
+export async function generateMetadata({ params }: { params: Promise<{ tag: string }> }): Promise<Metadata> {
   const { tag: rawTag } = await params
   const tag = decodeURIComponent(rawTag)
-  return {
+  return getMetadata({
     title: `#${tag} Posts`,
-  }
+    description: `Explore all technical articles tagged with #${tag}.`,
+    url: `/tags/${rawTag}`,
+  })
 }
 
 export default async function TagPage({ params }: { params: Promise<{ tag: string }> }) {

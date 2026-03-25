@@ -2,30 +2,13 @@ import { me } from '@/src/config/me'
 import { CONFIG } from '@/src/config/blog'
 import type { Metadata } from 'next'
 
-import { getBaseUrl } from '@/src/lib/utils/url'
+import { getMetadata } from '@/src/lib/utils/seo'
 
-const baseUrl = getBaseUrl()
-const ogImage = `${baseUrl}/static/images/og.png`
-
-export const metadata: Metadata = {
+export const metadata: Metadata = getMetadata({
   title: `Privacy Policy | ${me.name}`,
   description: `Privacy policy for ${CONFIG.BLOG_TITLE}. Information about data collection, GA4, Giscus, and AI-generated content.`,
-  openGraph: {
-    type: 'website',
-    title: `Privacy Policy | ${me.name}`,
-    description: `Privacy policy for ${CONFIG.BLOG_TITLE}. Information about data collection, GA4, Giscus, and AI-generated content.`,
-    siteName: CONFIG.BLOG_TITLE,
-    locale: 'en_US',
-    images: [{ url: ogImage, width: 1200, height: 630, alt: `Privacy Policy | ${me.name}` }],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: `Privacy Policy | ${me.name}`,
-    description: `Privacy policy for ${CONFIG.BLOG_TITLE}. Information about data collection, GA4, Giscus, and AI-generated content.`,
-    images: [ogImage],
-    creator: '@interittus13',
-  },
-}
+  url: '/privacy-policy',
+})
 
 export default function PrivacyPolicyPage() {
   return (
