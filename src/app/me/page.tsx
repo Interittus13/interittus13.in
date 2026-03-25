@@ -4,7 +4,6 @@ import Overview from '@/src/components/profile/Overview'
 import { ModernProjectSection } from '@/src/components/profile/projects/ModernProjectSection'
 import { getIconByName } from '@/src/lib/utils/iconMap'
 import { me } from '@/src/config/me'
-import { CONFIG } from '@/src/config/blog'
 import type { Metadata } from 'next'
 
 import { getMetadata } from '@/src/lib/utils/seo'
@@ -14,6 +13,7 @@ export const metadata: Metadata = getMetadata({
   description: me.metadata.description,
   url: '/me',
   type: 'profile',
+  image: '/static/images/og.png',
 })
 
 export default async function MePage() {

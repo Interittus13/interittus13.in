@@ -5,7 +5,6 @@ import ListLayout from '@/src/components/layout/ListLayout'
 import Image from 'next/image'
 import { me } from '@/src/config/me'
 import { getIconByName } from '@/src/lib/utils/iconMap'
-import { CONFIG } from '@/src/config/blog'
 import type { Metadata } from 'next'
 
 import { getMetadata } from '@/src/lib/utils/seo'
@@ -14,6 +13,7 @@ export const metadata: Metadata = getMetadata({
   title: me.name,
   description: me.metadata.description,
   url: '/',
+  image: '/static/images/og.png'
 })
 
 export default async function HomePage() {

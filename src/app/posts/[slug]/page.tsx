@@ -14,7 +14,6 @@ import { Metadata } from 'next'
 import type { TPost } from '@/src/types'
 import React from 'react'
 import ReadingProgress from '@/src/components/post/ReadingProgress'
-import { CONFIG } from '@/src/config/blog'
 import { me } from '@/src/config/me'
 
 export async function generateStaticParams() {
