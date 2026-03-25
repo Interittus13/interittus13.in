@@ -8,9 +8,30 @@ import ThemedImage from "@/src/components/post/ThemedImage"
 import { getCategoryTextColor } from "@/src/lib/utils/categoryColors"
 import type { Metadata } from 'next'
 
+import { getBaseUrl } from '@/src/lib/utils/url'
+import { CONFIG } from '@/src/config/blog'
+
+const baseUrl = getBaseUrl()
+const ogImage = `${baseUrl}/static/images/og.png`
+
 export const metadata: Metadata = {
   title: 'Archive',
   description: 'Explore all articles and posts by year and date.',
+  openGraph: {
+    type: 'website',
+    title: 'Archive',
+    description: 'Explore all articles and posts by year and date.',
+    siteName: CONFIG.BLOG_TITLE,
+    locale: 'en_US',
+    images: [{ url: ogImage, width: 1200, height: 630, alt: 'Archive' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Archive',
+    description: 'Explore all articles and posts by year and date.',
+    images: [ogImage],
+    creator: '@interittus13',
+  },
 }
 
 export default async function ArchivePage() {

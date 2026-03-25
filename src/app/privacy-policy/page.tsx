@@ -2,6 +2,11 @@ import { me } from '@/src/config/me'
 import { CONFIG } from '@/src/config/blog'
 import type { Metadata } from 'next'
 
+import { getBaseUrl } from '@/src/lib/utils/url'
+
+const baseUrl = getBaseUrl()
+const ogImage = `${baseUrl}/static/images/og.png`
+
 export const metadata: Metadata = {
   title: `Privacy Policy | ${me.name}`,
   description: `Privacy policy for ${CONFIG.BLOG_TITLE}. Information about data collection, GA4, Giscus, and AI-generated content.`,
@@ -11,11 +16,13 @@ export const metadata: Metadata = {
     description: `Privacy policy for ${CONFIG.BLOG_TITLE}. Information about data collection, GA4, Giscus, and AI-generated content.`,
     siteName: CONFIG.BLOG_TITLE,
     locale: 'en_US',
+    images: [{ url: ogImage, width: 1200, height: 630, alt: `Privacy Policy | ${me.name}` }],
   },
   twitter: {
     card: 'summary_large_image',
     title: `Privacy Policy | ${me.name}`,
     description: `Privacy policy for ${CONFIG.BLOG_TITLE}. Information about data collection, GA4, Giscus, and AI-generated content.`,
+    images: [ogImage],
     creator: '@interittus13',
   },
 }
