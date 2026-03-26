@@ -9,7 +9,7 @@ export const CONFIG = {
   DATE_FORMAT: 'DD MMM YYYY',
   GISCUS: {
     ENABLE: true,
-    REPO: 'interittus13/interittus.in',
+    REPO: 'interittus13/interittus13.in',
     REPO_ID: process.env.NEXT_PUBLIC_GISCUS_REPO_ID || '',
     CATEGORY: 'Q&A',
     CATEGORY_ID: process.env.NEXT_PUBLIC_GISCUS_CATEGORY_ID || '',
