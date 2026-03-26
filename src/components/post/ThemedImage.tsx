@@ -24,7 +24,8 @@ export interface ThemedImageProps {
 
 const EMPTY_IMAGE = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
 const OG_FALLBACK = '/static/images/og.png'
-const normalizeImageUrl = (url?: string): string => (url || '').replace(/\s+/g, '')
+const normalizeImageUrl = (url?: string): string =>
+  (url || '').replace(/\s+/g, '').replace(/&amp;/g, '&')
 
 const isSignedS3Url = (url: string): boolean => {
   if (!url.startsWith('http')) return false
@@ -60,32 +61,52 @@ const ThemedImage = ({
   const blurSrc = useMemo(() => mounted
     ? getBlurSrc(post, resolvedTheme, EMPTY_IMAGE) : EMPTY_IMAGE,
     [post, resolvedTheme, mounted])
+  const isSignedUrl = isSignedS3Url(imgSrc)
 
   return (
     <div className={`relative overflow-hidden group/img ${className}`}>
-      <Image
-        key={imgSrc} // Force re-render if we switch to fallback
-        priority={priority}
-        src={imgSrc}
-        {...(imgSrc !== EMPTY_IMAGE ? { quality } : {})}
-        fill
-        style={{
-          objectFit: 'cover',
-          pointerEvents: 'none',
-          userSelect: 'none'
-        }}
-        alt={post.title}
-        unoptimized={isSignedS3Url(imgSrc)}
-        placeholder="blur"
-        blurDataURL={blurSrc}
-        sizes='100%'
-        onError={() => {
-          if (!hasError && imgSrc !== OG_FALLBACK) {
-            setHasError(true)
-            setImgSrc(OG_FALLBACK)
-          }
-        }}
-      />
+      {isSignedUrl ? (
+        <img
+          key={imgSrc}
+          src={imgSrc}
+          alt={post.title}
+          loading={priority ? 'eager' : 'lazy'}
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{
+            pointerEvents: 'none',
+            userSelect: 'none',
+          }}
+          onError={() => {
+            if (!hasError && imgSrc !== OG_FALLBACK) {
+              setHasError(true)
+              setImgSrc(OG_FALLBACK)
+            }
+          }}
+        />
+      ) : (
+        <Image
+          key={imgSrc} // Force re-render if we switch to fallback
+          priority={priority}
+          src={imgSrc}
+          {...(imgSrc !== EMPTY_IMAGE ? { quality } : {})}
+          fill
+          style={{
+            objectFit: 'cover',
+            pointerEvents: 'none',
+            userSelect: 'none'
+          }}
+          alt={post.title}
+          placeholder="blur"
+          blurDataURL={blurSrc}
+          sizes='100%'
+          onError={() => {
+            if (!hasError && imgSrc !== OG_FALLBACK) {
+              setHasError(true)
+              setImgSrc(OG_FALLBACK)
+            }
+          }}
+        />
+      )}
 
       {/* Interaction Protection Overlay */}
       <div

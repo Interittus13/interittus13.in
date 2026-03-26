@@ -5,7 +5,9 @@ import { TPost } from '../../types'
  * Extracts the URL from a Notion file object.
 */
 const normalizeSignedUrl = (url?: string): string | undefined =>
-  typeof url === 'string' ? url.replace(/\s+/g, '') : undefined
+  typeof url === 'string'
+    ? url.replace(/\s+/g, '').replace(/&amp;/g, '&')
+    : undefined
 
 const getNotionImage = (file: any): string | undefined => {
   if (!file) return undefined

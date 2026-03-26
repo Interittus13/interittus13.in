@@ -21,7 +21,9 @@ type RichText = {
 }
 
 const normalizeSignedUrl = (url?: string): string | undefined =>
-  typeof url === 'string' ? url.replace(/\s+/g, '') : undefined
+  typeof url === 'string'
+    ? url.replace(/\s+/g, '').replace(/&amp;/g, '&')
+    : undefined
 
 // Rich text span renderer
 function RichTextSpan({ text }: { text: RichText }) {
