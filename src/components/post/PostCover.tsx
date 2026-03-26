@@ -9,7 +9,6 @@ export default function PostCover({ post }: { post: TPost }) {
         <ThemedImage
           post={post}
           className="object-cover transition-transform duration-1000 hover:scale-105"
-          priority
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent pointer-events-none" />
       </div>

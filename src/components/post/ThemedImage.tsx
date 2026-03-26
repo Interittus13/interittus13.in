@@ -54,7 +54,7 @@ const ThemedImage = ({
         src={imgSrc}
         {...(imgSrc !== EMPTY_IMAGE ? { quality } : {})}
         fill
-        style={{ 
+        style={{
           objectFit: 'cover',
           pointerEvents: 'none',
           userSelect: 'none'
@@ -70,10 +70,10 @@ const ThemedImage = ({
           }
         }}
       />
-      
+
       {/* Interaction Protection Overlay */}
-      <div 
-        className="absolute inset-0 z-10" 
+      <div
+        className="absolute inset-0 z-10"
         onContextMenu={(e) => e.preventDefault()}
       />
 
