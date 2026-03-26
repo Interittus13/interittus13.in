@@ -24,6 +24,21 @@ export interface ThemedImageProps {
 
 const EMPTY_IMAGE = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
 const OG_FALLBACK = '/static/images/og.png'
+const normalizeImageUrl = (url?: string): string => (url || '').replace(/\s+/g, '')
+
+const isSignedS3Url = (url: string): boolean => {
+  if (!url.startsWith('http')) return false
+  try {
+    const parsed = new URL(url)
+    const isS3Host = parsed.hostname.includes('amazonaws.com')
+    return isS3Host && (
+      parsed.searchParams.has('X-Amz-Signature') ||
+      parsed.searchParams.has('X-Amz-Security-Token')
+    )
+  } catch {
+    return false
+  }
+}
 
 const ThemedImage = ({
   post,
@@ -33,12 +48,12 @@ const ThemedImage = ({
 }: ThemedImageProps) => {
   const { resolvedTheme } = useTheme()
   const mounted = useMounted()
-  const [imgSrc, setImgSrc] = useState<string>(post.thumbnail || OG_FALLBACK)
+  const [imgSrc, setImgSrc] = useState<string>(normalizeImageUrl(post.thumbnail) || OG_FALLBACK)
   const [hasError, setHasError] = useState(false)
 
   // Ensure imgSrc updates if post.thumbnail changes (e.g., navigation)
   useEffect(() => {
-    setImgSrc(post.thumbnail || OG_FALLBACK)
+    setImgSrc(normalizeImageUrl(post.thumbnail) || OG_FALLBACK)
     setHasError(false)
   }, [post.thumbnail])
 
@@ -60,6 +75,7 @@ const ThemedImage = ({
           userSelect: 'none'
         }}
         alt={post.title}
+        unoptimized={isSignedS3Url(imgSrc)}
         placeholder="blur"
         blurDataURL={blurSrc}
         sizes='100%'
