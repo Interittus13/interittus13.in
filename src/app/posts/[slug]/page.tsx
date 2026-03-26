@@ -12,6 +12,8 @@ import React from 'react'
 import ReadingProgress from '@/src/components/post/ReadingProgress'
 import { me } from '@/src/config/me'
 import { getMetadata } from '@/src/lib/utils/seo'
+
+export const revalidate = 60
 import PostHero from '@/src/components/post/PostHero'
 import PostCover from '@/src/components/post/PostCover'
 import PostTags from '@/src/components/post/PostTags'

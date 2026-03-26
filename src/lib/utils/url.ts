@@ -1,5 +1,3 @@
-import { CONFIG } from '@/src/config/blog'
-
 /**
  * Robustly determine the base URL for the current environment.
  * Prioritizes Vercel's preview URLs during branch-testing to ensure 

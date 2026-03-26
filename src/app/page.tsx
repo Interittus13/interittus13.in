@@ -9,6 +9,7 @@ import type { Metadata } from 'next'
 
 import { getMetadata } from '@/src/lib/utils/seo'
 
+export const revalidate = 60
 export const metadata: Metadata = getMetadata({
   title: me.name,
   description: me.metadata.description,

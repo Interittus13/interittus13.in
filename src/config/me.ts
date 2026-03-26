@@ -6,7 +6,7 @@ export const me = {
     title: 'About Me | Arpit Gupta',
     description: 'DevOps Engineer & Cloud Architect. Turning infrastructure into code. Turning complexity into scale.',
   },
-  site: CONFIG.link,
+  site: CONFIG.getBaseUrl(),
   name: "Arpit Gupta",
   nickname: "interittus13",
   image: "/static/images/portrait.png",

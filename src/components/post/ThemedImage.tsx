@@ -34,10 +34,12 @@ const ThemedImage = ({
   const { resolvedTheme } = useTheme()
   const mounted = useMounted()
   const [imgSrc, setImgSrc] = useState<string>(post.thumbnail || OG_FALLBACK)
+  const [hasError, setHasError] = useState(false)
 
   // Ensure imgSrc updates if post.thumbnail changes (e.g., navigation)
   useEffect(() => {
     setImgSrc(post.thumbnail || OG_FALLBACK)
+    setHasError(false)
   }, [post.thumbnail])
 
   const blurSrc = useMemo(() => mounted
@@ -47,21 +49,23 @@ const ThemedImage = ({
   return (
     <div className={`relative overflow-hidden group/img ${className}`}>
       <Image
+        key={imgSrc} // Force re-render if we switch to fallback
         priority={priority}
         src={imgSrc}
         {...(imgSrc !== EMPTY_IMAGE ? { quality } : {})}
         fill
         style={{ 
           objectFit: 'cover',
-          pointerEvents: 'none', // Prevents direct drag and drop
-          userSelect: 'none'    // Prevents text selection overlay
+          pointerEvents: 'none',
+          userSelect: 'none'
         }}
         alt={post.title}
         placeholder="blur"
         blurDataURL={blurSrc}
         sizes='100%'
         onError={() => {
-          if (imgSrc !== OG_FALLBACK) {
+          if (!hasError && imgSrc !== OG_FALLBACK) {
+            setHasError(true)
             setImgSrc(OG_FALLBACK)
           }
         }}
@@ -70,7 +74,7 @@ const ThemedImage = ({
       {/* Interaction Protection Overlay */}
       <div 
         className="absolute inset-0 z-10" 
-        onContextMenu={(e) => e.preventDefault()} // Disables right-click on this layer
+        onContextMenu={(e) => e.preventDefault()}
       />
 
       {/* Subtle Branded Watermark */}
