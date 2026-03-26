@@ -24,6 +24,22 @@ export interface ThemedImageProps {
 
 const EMPTY_IMAGE = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
 const OG_FALLBACK = '/static/images/og.png'
+const normalizeImageUrl = (url?: string): string =>
+  (url || '').replace(/\s+/g, '').replace(/&amp;/g, '&')
+
+const isSignedS3Url = (url: string): boolean => {
+  if (!url.startsWith('http')) return false
+  try {
+    const parsed = new URL(url)
+    const isS3Host = parsed.hostname.includes('amazonaws.com')
+    return isS3Host && (
+      parsed.searchParams.has('X-Amz-Signature') ||
+      parsed.searchParams.has('X-Amz-Security-Token')
+    )
+  } catch {
+    return false
+  }
+}
 
 const ThemedImage = ({
   post,
@@ -33,35 +49,78 @@ const ThemedImage = ({
 }: ThemedImageProps) => {
   const { resolvedTheme } = useTheme()
   const mounted = useMounted()
-  const [imgSrc, setImgSrc] = useState<string>(post.thumbnail || OG_FALLBACK)
+  const [imgSrc, setImgSrc] = useState<string>(normalizeImageUrl(post.thumbnail) || OG_FALLBACK)
+  const [hasError, setHasError] = useState(false)
 
   // Ensure imgSrc updates if post.thumbnail changes (e.g., navigation)
   useEffect(() => {
-    setImgSrc(post.thumbnail || OG_FALLBACK)
+    setImgSrc(normalizeImageUrl(post.thumbnail) || OG_FALLBACK)
+    setHasError(false)
   }, [post.thumbnail])
 
   const blurSrc = useMemo(() => mounted
     ? getBlurSrc(post, resolvedTheme, EMPTY_IMAGE) : EMPTY_IMAGE,
     [post, resolvedTheme, mounted])
+  const isSignedUrl = isSignedS3Url(imgSrc)
 
   return (
-    <Image
-      priority={priority}
-      src={imgSrc}
-      {...(imgSrc !== EMPTY_IMAGE ? { quality } : {})}
-      fill
-      style={{ objectFit: 'cover' }}
-      alt={post.title}
-      placeholder="blur"
-      blurDataURL={blurSrc}
-      className={className}
-      sizes='100%'
-      onError={() => {
-        if (imgSrc !== OG_FALLBACK) {
-          setImgSrc(OG_FALLBACK)
-        }
-      }}
-    />
+    <div className={`relative w-full h-full overflow-hidden group/img ${className}`}>
+      {isSignedUrl ? (
+        <img
+          key={imgSrc}
+          src={imgSrc}
+          alt={post.title}
+          loading={priority ? 'eager' : 'lazy'}
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{
+            pointerEvents: 'none',
+            userSelect: 'none',
+          }}
+          onError={() => {
+            if (!hasError && imgSrc !== OG_FALLBACK) {
+              setHasError(true)
+              setImgSrc(OG_FALLBACK)
+            }
+          }}
+        />
+      ) : (
+        <Image
+          key={imgSrc} // Force re-render if we switch to fallback
+          priority={priority}
+          src={imgSrc}
+          {...(imgSrc !== EMPTY_IMAGE ? { quality } : {})}
+          fill
+          style={{
+            objectFit: 'cover',
+            pointerEvents: 'none',
+            userSelect: 'none'
+          }}
+          alt={post.title}
+          placeholder="blur"
+          blurDataURL={blurSrc}
+          sizes='100%'
+          onError={() => {
+            if (!hasError && imgSrc !== OG_FALLBACK) {
+              setHasError(true)
+              setImgSrc(OG_FALLBACK)
+            }
+          }}
+        />
+      )}
+
+      {/* Interaction Protection Overlay */}
+      <div
+        className="absolute inset-0 z-10"
+        onContextMenu={(e) => e.preventDefault()}
+      />
+
+      {/* Subtle Branded Watermark */}
+      <div className="absolute bottom-4 right-6 z-20 opacity-0 group-hover/img:opacity-40 transition-opacity duration-500 pointer-events-none">
+        <span className="text-[10px] font-black uppercase tracking-[0.3em] text-white/50 drop-shadow-sm select-none">
+          © {new Date().getFullYear()} interittus.in
+        </span>
+      </div>
+    </div>
   )
 }
 

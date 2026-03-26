@@ -1,6 +1,29 @@
 import { fetchNotionPages, richTextToPlainText } from '../notion/fetchNotionDatabase'
 import { TPost } from '../../types'
-import type { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints'
+
+/**
+ * Extracts the URL from a Notion file object.
+*/
+const normalizeSignedUrl = (url?: string): string | undefined =>
+  typeof url === 'string'
+    ? url.replace(/\s+/g, '').replace(/&amp;/g, '&')
+    : undefined
+
+const getNotionImage = (file: any): string | undefined => {
+  if (!file) return undefined
+
+  // External images
+  if (file.external?.url) {
+    return normalizeSignedUrl(file.external.url)
+  }
+
+  // Notion-hosted images
+  if (file.file?.url) {
+    return normalizeSignedUrl(file.file.url)
+  }
+
+  return undefined
+}
 
 /**
  * Fetch all published posts from the Notion database using the official API.
@@ -8,7 +31,7 @@ import type { PageObjectResponse } from '@notionhq/client/build/src/api-endpoint
  */
 export async function getPosts(): Promise<TPost[]> {
   const pages = await fetchNotionPages(process.env.NOTION_DATABASE_ID, 'Post')
-  
+
   const posts: TPost[] = pages.map((page) => {
     const props = page.properties
 
@@ -55,8 +78,8 @@ export async function getPosts(): Promise<TPost[]> {
       ? (props['thumbnail'] as any).files
       : []
     const thumbnail = thumbnailFiles.length > 0
-      ? (thumbnailFiles[0]?.file?.url ?? thumbnailFiles[0]?.external?.url ?? undefined)
-      : (page.cover as any)?.external?.url ?? (page.cover as any)?.file?.url ?? undefined
+      ? getNotionImage(thumbnailFiles[0])
+      : getNotionImage(page.cover)
 
     // SEO properties
     const seoTitle = richTextToPlainText(

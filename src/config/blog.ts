@@ -1,7 +1,10 @@
+import { getBaseUrl } from '../lib/utils/url'
+
+export const REVALIDATE = 60
+
 export const CONFIG = {
   BLOG_TITLE: 'interittus13',
-  link: process.env.NEXT_PUBLIC_SITE_URL || 
-        (process.env.NEXT_PUBLIC_VERCEL_URL ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` : 'https://interittus.in'),
+  getBaseUrl,
   NOTION_PAGE_ID: process.env.NOTION_PAGE_ID as string,
   DATE_FORMAT: 'DD MMM YYYY',
   GISCUS: {
@@ -17,7 +20,5 @@ export const CONFIG = {
     LANG: 'en',
     LOADING: 'lazy',
   },
-  REVALIDATE: 60,
+  REVALIDATE,
 }
-
-export const REVALIDATE = CONFIG.REVALIDATE
