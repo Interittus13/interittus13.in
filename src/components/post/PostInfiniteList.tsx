@@ -72,7 +72,7 @@ export default function PostInfiniteList({
           return (
             <div
               key={post.id}
-              className={`group relative flex flex-col bg-white dark:bg-zinc-900 rounded-[2.5rem] overflow-hidden shadow-2xl shadow-zinc-200/50 dark:shadow-none transition-all duration-700 hover:scale-[1.03] active:scale-[0.97] border border-transparent hover:border-zinc-200 dark:hover:border-zinc-700 ${colSpan}`}
+              className={`group relative flex flex-col bg-white dark:bg-zinc-900 rounded-[2.5rem] overflow-hidden shadow-2xl shadow-zinc-200/50 dark:shadow-none border border-transparent hover:border-zinc-200 dark:hover:border-zinc-700 ${colSpan}`}
               data-aos="fade-up"
               data-aos-delay={(index % 3) * 100}
             >
@@ -83,7 +83,7 @@ export default function PostInfiniteList({
               <div className={`relative ${imageHeight} w-full overflow-hidden`}>
                 <ThemedImage
                   post={post}
-                  className="object-cover w-full h-full transition-transform duration-1000 group-hover:scale-110"
+                  className="object-cover w-full h-full"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
               </div>

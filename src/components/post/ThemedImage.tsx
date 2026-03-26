@@ -5,6 +5,7 @@ import { useMemo, useState, useEffect } from 'react'
 import Image from 'next/image'
 import { useMounted } from '@/src/hooks/useMounted'
 import type { TPost } from '@/src/types'
+import ImageGuard from '@/src/components/ui/ImageGuard'
 
 /**
  * Returns the correct blur image source based on the theme.
@@ -64,7 +65,7 @@ const ThemedImage = ({
   const isSignedUrl = isSignedS3Url(imgSrc)
 
   return (
-    <div className={`relative w-full h-full overflow-hidden group/img ${className}`}>
+    <ImageGuard className={className}>
       {isSignedUrl ? (
         <img
           key={imgSrc}
@@ -107,20 +108,7 @@ const ThemedImage = ({
           }}
         />
       )}
-
-      {/* Interaction Protection Overlay */}
-      <div
-        className="absolute inset-0 z-10"
-        onContextMenu={(e) => e.preventDefault()}
-      />
-
-      {/* Subtle Branded Watermark */}
-      <div className="absolute bottom-4 right-6 z-20 opacity-0 group-hover/img:opacity-40 transition-opacity duration-500 pointer-events-none">
-        <span className="text-[10px] font-black uppercase tracking-[0.3em] text-white/50 drop-shadow-sm select-none">
-          © {new Date().getFullYear()} interittus.in
-        </span>
-      </div>
-    </div>
+    </ImageGuard>
   )
 }
 

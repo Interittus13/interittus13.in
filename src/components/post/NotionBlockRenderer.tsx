@@ -3,6 +3,7 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import ImageGuard from '@/src/components/ui/ImageGuard'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import type { BlockObjectResponse } from '@notionhq/client/build/src/api-endpoints'
@@ -300,15 +301,17 @@ function Block({ block, isFirst }: { block: BlockObjectResponse; isFirst?: boole
       return (
         <figure className="my-8">
           <div className="relative w-full rounded-2xl overflow-hidden border border-zinc-200 dark:border-zinc-700/50 shadow-sm">
-            <Image
-              src={url}
-              alt={caption || 'Blog image'}
-              width={1200}
-              height={800}
-              className="w-full h-auto object-cover"
-              loading="lazy"
-              unoptimized // Notion signed URLs often change
-            />
+            <ImageGuard>
+              <Image
+                src={url}
+                alt={caption || 'Blog image'}
+                width={1200}
+                height={800}
+                className="w-full h-auto object-cover"
+                loading="lazy"
+                unoptimized // Notion signed URLs often change
+              />
+            </ImageGuard>
           </div>
           {caption && (
             <figcaption className="text-center text-sm text-zinc-400 mt-3 italic">
