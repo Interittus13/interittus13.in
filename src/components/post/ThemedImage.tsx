@@ -64,7 +64,7 @@ const ThemedImage = ({
   const isSignedUrl = isSignedS3Url(imgSrc)
 
   return (
-    <div className={`relative overflow-hidden group/img ${className}`}>
+    <div className={`relative w-full h-full overflow-hidden group/img ${className}`}>
       {isSignedUrl ? (
         <img
           key={imgSrc}
