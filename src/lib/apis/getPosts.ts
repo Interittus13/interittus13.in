@@ -4,17 +4,20 @@ import { TPost } from '../../types'
 /**
  * Extracts the URL from a Notion file object.
 */
+const normalizeSignedUrl = (url?: string): string | undefined =>
+  typeof url === 'string' ? url.replace(/\s+/g, '') : undefined
+
 const getNotionImage = (file: any): string | undefined => {
   if (!file) return undefined
 
   // External images
   if (file.external?.url) {
-    return file.external.url
+    return normalizeSignedUrl(file.external.url)
   }
 
   // Notion-hosted images
   if (file.file?.url) {
-    return file.file.url
+    return normalizeSignedUrl(file.file.url)
   }
 
   return undefined
