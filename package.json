@@ -1,13 +1,14 @@
 {
-  "name": "interittus.in",
-  "private": true,
+  "name": "interittus13.in",
+  "version": "1.0.0",
+  "private": false,
+  "description": "Personal blog of Arpit Gupta, powered by Next.js and Notion.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Interittus13/interittus.in.git"
+    "url": "https://github.com/Interittus13/interittus13.in.git"
   },
-  "author": {
-    "name": "Interittus13"
-  },
+  "author": "Arpit Gupta <arpit.gupta.0121@gmail.com> (https://interittus13.in)",
+  "license": "MIT",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

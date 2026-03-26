@@ -1,4 +1,4 @@
-# interittus.in
+# interittus13.in — Personal Blog Application
 
 > A personal blog exploring ideas, projects, and perspectives in tech, design, and beyond.
 
@@ -13,5 +13,14 @@
 
 ## 📄 License
 
-This project is licensed under the  
-<a href='https://creativecommons.org/licenses/by-nc-sa/4.0/'>CC BY-NC-SA 4.0</a>
+This project is licensed under the [MIT License](LICENSE).
+
+## 🤝 Credits
+
+This project was inspired by and built upon the excellent work of [MannyCooper/anzifan.com](https://github.com/MannyCooper/anzifan.com). 
+
+## 📬 Contact
+
+- **Name**: Arpit Gupta
+- **Website**: [interittus13.in](https://interittus13.in)
+- **Email**: [arpit.gupta.0121@gmail.com](mailto:arpit.gupta.0121@gmail.com)
