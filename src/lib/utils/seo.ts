@@ -18,27 +18,27 @@ interface SeoOptions {
  */
 export function getMetadata(options: SeoOptions = {}): Metadata {
   const baseUrl = getBaseUrl()
-  
+
   // 1. Resolve Title
   const rawTitle = options.title || CONFIG.BLOG_TITLE
   const displayTitle = rawTitle.length > 60 ? rawTitle.slice(0, 57) + '...' : rawTitle
-  
+
   // 2. Resolve Description
   const rawDescription = options.description || 'DevOps Engineer & Cloud Architect. Writing about cloud infra, Kubernetes, Terraform, and platform engineering.'
   const displayDescription = rawDescription.length > 160 ? rawDescription.slice(0, 157) + '...' : rawDescription
-  
+
   // 3. Resolve Image (ALWAYS ABSOLUTE)
   // Ensure the image URL is absolute and fallback to default if missing or invalid
   const hasValidImage = options.image && typeof options.image === 'string' && options.image.trim() !== ''
   let imagePath = hasValidImage ? options.image! : '/static/images/og.png'
-  
+
   // Ensure imagePath starts with / if it's relative
   if (!imagePath.startsWith('http') && !imagePath.startsWith('/')) {
     imagePath = `/${imagePath}`
   }
 
   const imageUrl = imagePath.startsWith('http') ? imagePath : `${baseUrl}${imagePath}`
-  
+
   // 4. Resolve Canonical URL
   const canonicalUrl = options.url ? (options.url.startsWith('http') ? options.url : `${baseUrl}${options.url}`) : baseUrl
 
@@ -70,8 +70,11 @@ export function getMetadata(options: SeoOptions = {}): Metadata {
       card: 'summary_large_image',
       title: displayTitle,
       description: displayDescription,
-      images: [imageUrl],
       creator: '@interittus13',
+      images: [{
+        url: imageUrl,
+        alt: displayTitle,
+      }],
     },
   }
 }
