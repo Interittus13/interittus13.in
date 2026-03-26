@@ -20,6 +20,11 @@ type RichText = {
   }
 }
 
+const normalizeSignedUrl = (url?: string): string | undefined =>
+  typeof url === 'string'
+    ? url.replace(/\s+/g, '').replace(/&amp;/g, '&')
+    : undefined
+
 // Rich text span renderer
 function RichTextSpan({ text }: { text: RichText }) {
   const { annotations, href, plain_text } = text
@@ -288,7 +293,8 @@ function Block({ block, isFirst }: { block: BlockObjectResponse; isFirst?: boole
 
     case 'image': {
       const img = (block as any).image
-      const url = img.type === 'external' ? img.external.url : img.file?.url
+      const rawUrl = img.type === 'external' ? img.external.url : img.file?.url
+      const url = normalizeSignedUrl(rawUrl)
       const caption = img.caption?.map((t: RichText) => t.plain_text).join('') ?? ''
       if (!url) return null
       return (
@@ -315,7 +321,8 @@ function Block({ block, isFirst }: { block: BlockObjectResponse; isFirst?: boole
 
     case 'video': {
       const vid = (block as any).video
-      const url = vid.type === 'external' ? vid.external.url : vid.file?.url
+      const rawUrl = vid.type === 'external' ? vid.external.url : vid.file?.url
+      const url = normalizeSignedUrl(rawUrl)
 
       // Handle YouTube
       const ytMatch = url?.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\n?]+)/)
