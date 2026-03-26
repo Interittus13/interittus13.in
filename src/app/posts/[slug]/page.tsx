@@ -13,19 +13,19 @@ import ReadingProgress from '@/src/components/post/ReadingProgress'
 import { me } from '@/src/config/me'
 import { getMetadata } from '@/src/lib/utils/seo'
 
-export const revalidate = 60
+export const dynamic = 'force-dynamic'
 import PostHero from '@/src/components/post/PostHero'
 import PostCover from '@/src/components/post/PostCover'
 import PostTags from '@/src/components/post/PostTags'
 
-export async function generateStaticParams() {
-  try {
-    const posts = await getPosts()
-    return filterPosts(posts).map((p) => ({ slug: p.slug }))
-  } catch {
-    return []
-  }
-}
+// export async function generateStaticParams() {
+//   try {
+//     const posts = await getPosts()
+//     return filterPosts(posts).map((p) => ({ slug: p.slug }))
+//   } catch {
+//     return []
+//   }
+// }
 
 export async function generateMetadata({
   params,
@@ -33,7 +33,9 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>
 }): Promise<Metadata> {
   const { slug } = await params
-  const post = filterPosts(await getPosts()).find((p) => p.slug === slug)
+  // Always fetch fresh post for metadata
+  const posts = await getPosts()
+  const post = filterPosts(posts).find((p) => p.slug === slug)
   if (!post) return { title: 'Post Not Found' }
 
   return getMetadata({

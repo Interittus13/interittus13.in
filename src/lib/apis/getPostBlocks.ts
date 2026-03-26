@@ -21,18 +21,20 @@ async function fetchBlocksRecursively(blockId: string): Promise<BlockObjectRespo
       // Recursively fetch children for container-type blocks
       if (
         block.has_children &&
-        (block.type === 'toggle' ||
-          block.type === 'bulleted_list_item' ||
-          block.type === 'numbered_list_item' ||
-          block.type === 'quote' ||
-          block.type === 'callout' ||
-          block.type === 'column_list' ||
-          block.type === 'column' ||
-          block.type === 'synced_block' ||
-          block.type === 'template' ||
-          block.type === 'to_do' ||
-          block.type === 'table' ||
-          block.type === 'paragraph')
+        [
+          'toggle',
+          'bulleted_list_item',
+          'numbered_list_item',
+          'quote',
+          'callout',
+          'column_list',
+          'column',
+          'synced_block',
+          'template',
+          'to_do',
+          'table',
+          'paragraph',
+        ].includes(block.type)
       ) {
         const children = await fetchBlocksRecursively(block.id)
           ; (block as any).__children = children
