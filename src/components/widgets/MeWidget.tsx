@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { getIconByName } from '@/src/lib/utils/iconMap'
 import { me } from '@/src/config/me'
+import ImageGuard from '@/src/components/ui/ImageGuard'
 
 const portraitPlaceholder = `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAIAAAACUFjqAAAACXBIWXMAAAsTAAALEwEAmpwYAAABQUlEQVQYlQE2Acn+ANV6g9Z8hdV6htZ9iNFseO7KzfDQ1NJyfdZ/iNV6gwCvACStAButABioAAjJU2X78vTANUeqABCsABWvACIAqAAArwAA1n+Gy1th0nZc1oF2z2hv3I+UuAosqAAAANF/APXis/////////Tt4sbCvf////////HaeNF+AADt5wD////j8+ZSunYAnDUAgw8ArWSZ0UXw3wDq4QAA0OQA//7/NpJWAH0uKng4U5tWAGUlAGwArNIAw90AADe4qv///7yOg9eAg7CSjtm3ss54e8F3cK7eowCbhAAAQq+6yOL89+rfx6OvoYynnH3p173+/PJipNsAObAAAABKFxpuR5R9AJUAn60+SaASAJsUZoWVAAtcAABLAG4fUXIHUQBAHwCjAIlPN3KCOQCKAEElNnEQUG0hUclYmR7EScPpAAAAAElFTkSuQmCC`
 
@@ -15,15 +16,17 @@ export const WidgetMeSmall: React.FC = () => {
     >
       <Link href="/me" className="absolute inset-0 z-10" />
       <div className="flex flex-col h-full items-center justify-between text-center">
-        <div className="relative w-24 h-24 rounded-[1.5rem] overflow-hidden rotate-[-4deg] group-hover:rotate-0 transition-transform duration-700 shadow-xl border-4 border-white dark:border-zinc-800">
-          <Image
-            src={me.image}
-            fill
-            className="object-cover"
-            alt={me.name}
-            placeholder="blur"
-            blurDataURL={portraitPlaceholder}
-          />
+        <div className="relative w-24 h-24 rounded-[1.5rem] overflow-hidden shadow-xl border-4 border-white dark:border-zinc-800">
+          <ImageGuard>
+            <Image
+              src={me.image}
+              fill
+              className="object-cover"
+              alt={me.name}
+              placeholder="blur"
+              blurDataURL={portraitPlaceholder}
+            />
+          </ImageGuard>
         </div>
 
         <div className="mt-4">
@@ -59,21 +62,23 @@ export const WidgetMeSmall: React.FC = () => {
 export const WidgetMeMedium: React.FC<{ fix?: boolean }> = ({ fix }) => {
   return (
     <div
-      className={`group relative overflow-hidden bg-white/70 dark:bg-zinc-900/70 backdrop-blur-3xl rounded-[3rem] border border-zinc-100 dark:border-zinc-800 shadow-2xl shadow-zinc-200/50 dark:shadow-none transition-all duration-700 hover:scale-[1.02] hover:shadow-3xl ${fix ? 'min-h-[160px] lg:min-h-[180px]' : 'min-h-[180px] lg:min-h-[200px]'}`}
+      className={`group relative overflow-hidden bg-white/70 dark:bg-zinc-900/70 backdrop-blur-3xl rounded-[3rem] border border-zinc-100 dark:border-zinc-800 shadow-2xl shadow-zinc-200/50 dark:shadow-none ${fix ? 'min-h-[160px] lg:min-h-[180px]' : 'min-h-[180px] lg:min-h-[200px]'}`}
       data-aos="fade-up"
     >
       <Link href="/me" className="absolute inset-0 z-10" />
       <div className="flex h-full items-center">
         <div className="w-1/3 p-6 pr-0 flex items-center justify-center">
-          <div className="relative aspect-square w-full max-w-[120px] rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white dark:border-zinc-800 transition-transform duration-700 group-hover:rotate-3 group-hover:scale-105">
-            <Image
-              src={me.image}
-              fill
-              className="object-cover"
-              alt={me.name}
-              placeholder="blur"
-              blurDataURL={portraitPlaceholder}
-            />
+          <div className="relative aspect-square w-full max-w-[120px] rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white dark:border-zinc-800 transition-transform duration-700">
+            <ImageGuard>
+              <Image
+                src={me.image}
+                fill
+                className="object-cover"
+                alt={me.name}
+                placeholder="blur"
+                blurDataURL={portraitPlaceholder}
+              />
+            </ImageGuard>
           </div>
         </div>
 
