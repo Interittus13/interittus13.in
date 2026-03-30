@@ -11,12 +11,16 @@
   --breakpoint-lg: 1068px;
 }
 
+@variant dark (&:where(.dark, .dark *));
+
 @layer base {
   html,
   body {
     padding: 0;
     margin: 0;
     font-family: var(--font-sans);
+    @apply bg-white text-zinc-900 dark:bg-zinc-950 dark:text-zinc-50;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 
   a {

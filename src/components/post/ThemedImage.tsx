@@ -73,6 +73,8 @@ const ThemedImage = ({
           alt={post.title}
           loading={priority ? 'eager' : 'lazy'}
           className="absolute inset-0 w-full h-full object-cover"
+          draggable={false}
+          onDragStart={(e) => e.preventDefault()}
           style={{
             pointerEvents: 'none',
             userSelect: 'none',
@@ -96,6 +98,8 @@ const ThemedImage = ({
             pointerEvents: 'none',
             userSelect: 'none'
           }}
+          draggable={false}
+          onDragStart={(e) => e.preventDefault()}
           alt={post.title}
           placeholder="blur"
           blurDataURL={blurSrc}
