@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@variant dark (&:where(.dark, .dark *));
+
 @theme {
   --font-sans: "Overpass", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --font-serif: "Old Standard TT", ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
@@ -9,8 +11,6 @@
   --breakpoint-sm: 450px;
   --breakpoint-md: 734px;
   --breakpoint-lg: 1068px;
-
-  --variant-dark: .dark &;
 }
 
 @layer base {
@@ -24,7 +24,7 @@
     transition: background-color 0.3s ease, color 0.3s ease;
   }
 
-  .dark html,
+  html.dark,
   .dark body {
     background-color: #09090b; /* zinc-950 */
     color: #fafafa; /* zinc-50 */
