@@ -8,6 +8,7 @@ import { TPost } from '@/src/types'
 import { getCategoryTextColor } from '@/src/lib/utils/categoryColors'
 import FormattedDate from '@/src/components/ui/FormattedDate'
 import ThemedImage from './ThemedImage'
+import { PostMetricBadge } from './PostMetricBadge'
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json())
 
@@ -39,6 +40,10 @@ export default function PostInfiniteList({
   )
 
   const posts = data ? data.flatMap((page) => page.posts || []) : initialPosts
+  
+  // Calculate popularity threshold from current posts
+  const maxViews = Math.max(...posts.map(p => p.metrics?.totalViews || 0), 1)
+  const popularThreshold = maxViews * 0.7 
   const isLoadingMore =
     isValidating || (size > 0 && data && typeof data[size - 1] === 'undefined')
   const isReachingEnd = data && (data[data.length - 1]?.posts?.length < PAGE_SIZE || data[data.length - 1]?.nextCursor === null)
@@ -100,6 +105,11 @@ export default function PostInfiniteList({
                   <FormattedDate 
                     date={post.date.start_date} 
                     className="text-[0.65rem] font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-[0.2em]"
+                  />
+                  <div className="flex-1" />
+                  <PostMetricBadge 
+                    views={post.metrics?.totalViews} 
+                    isPopular={(post.metrics?.totalViews || 0) >= popularThreshold && (post.metrics?.totalViews || 0) > 10}
                   />
                 </div>
 

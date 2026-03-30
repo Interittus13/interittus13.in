@@ -31,13 +31,110 @@ if (fs.existsSync(keyFilePath)) {
   }
 }
 
+
+const CACHE_FILE = path.join(process.cwd(), '.cache', 'analytics.json')
+const CACHE_TTL = 3600 * 1000 // 1 hour
+
+interface CachedData {
+  timestamp: number
+  data: Record<string, { totalViews: number; weeklyViews: number }>
+}
+
+async function getCachedAnalytics(): Promise<CachedData | null> {
+  try {
+    if (!fs.existsSync(path.dirname(CACHE_FILE))) {
+      fs.mkdirSync(path.dirname(CACHE_FILE), { recursive: true })
+      return null
+    }
+    if (fs.existsSync(CACHE_FILE)) {
+      const content = fs.readFileSync(CACHE_FILE, 'utf-8')
+      const parsed = JSON.parse(content) as CachedData
+      if (Date.now() - parsed.timestamp < CACHE_TTL) {
+        return parsed
+      }
+    }
+  } catch (e) {
+    console.error('Error reading analytics cache:', e)
+  }
+  return null
+}
+
+async function saveAnalyticsCache(data: Record<string, { totalViews: number; weeklyViews: number }>) {
+  try {
+    const cacheData: CachedData = {
+      timestamp: Date.now(),
+      data,
+    }
+    fs.writeFileSync(CACHE_FILE, JSON.stringify(cacheData))
+  } catch (e) {
+    console.error('Error saving analytics cache:', e)
+  }
+}
+
+export async function fetchAllPostMetrics() {
+  if (!propertyId || !analyticsDataClient) {
+    return {}
+  }
+
+  const cached = await getCachedAnalytics()
+  if (cached) return cached.data
+
+  try {
+    const fetchRange = async (startDate: string) => {
+      const [response] = await analyticsDataClient!.runReport({
+        property: `properties/${propertyId}`,
+        dateRanges: [{ startDate, endDate: 'today' }],
+        dimensions: [{ name: 'pagePath' }],
+        metrics: [{ name: 'screenPageViews' }],
+        dimensionFilter: {
+          filter: {
+            fieldName: 'pagePath',
+            stringFilter: {
+              value: '^/posts/.*',
+              matchType: 'FULL_REGEXP',
+            },
+          },
+        },
+      })
+      
+      const metrics: Record<string, number> = {}
+      response.rows?.forEach((row: any) => {
+        const path = row.dimensionValues?.[0]?.value || ''
+        const views = parseInt(row.metricValues?.[0]?.value || '0')
+        if (path) metrics[path] = views
+      })
+      return metrics
+    }
+
+    const [totalMetrics, weeklyMetrics] = await Promise.all([
+      fetchRange('2020-01-01'),
+      fetchRange('7daysAgo'),
+    ])
+
+    const allPaths = new Set([...Object.keys(totalMetrics), ...Object.keys(weeklyMetrics)])
+    const results: Record<string, { totalViews: number; weeklyViews: number }> = {}
+
+    allPaths.forEach((path) => {
+      results[path] = {
+        totalViews: totalMetrics[path] || 0,
+        weeklyViews: weeklyMetrics[path] || 0,
+      }
+    })
+
+    await saveAnalyticsCache(results)
+    return results
+  } catch (error) {
+    console.error('GA4 All Metrics Fetch Error:', error)
+    return {}
+  }
+}
+
 export async function getGA4Metrics(dateRange = '30daysAgo') {
   if (!propertyId || !analyticsDataClient) {
     return { pageViews: 0, activeUsers: 0 }
   }
 
   try {
-    // Set a strict timeout for the Google API call to prevent hanging
     const reportPromise = analyticsDataClient.runReport({
       property: `properties/${propertyId}`,
       dateRanges: [{ startDate: dateRange, endDate: 'today' }],
@@ -58,9 +155,4 @@ export async function getGA4Metrics(dateRange = '30daysAgo') {
   } catch (error) {
     return { pageViews: 0, activeUsers: 0 }
   }
-}
-
-export async function getTotalPageViews() {
-  // Fetch from the beginning of time (or property creation)
-  return getGA4Metrics('2020-01-01')
 }

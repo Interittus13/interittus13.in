@@ -12,6 +12,9 @@ import React from 'react'
 import ReadingProgress from '@/src/components/post/ReadingProgress'
 import { me } from '@/src/config/me'
 import { getMetadata } from '@/src/lib/utils/seo'
+import { EngagementTracker } from '@/src/components/post/EngagementTracker'
+import { RecommendedPosts } from '@/src/components/post/RecommendedPosts'
+import { getRecommendedPosts } from '@/src/lib/utils/recommendations'
 
 export const dynamic = 'force-dynamic'
 import PostHero from '@/src/components/post/PostHero'
@@ -72,9 +75,18 @@ export default async function PostPage({
     ),
   ])
 
+  // Calculation for Insights
+  const sortedByViews = [...filteredPosts].sort((a, b) => (b.metrics?.totalViews || 0) - (a.metrics?.totalViews || 0))
+  const rank = sortedByViews.findIndex(p => p.slug === slug) + 1
+  const isTopTier = rank <= Math.max(1, Math.floor(filteredPosts.length * 0.1)) // Top 10%
+  const readerCount = post.metrics?.totalViews || 0
+  
+  const recommended = getRecommendedPosts(post, filteredPosts)
+
   return (
     <>
       <ReadingProgress />
+      <EngagementTracker slug={slug} title={post.title} />
       <main className="min-h-screen">
         {/* Hero */}
         <PostHero post={post} />
@@ -84,6 +96,24 @@ export default async function PostPage({
 
         {/* Article body */}
         <section className="max-w-4xl mx-auto px-5 md:px-8 mt-8 md:mt-12">
+          {/* Insights Bar */}
+          {(readerCount > 0 || isTopTier) && (
+            <div className="mb-10 flex items-center gap-4 py-4 border-y border-zinc-100 dark:border-zinc-800/50">
+              <span className="text-zinc-400 dark:text-zinc-500 text-xs font-black uppercase tracking-widest flex items-center gap-2">
+                <span className="text-lg">👀</span> 
+                {readerCount.toLocaleString()} people have read this
+              </span>
+              {isTopTier && (
+                <>
+                  <div className="w-1 h-1 rounded-full bg-zinc-200 dark:bg-zinc-800" />
+                  <span className="text-orange-500 text-xs font-black uppercase tracking-widest flex items-center gap-2">
+                     🏅 Top 10% Article
+                  </span>
+                </>
+              )}
+            </div>
+          )}
+          
           <ContentRenderer blocks={blocks} />
         </section>
 
@@ -110,8 +140,13 @@ export default async function PostPage({
         </div>
 
         {/* Comments */}
-        <div className="max-w-4xl mx-auto px-5 md:px-8 mt-12 mb-32">
+        <div className="max-w-4xl mx-auto px-5 md:px-8 mt-12">
           <Comment />
+        </div>
+
+        {/* Recommended Posts */}
+        <div className="max-w-5xl mx-auto px-5 md:px-8 mb-32">
+          <RecommendedPosts posts={recommended} />
         </div>
       </main>
     </>

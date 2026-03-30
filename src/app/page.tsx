@@ -2,6 +2,7 @@ import { getPosts } from '@/src/lib/apis'
 import { filterPosts } from '@/src/lib/apis/filterPosts'
 import PostInfiniteList from '@/src/components/post/PostInfiniteList'
 import ListLayout from '@/src/components/layout/ListLayout'
+import { TrendingSection } from '@/src/components/post/TrendingSection'
 import Image from 'next/image'
 import { me } from '@/src/config/me'
 import { getIconByName } from '@/src/lib/utils/iconMap'
@@ -68,6 +69,9 @@ export default async function HomePage() {
           </div>
 
         </section>
+
+        {/* Trending Section */}
+        <TrendingSection posts={filteredPosts} />
 
         {/*Posts Section */}
         <section className="w-full">

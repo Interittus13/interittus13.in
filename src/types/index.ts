@@ -18,7 +18,11 @@ export type TPost = {
   coverBlur?: {
     blurLight?: string;
     blurDark?: string;
-  }
+  };
+  metrics?: {
+    totalViews: number;
+    weeklyViews: number;
+  };
 };
 
 export type TPosts = TPost[];

@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { TPost } from '@/src/types'
 import { getCategoryTextColor } from '@/src/lib/utils/categoryColors'
 import FormattedDate from '@/src/components/ui/FormattedDate'
+import { PostMetricBadge } from './PostMetricBadge'
 
 export default function PostHero({ post }: { post: TPost }) {
   const category = post.category?.[0]
@@ -33,6 +34,14 @@ export default function PostHero({ post }: { post: TPost }) {
             <span className="text-[0.65rem] font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-[0.2em]">
               {post.tags.length} tag{post.tags.length > 1 ? 's' : ''}
             </span>
+          </>
+        )}
+
+        {/* Views & Popularity */}
+        {post.metrics && (
+          <>
+            <div className="w-1.5 h-1.5 rounded-full bg-zinc-200 dark:bg-zinc-700" />
+            <PostMetricBadge views={post.metrics.totalViews} isPopular={(post.metrics.totalViews || 0) > 100} />
           </>
         )}
       </div>

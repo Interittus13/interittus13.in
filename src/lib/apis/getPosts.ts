@@ -113,5 +113,19 @@ export async function getPosts(): Promise<TPost[]> {
     return db - da
   })
 
+  // Try to augment with metrics if available
+  try {
+    const { fetchAllPostMetrics } = require('../ga')
+    const metricsMap = await fetchAllPostMetrics()
+    posts.forEach(post => {
+      const path = `/posts/${post.slug}`
+      if (metricsMap[path]) {
+        post.metrics = metricsMap[path]
+      }
+    })
+  } catch (e) {
+    // Analytics failed, but we still return the posts
+  }
+
   return posts
 }
