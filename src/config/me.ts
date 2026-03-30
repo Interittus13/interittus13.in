@@ -42,7 +42,7 @@ export const me = {
       border: "border-[#DB4437]",
       shadow: "shadow-pink-300",
       text: "text-[#DB4437]",
-      color: "from-bg-[#DB4437] to-bg-[#DB4437]",
+      color: "from-[#DB4437] to-[#DB4437]",
       name: "Gmail",
     },
   ],

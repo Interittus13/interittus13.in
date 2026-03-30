@@ -4,7 +4,7 @@ export const links: readonly SocialLink[] = [
   {
     url: 'https://github.com/interittus13',
     icon: 'SiGithub',
-    color: 'from-bg-[#24292f] to-bg-[#040d21]',
+    color: 'from-[#24292f] to-[#040d21]',
     fill: 'fill-[#181717]',
     border: 'border-[#181717]',
     text: 'text-[#181717]',
@@ -19,14 +19,14 @@ export const links: readonly SocialLink[] = [
     border: 'border-[#0A66C2]',
     shadow: 'shadow-blue-300',
     text: 'text-[#0A66C2]',
-    color: 'from-bg-[#0b66c2] to-bg-[#008bff]',
+    color: 'from-[#0b66c2] to-[#008bff]',
     name: 'LinkedIn',
   },
   {
     url: 'https://x.com/interittus13',
     icon: 'SiX',
     color:
-      'from-bg-[#1DA1F2] to-bg-[#1DA1F2] dark:(from-bg-[#1DA1F2] to-bg-[#1DA1F2])',
+      'from-[#1DA1F2] to-[#1DA1F2] dark:(from-[#1DA1F2] to-[#1DA1F2])',
     fill: 'fill-[#1DA1F2]',
     border: 'border-[#1DA1F2]',
     shadow: 'shadow-blue-300',
@@ -37,7 +37,7 @@ export const links: readonly SocialLink[] = [
   {
     url: 'https://instagram.com/interittus13',
     icon: 'SiInstagram',
-    color: 'from-bg-[#C13584] to-bg-[#F56040]',
+    color: 'from-[#C13584] to-[#F56040]',
     fill: 'fill-[#da282a]',
     border: 'border-[#da282a]',
     shadow: 'shadow-red-300',

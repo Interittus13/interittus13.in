@@ -79,11 +79,10 @@ export default async function MePage() {
                       href={s.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={`group relative flex items-center justify-center w-12 h-12 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 shadow-xl transition-all duration-500 hover:scale-110 active:scale-90 hover:shadow-2xl hover:-translate-y-1`}
+                      className="group relative flex items-center justify-center w-12 h-12 rounded-2xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 shadow-sm transition-all duration-500 hover:scale-110 active:scale-90 hover:-translate-y-1"
                       aria-label={s.name}
                     >
-                      <div className={`absolute inset-0 bg-gradient-to-br ${s.color?.replace(/-bg-/g, '-')} opacity-0 group-hover:opacity-10 dark:group-hover:opacity-20 transition-opacity duration-500 rounded-2xl`} />
-                      <Icon className={`w-5 h-5 transition-all duration-500 ${s.fill} ${s.text} dark:fill-zinc-100 dark:text-zinc-100 group-hover:scale-110 group-hover:fill-current group-hover:text-current`} />
+                      <Icon className="w-5 h-5 transition-all duration-500 text-zinc-900 dark:text-zinc-100 group-hover:scale-110 fill-current" />
                     </a>
                   )
                 })}
@@ -103,7 +102,7 @@ export default async function MePage() {
       </section>
 
       {/* Featured Projects */}
-      <section id="projects" className="pb-32">
+      <section id="projects" className="pb-12">
         <div className="max-w-5xl mx-auto px-5 md:px-8 mb-14 text-center" data-aos="fade-up">
           <p className="text-[0.6rem] font-black uppercase tracking-[0.35em] text-zinc-400 dark:text-zinc-500 mb-3">
             {me.titles.portfolio}

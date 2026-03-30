@@ -57,9 +57,9 @@ export default async function HomePage() {
                       href={link.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={`w-10 h-10 rounded-xl flex items-center justify-center text-white shadow-lg transition-all hover:scale-110 hover:-translate-y-1 active:scale-95 bg-gradient-to-br ${link.color}`}
+                      className="w-10 h-10 rounded-xl flex items-center justify-center bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 shadow-sm border border-zinc-200 dark:border-zinc-700 transition-all hover:scale-110 hover:-translate-y-1 active:scale-95"
                     >
-                      {Icon && <Icon className="w-4.5 h-4.5 fill-white" />}
+                      {Icon && <Icon className="w-4.5 h-4.5 fill-current" />}
                     </a>
                   )
                 })}

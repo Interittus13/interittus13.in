@@ -27,12 +27,11 @@ const PostMore: React.FC<{ posts: TPost[] }> = ({ posts }) => {
           >
             <Link href={`/posts/${post.slug}`} className="flex flex-row items-center">
               <div className="w-26 h-26 md:w-33 md:h-33 rounded-2xl overflow-hidden shrink-0">
-                <div className={`relative duration-500 ease-in-out filter group-hover:brightness-90 transition w-full h-full rounded-2xl overflow-hidden transform rotate-0`}>
-                  <ThemedImage
-                    post={post}
-                    className="transition-all duration-500 ease-in-out opacity-100 mobile-hover:group-hover:scale-105 group-hover:rotate-0 group-hover:active:scale-105 group-hover:opacity-90 transform-gpu rounded-2xl overflow-hidden"
-                  />
-                </div>
+                <ThemedImage
+                  post={post}
+                  href={`/posts/${post.slug}`}
+                  className="transition-all duration-500 ease-in-out opacity-100 mobile-hover:group-hover:scale-105 group-hover:rotate-0 group-hover:active:scale-105 group-hover:opacity-90 transform-gpu rounded-2xl overflow-hidden"
+                />
               </div>
 
               <div className="pl-4 md:pl-6 basis-0 flex-shrink-0 flex-grow">

@@ -10,7 +10,7 @@ function AnalyticsContent() {
   const searchParams = useSearchParams()
 
   useEffect(() => {
-    if (pathname) {
+    if (pathname && searchParams) {
       const url = pathname + searchParams.toString()
       pageview(url, document.title)
     }

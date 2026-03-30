@@ -21,6 +21,7 @@ export interface ThemedImageProps {
   quality?: number
   className?: string
   priority?: boolean
+  href?: string
 }
 
 const EMPTY_IMAGE = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
@@ -47,6 +48,7 @@ const ThemedImage = ({
   quality = 100,
   className = '',
   priority = false,
+  href
 }: ThemedImageProps) => {
   const { resolvedTheme } = useTheme()
   const mounted = useMounted()
@@ -65,7 +67,7 @@ const ThemedImage = ({
   const isSignedUrl = isSignedS3Url(imgSrc)
 
   return (
-    <ImageGuard className={className}>
+    <ImageGuard className={className} href={href}>
       {isSignedUrl ? (
         <img
           key={imgSrc}
@@ -73,6 +75,8 @@ const ThemedImage = ({
           alt={post.title}
           loading={priority ? 'eager' : 'lazy'}
           className="absolute inset-0 w-full h-full object-cover"
+          draggable={false}
+          onDragStart={(e) => e.preventDefault()}
           style={{
             pointerEvents: 'none',
             userSelect: 'none',
@@ -96,6 +100,8 @@ const ThemedImage = ({
             pointerEvents: 'none',
             userSelect: 'none'
           }}
+          draggable={false}
+          onDragStart={(e) => e.preventDefault()}
           alt={post.title}
           placeholder="blur"
           blurDataURL={blurSrc}

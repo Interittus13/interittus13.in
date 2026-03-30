@@ -17,7 +17,7 @@ export const WidgetMeSmall: React.FC = () => {
       <Link href="/me" className="absolute inset-0 z-10" />
       <div className="flex flex-col h-full items-center justify-between text-center">
         <div className="relative w-24 h-24 rounded-[1.5rem] overflow-hidden shadow-xl border-4 border-white dark:border-zinc-800">
-          <ImageGuard>
+          <ImageGuard href="/me">
             <Image
               src={me.image}
               fill
@@ -39,20 +39,20 @@ export const WidgetMeSmall: React.FC = () => {
         </div>
 
         <div className="flex gap-2.5 mt-4 z-20">
-          {me.social.slice(0, 4).map((link) => (
-            <a
-              key={link.url}
-              href={link.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`w-8 h-8 flex items-center justify-center rounded-xl bg-gradient-to-tr ${link.color} text-white shadow-lg shadow-zinc-200 dark:shadow-none transition-all hover:scale-110 active:scale-90`}
-            >
-              {(() => {
-                const Icon = typeof link.icon === 'string' ? getIconByName(link.icon) : link.icon
-                return Icon ? <Icon className="w-3.5 h-3.5 fill-current" /> : null
-              })()}
-            </a>
-          ))}
+          {me.social.slice(0, 4).map((link) => {
+            const Icon = typeof link.icon === 'string' ? getIconByName(link.icon) : link.icon
+            return (
+              <a
+                key={link.url}
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-8 h-8 flex items-center justify-center rounded-xl bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 shadow-sm border border-zinc-200 dark:border-zinc-700 transition-all hover:scale-110 active:scale-90"
+              >
+                {Icon && <Icon className="w-3.5 h-3.5 fill-current" />}
+              </a>
+            )
+          })}
         </div>
       </div>
     </div>
@@ -69,7 +69,7 @@ export const WidgetMeMedium: React.FC<{ fix?: boolean }> = ({ fix }) => {
       <div className="flex h-full items-center">
         <div className="w-1/3 p-6 pr-0 flex items-center justify-center">
           <div className="relative aspect-square w-full max-w-[120px] rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white dark:border-zinc-800 transition-transform duration-700">
-            <ImageGuard>
+            <ImageGuard href="/me">
               <Image
                 src={me.image}
                 fill
@@ -91,21 +91,21 @@ export const WidgetMeMedium: React.FC<{ fix?: boolean }> = ({ fix }) => {
           </p>
 
           <div className="flex flex-wrap gap-2.5 mt-6 z-20">
-            {me.social.map((link) => (
-              <a
-                key={link.url}
-                href={link.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`w-10 h-10 flex items-center justify-center rounded-2xl bg-gradient-to-tr ${link.color} text-white shadow-lg shadow-zinc-200/50 dark:shadow-none transition-all hover:scale-110 active:scale-90 hover:rotate-3`}
-                title={link.name}
-              >
-                {(() => {
-                  const Icon = typeof link.icon === 'string' ? getIconByName(link.icon) : link.icon
-                  return Icon ? <Icon className="w-4 h-4 fill-current" /> : null
-                })()}
-              </a>
-            ))}
+            {me.social.map((link) => {
+              const Icon = typeof link.icon === 'string' ? getIconByName(link.icon) : link.icon
+              return (
+                <a
+                  key={link.url}
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 flex items-center justify-center rounded-2xl bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 shadow-sm border border-zinc-200 dark:border-zinc-700 transition-all hover:scale-110 active:scale-90 hover:rotate-3"
+                  title={link.name}
+                >
+                  {Icon && <Icon className="w-4 h-4 fill-current" />}
+                </a>
+              )
+            })}
           </div>
         </div>
       </div>
