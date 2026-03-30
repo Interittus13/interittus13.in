@@ -76,7 +76,13 @@ export default function PostInfiniteList({
               data-aos="fade-up"
               data-aos-delay={(index % 3) * 100}
             >
+              {/* Entire Card Link Overlay (z-10) - Handles the text area click and shows pointer cursor */}
+              <Link href={`/posts/${post.slug}`} className="absolute inset-0 z-10">
+                <span className="sr-only">View {post.title}</span>
+              </Link>
+
               <div className={`relative ${imageHeight} w-full overflow-hidden`}>
+                {/* ThemedImage handles its own higher z-index (z-20+) ImageGuard for protection */}
                 <ThemedImage
                   post={post}
                   href={`/posts/${post.slug}`}

@@ -20,14 +20,14 @@
     margin: 0;
     font-family: var(--font-sans);
     background-color: white;
-    color: #18181b; /* zinc-900 */
+    color: #1a1a1a;
     transition: background-color 0.3s ease, color 0.3s ease;
   }
 
   html.dark,
   .dark body {
-    background-color: #09090b; /* zinc-950 */
-    color: #fafafa; /* zinc-50 */
+    background-color: #09090b;
+    color: #f7f7f7;
   }
 
   a {
@@ -42,11 +42,11 @@
 
 @layer components {
   @media (min-width: 1068px) {
-    .more-list > :nth-last-child(-n + 2) {
+    .more-list> :nth-last-child(-n + 2) {
       margin-bottom: 0;
     }
 
-    .more-list > :nth-last-child(-n + 2)::after {
+    .more-list> :nth-last-child(-n + 2)::after {
       display: none;
     }
   }
@@ -55,6 +55,7 @@
     background-color: rgb(245, 245, 245) !important;
     border-radius: 15px;
   }
+
   .dark .tk-expand {
     background-color: rgb(23, 23, 23) !important;
   }
@@ -70,8 +71,10 @@
 
   /* Hide scrollbar for IE, Edge and Firefox */
   .scrollbar-hide {
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
   }
 }
 
