@@ -1,16 +1,18 @@
-import React from 'react'
+import Link from 'next/link'
 import Watermark from './Watermark'
 
 interface ImageGuardProps {
   children: React.ReactNode
   className?: string
   watermarkClassName?: string
+  href?: string
 }
 
 const ImageGuard: React.FC<ImageGuardProps> = ({ 
   children, 
   className = '',
-  watermarkClassName = ''
+  watermarkClassName = '',
+  href
 }) => {
   return (
     <div className={`relative w-full h-full overflow-hidden group/guard ${className}`}>
@@ -31,12 +33,21 @@ const ImageGuard: React.FC<ImageGuardProps> = ({
 
       {/* 
         Interactive Security Layer 2: Interaction Interceptor
-        Prevents right-click and context menu access.
+        - If href is provided, it acts as a clickable navigation link (Left Click)
+        - Prevents right-click and context menu access (Right Click)
       */}
-      <div
-        className="absolute inset-0 z-20 cursor-default"
-        onContextMenu={(e) => e.preventDefault()}
-      />
+      {href ? (
+        <Link
+          href={href}
+          className="absolute inset-0 z-20 cursor-pointer"
+          onContextMenu={(e) => e.preventDefault()}
+        />
+      ) : (
+        <div
+          className="absolute inset-0 z-20 cursor-default"
+          onContextMenu={(e) => e.preventDefault()}
+        />
+      )}
 
       {/* 
         Branded Watermark:

@@ -76,13 +76,10 @@ export default function PostInfiniteList({
               data-aos="fade-up"
               data-aos-delay={(index % 3) * 100}
             >
-              <Link href={`/posts/${post.slug}`} className="absolute inset-0 z-10">
-                <span className="sr-only">View {post.title}</span>
-              </Link>
-              
               <div className={`relative ${imageHeight} w-full overflow-hidden`}>
                 <ThemedImage
                   post={post}
+                  href={`/posts/${post.slug}`}
                   className="object-cover w-full h-full"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />

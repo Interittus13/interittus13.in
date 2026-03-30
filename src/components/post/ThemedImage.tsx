@@ -21,6 +21,7 @@ export interface ThemedImageProps {
   quality?: number
   className?: string
   priority?: boolean
+  href?: string
 }
 
 const EMPTY_IMAGE = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
@@ -47,6 +48,7 @@ const ThemedImage = ({
   quality = 100,
   className = '',
   priority = false,
+  href
 }: ThemedImageProps) => {
   const { resolvedTheme } = useTheme()
   const mounted = useMounted()
@@ -65,7 +67,7 @@ const ThemedImage = ({
   const isSignedUrl = isSignedS3Url(imgSrc)
 
   return (
-    <ImageGuard className={className}>
+    <ImageGuard className={className} href={href}>
       {isSignedUrl ? (
         <img
           key={imgSrc}
