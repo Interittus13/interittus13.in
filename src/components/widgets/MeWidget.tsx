@@ -69,16 +69,16 @@ export const WidgetMeMedium: React.FC<{ fix?: boolean }> = ({ fix }) => {
       <div className="flex h-full items-center">
         <div className="w-1/3 p-6 pr-0 flex items-center justify-center">
           <div className="relative aspect-square w-full max-w-[120px] rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white dark:border-zinc-800 transition-transform duration-700">
-            <ImageGuard href="/me">
-              <Image
-                src={me.image}
-                fill
-                className="object-cover"
-                alt={me.name}
-                placeholder="blur"
-                blurDataURL={portraitPlaceholder}
-              />
-            </ImageGuard>
+            {/* <ImageGuard href="/me"> */}
+            <Image
+              src={me.image}
+              fill
+              className="object-cover"
+              alt={me.name}
+              placeholder="blur"
+              blurDataURL={portraitPlaceholder}
+            />
+            {/* </ImageGuard> */}
           </div>
         </div>
 
