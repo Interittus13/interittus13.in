@@ -156,3 +156,7 @@ export async function getGA4Metrics(dateRange = '30daysAgo') {
     return { pageViews: 0, activeUsers: 0 }
   }
 }
+
+export async function getTotalPageViews() {
+  return getGA4Metrics('2020-01-01')
+}
