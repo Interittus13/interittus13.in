@@ -73,13 +73,16 @@ export async function getPosts(): Promise<TPost[]> {
       : null
     const startDate = dateStart ?? page.created_time.split('T')[0]
 
+    const { getSecureProxyUrl } = require('../utils/secure-proxy')
+    
     // thumbnail (files property)
     const thumbnailFiles = props['thumbnail']?.type === 'files'
       ? (props['thumbnail'] as any).files
       : []
-    const thumbnail = thumbnailFiles.length > 0
+    const rawThumbnail = thumbnailFiles.length > 0
       ? getNotionImage(thumbnailFiles[0])
       : getNotionImage(page.cover)
+    const thumbnail = getSecureProxyUrl(rawThumbnail)
 
     // SEO properties
     const seoTitle = richTextToPlainText(

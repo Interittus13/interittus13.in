@@ -29,14 +29,16 @@ const OG_FALLBACK = '/static/images/og.png'
 const normalizeImageUrl = (url?: string): string =>
   (url || '').replace(/\s+/g, '').replace(/&amp;/g, '&')
 
-const isSignedS3Url = (url: string): boolean => {
-  if (!url.startsWith('http')) return false
+const isSecureUrl = (url: string): boolean => {
+  if (!url.startsWith('http') && !url.startsWith('/api/img-secure')) return false
+  if (url.startsWith('/api/img-secure')) return true
   try {
     const parsed = new URL(url)
     const isS3Host = parsed.hostname.includes('amazonaws.com')
-    return isS3Host && (
-      parsed.searchParams.has('X-Amz-Signature') ||
-      parsed.searchParams.has('X-Amz-Security-Token')
+    return (
+      isS3Host &&
+      (parsed.searchParams.has('X-Amz-Signature') ||
+        parsed.searchParams.has('X-Amz-Security-Token'))
     )
   } catch {
     return false
@@ -64,11 +66,11 @@ const ThemedImage = ({
   const blurSrc = useMemo(() => mounted
     ? getBlurSrc(post, resolvedTheme, EMPTY_IMAGE) : EMPTY_IMAGE,
     [post, resolvedTheme, mounted])
-  const isSignedUrl = isSignedS3Url(imgSrc)
+  const isProtected = isSecureUrl(imgSrc)
 
   return (
     <ImageGuard className={className} href={href}>
-      {isSignedUrl ? (
+      {isProtected ? (
         <img
           key={imgSrc}
           src={imgSrc}
