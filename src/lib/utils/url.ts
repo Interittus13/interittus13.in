@@ -25,3 +25,28 @@ export function getBaseUrl() {
   // 4. Global fallback
   return 'https://interittus13.in'
 }
+
+/**
+ * Ensures a URL is absolute by adding https:// if it looks like a domain 
+ * but doesn't have a protocol.
+ */
+export function ensureAbsoluteUrl(url: string | undefined): string {
+  if (!url) return '#'
+  
+  // If it already has a protocol, return as is
+  if (/^(https?:\/\/|mailto:|tel:)/.test(url)) {
+    return url
+  }
+  
+  // If it's a relative path, return as is
+  if (url.startsWith('/')) {
+    return url
+  }
+  
+  // If it looks like a domain (e.g., example.com), add https://
+  if (url.includes('.') && !url.startsWith('localhost')) {
+    return `https://${url}`
+  }
+  
+  return url
+}

@@ -1,5 +1,6 @@
 import { fetchNotionPages, richTextToPlainText } from '../notion/fetchNotionDatabase'
 import { Project } from '../../types'
+import { ensureAbsoluteUrl } from '../utils/url'
 
 /**
  * Fetch all projects from the DEDICATED Project database.
@@ -30,9 +31,10 @@ export async function getProjects(): Promise<{
 
     // Link: Support 'url' or 'slug'
     const linkProp = (props['url'] || props['slug']) as any
-    const link = richTextToPlainText(
+    const rawLink = richTextToPlainText(
       linkProp?.type === 'url' ? [{ plain_text: linkProp.url }] : linkProp?.rich_text || []
     )
+    const link = ensureAbsoluteUrl(rawLink)
 
     const tip = richTextToPlainText(
       props['tip']?.type === 'rich_text' ? (props['tip'] as any).rich_text : []
