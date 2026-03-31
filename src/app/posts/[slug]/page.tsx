@@ -12,20 +12,11 @@ import React from 'react'
 import ReadingProgress from '@/src/components/post/ReadingProgress'
 import { me } from '@/src/config/me'
 import { getMetadata } from '@/src/lib/utils/seo'
-
-export const dynamic = 'force-dynamic'
 import PostHero from '@/src/components/post/PostHero'
 import PostCover from '@/src/components/post/PostCover'
 import PostTags from '@/src/components/post/PostTags'
-
-// export async function generateStaticParams() {
-//   try {
-//     const posts = await getPosts()
-//     return filterPosts(posts).map((p) => ({ slug: p.slug }))
-//   } catch {
-//     return []
-//   }
-// }
+import BlogAnalytics from '@/src/components/post/BlogAnalytics'
+export const dynamic = 'force-dynamic'
 
 export async function generateMetadata({
   params,
@@ -75,6 +66,7 @@ export default async function PostPage({
   return (
     <>
       <ReadingProgress />
+      <BlogAnalytics slug={slug} />
       <main className="min-h-screen">
         {/* Hero */}
         <PostHero post={post} />
