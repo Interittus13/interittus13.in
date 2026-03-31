@@ -4,24 +4,15 @@ export const pageview = (url: string, title: string) => {
   window.gtag('config', GA_TRACKING_ID, {
     page_location: url,
     page_title: title,
-    // debug_mode: 1,
+    // debug_mode: typeof window !== 'undefined' && window.location.hostname === 'localhost',
   })
 }
 
-export const event = ({
-  action,
-  category,
-  label,
-  value,
-}: {
-  action: string
-  category: string
-  label: string
-  value: string
-}) => {
-  window.gtag('event', action, {
-    event_category: category,
-    event_label: label,
-    value: value,
-  })
+export const event = (
+  action: string,
+  params?: Record<string, any>
+) => {
+  if (typeof window !== 'undefined' && window.gtag) {
+    window.gtag('event', action, params)
+  }
 }
