@@ -25,8 +25,7 @@ export const useEngagement = (slug: string, title: string) => {
       thresholds.forEach((threshold) => {
         if (scrollPercent >= threshold && !trackedDepths.current.has(threshold)) {
           trackedDepths.current.add(threshold)
-          gtag.event({
-            action: 'scroll_depth',
+          gtag.event('scroll_depth', {
             category: 'engagement',
             label: `${threshold}%`,
             value: slug,
@@ -37,8 +36,7 @@ export const useEngagement = (slug: string, title: string) => {
             // If they reached bottom and spent at least 30s, it's a "Read Completion"
             if (timeElapsed >= 30) {
               hasCompleted.current = true
-              gtag.event({
-                action: 'read_complete',
+              gtag.event('read_complete', {
                 category: 'engagement',
                 label: title,
                 value: slug,
@@ -53,8 +51,7 @@ export const useEngagement = (slug: string, title: string) => {
     
     // Track "Blog Read" (Initial landing + 30s)
     const readTimeout = setTimeout(() => {
-      gtag.event({
-        action: 'blog_read',
+      gtag.event('blog_read', {
         category: 'engagement',
         label: title,
         value: slug,
