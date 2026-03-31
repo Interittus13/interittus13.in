@@ -12,23 +12,11 @@ import React from 'react'
 import ReadingProgress from '@/src/components/post/ReadingProgress'
 import { me } from '@/src/config/me'
 import { getMetadata } from '@/src/lib/utils/seo'
-import { EngagementTracker } from '@/src/components/post/EngagementTracker'
-import { RecommendedPosts } from '@/src/components/post/RecommendedPosts'
-import { getRecommendedPosts } from '@/src/lib/utils/recommendations'
-
-export const dynamic = 'force-dynamic'
 import PostHero from '@/src/components/post/PostHero'
 import PostCover from '@/src/components/post/PostCover'
 import PostTags from '@/src/components/post/PostTags'
-
-// export async function generateStaticParams() {
-//   try {
-//     const posts = await getPosts()
-//     return filterPosts(posts).map((p) => ({ slug: p.slug }))
-//   } catch {
-//     return []
-//   }
-// }
+import BlogAnalytics from '@/src/components/post/BlogAnalytics'
+export const dynamic = 'force-dynamic'
 
 export async function generateMetadata({
   params,
@@ -80,13 +68,13 @@ export default async function PostPage({
   const rank = sortedByViews.findIndex(p => p.slug === slug) + 1
   const isTopTier = rank <= Math.max(1, Math.floor(filteredPosts.length * 0.1)) // Top 10%
   const readerCount = post.metrics?.totalViews || 0
-  
+
   const recommended = getRecommendedPosts(post, filteredPosts)
 
   return (
     <>
       <ReadingProgress />
-      <EngagementTracker slug={slug} title={post.title} />
+      <BlogAnalytics slug={slug} />
       <main className="min-h-screen">
         {/* Hero */}
         <PostHero post={post} />
@@ -100,20 +88,20 @@ export default async function PostPage({
           {(readerCount > 0 || isTopTier) && (
             <div className="mb-10 flex items-center gap-4 py-4 border-y border-zinc-100 dark:border-zinc-800/50">
               <span className="text-zinc-400 dark:text-zinc-500 text-xs font-black uppercase tracking-widest flex items-center gap-2">
-                <span className="text-lg">👀</span> 
+                <span className="text-lg">👀</span>
                 {readerCount.toLocaleString()} people have read this
               </span>
               {isTopTier && (
                 <>
                   <div className="w-1 h-1 rounded-full bg-zinc-200 dark:bg-zinc-800" />
                   <span className="text-orange-500 text-xs font-black uppercase tracking-widest flex items-center gap-2">
-                     🏅 Top 10% Article
+                    🏅 Top 10% Article
                   </span>
                 </>
               )}
             </div>
           )}
-          
+
           <ContentRenderer blocks={blocks} />
         </section>
 

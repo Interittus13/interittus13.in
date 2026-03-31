@@ -160,3 +160,33 @@ export async function getGA4Metrics(dateRange = '30daysAgo') {
 export async function getTotalPageViews() {
   return getGA4Metrics('2020-01-01')
 }
+
+export async function getMetricsByPath(dateRange = '30daysAgo') {
+  if (!propertyId || !analyticsDataClient) {
+    return []
+  }
+
+  try {
+    const reportPromise = analyticsDataClient.runReport({
+      property: `properties/${propertyId}`,
+      dateRanges: [{ startDate: dateRange, endDate: 'today' }],
+      dimensions: [{ name: 'pagePath' }],
+      metrics: [{ name: 'screenPageViews' }],
+    })
+
+    const timeoutPromise = new Promise((_, reject) =>
+      setTimeout(() => reject(new Error('GA4 Request Timeout')), 10000)
+    )
+
+    const [response] = (await Promise.race([reportPromise, timeoutPromise])) as any
+
+    return (
+      response.rows?.map((row: any) => ({
+        path: row.dimensionValues?.[0]?.value,
+        views: parseInt(row.metricValues?.[0]?.value || '0'),
+      })) || []
+    )
+  } catch (error) {
+    return []
+  }
+}
