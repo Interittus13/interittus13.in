@@ -16,6 +16,12 @@ import PostHero from '@/src/components/post/PostHero'
 import PostCover from '@/src/components/post/PostCover'
 import PostTags from '@/src/components/post/PostTags'
 import BlogAnalytics from '@/src/components/post/BlogAnalytics'
+import { fetchAllPostMetrics } from '@/src/lib/ga'
+import { assignEngagementLevels } from '@/src/lib/analytics'
+import { getRecommendedPosts } from '@/src/lib/recommendations'
+import { RecommendedPosts } from '@/src/components/post/RecommendedPosts'
+import InsightsBar from '@/src/components/post/InsightsBar'
+
 export const dynamic = 'force-dynamic'
 
 export async function generateMetadata({
@@ -24,7 +30,6 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>
 }): Promise<Metadata> {
   const { slug } = await params
-  // Always fetch fresh post for metadata
   const posts = await getPosts()
   const post = filterPosts(posts).find((p) => p.slug === slug)
   if (!post) return { title: 'Post Not Found' }
@@ -40,8 +45,6 @@ export async function generateMetadata({
   })
 }
 
-
-
 export default async function PostPage({
   params,
 }: {
@@ -50,10 +53,19 @@ export default async function PostPage({
   const { slug } = await params
   const allPosts = await getPosts()
   const filteredPosts = filterPosts(allPosts)
+  const stats = await fetchAllPostMetrics()
+  
+  const engagementLevels = assignEngagementLevels(filteredPosts, stats.total, stats.weekly)
   const pageIndex = filteredPosts.findIndex((p) => p.slug === slug)
-  const post = filteredPosts[pageIndex]
+  const basePost = filteredPosts[pageIndex]
 
-  if (!post) return <PostNotFound />
+  if (!basePost) return <PostNotFound />
+
+  // Enrich post with engagement
+  const post = {
+    ...basePost,
+    engagement: engagementLevels[slug]
+  }
 
   const [blocks, prevPost, nextPost] = await Promise.all([
     getPostBlocks(post.id),
@@ -63,13 +75,12 @@ export default async function PostPage({
     ),
   ])
 
-  // Calculation for Insights
-  const sortedByViews = [...filteredPosts].sort((a, b) => (b.metrics?.totalViews || 0) - (a.metrics?.totalViews || 0))
-  const rank = sortedByViews.findIndex(p => p.slug === slug) + 1
-  const isTopTier = rank <= Math.max(1, Math.floor(filteredPosts.length * 0.1)) // Top 10%
-  const readerCount = post.metrics?.totalViews || 0
-
-  const recommended = getRecommendedPosts(post, filteredPosts)
+  // Advanced Recommendation Engine (60/40 weighted)
+  const recommendedBase = getRecommendedPosts(post, filteredPosts, stats.total, 3)
+  const recommended = recommendedBase.map(p => ({
+    ...p,
+    engagement: engagementLevels[p.slug]
+  }))
 
   return (
     <>
@@ -84,22 +95,14 @@ export default async function PostPage({
 
         {/* Article body */}
         <section className="max-w-4xl mx-auto px-5 md:px-8 mt-8 md:mt-12">
-          {/* Insights Bar */}
-          {(readerCount > 0 || isTopTier) && (
-            <div className="mb-10 flex items-center gap-4 py-4 border-y border-zinc-100 dark:border-zinc-800/50">
-              <span className="text-zinc-400 dark:text-zinc-500 text-xs font-black uppercase tracking-widest flex items-center gap-2">
-                <span className="text-lg">👀</span>
-                {readerCount.toLocaleString()} people have read this
-              </span>
-              {isTopTier && (
-                <>
-                  <div className="w-1 h-1 rounded-full bg-zinc-200 dark:bg-zinc-800" />
-                  <span className="text-orange-500 text-xs font-black uppercase tracking-widest flex items-center gap-2">
-                    🏅 Top 10% Article
-                  </span>
-                </>
-              )}
-            </div>
+          {/* V3 Intelligent Insights Bar */}
+          {post.engagement && (
+            <InsightsBar 
+              views={post.engagement.views}
+              readTime={post.engagement.readTime}
+              label={post.engagement.label}
+              secondarySignal={post.engagement.secondarySignal}
+            />
           )}
 
           <ContentRenderer blocks={blocks} />
@@ -132,7 +135,7 @@ export default async function PostPage({
           <Comment />
         </div>
 
-        {/* Recommended Posts */}
+        {/* Recommended Posts (Intelligent Discovery) */}
         <div className="max-w-5xl mx-auto px-5 md:px-8 mb-32">
           <RecommendedPosts posts={recommended} />
         </div>

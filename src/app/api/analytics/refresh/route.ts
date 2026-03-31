@@ -24,7 +24,7 @@ export async function POST(req: Request) {
     
     return NextResponse.json({ 
       success: true, 
-      postsUpdated: Object.keys(data.stats).length,
+      postsUpdated: Object.keys(data.total).length,
       timestamp: Date.now()
     })
   } catch (error) {

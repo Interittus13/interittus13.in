@@ -23,6 +23,14 @@ export type TPost = {
     totalViews: number;
     weeklyViews: number;
   };
+  engagement?: {
+    level: 'High' | 'Medium' | 'Low';
+    label: string;
+    secondarySignal?: string;
+    views: string;
+    readTime: string;
+    score: number;
+  };
 };
 
 export type TPosts = TPost[];

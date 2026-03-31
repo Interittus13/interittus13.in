@@ -35,9 +35,18 @@ if (fs.existsSync(keyFilePath)) {
 const CACHE_FILE = path.join(process.cwd(), '.cache', 'analytics.json')
 const CACHE_TTL = 3600 * 1000 // 1 hour
 
+interface PostStats {
+  [eventName: string]: number
+}
+
+interface RollingStats {
+  total: Record<string, PostStats>
+  weekly: Record<string, PostStats>
+}
+
 interface CachedData {
   timestamp: number
-  data: Record<string, { totalViews: number; weeklyViews: number }>
+  data: RollingStats
 }
 
 async function getCachedAnalytics(): Promise<CachedData | null> {
@@ -47,10 +56,17 @@ async function getCachedAnalytics(): Promise<CachedData | null> {
       return null
     }
     if (fs.existsSync(CACHE_FILE)) {
-      const content = fs.readFileSync(CACHE_FILE, 'utf-8')
-      const parsed = JSON.parse(content) as CachedData
-      if (Date.now() - parsed.timestamp < CACHE_TTL) {
-        return parsed
+      const content = fs.readFileSync(CACHE_FILE, 'utf-8').trim()
+      if (!content) return null
+
+      try {
+        const parsed = JSON.parse(content) as CachedData
+        if (Date.now() - parsed.timestamp < CACHE_TTL) {
+          return parsed
+        }
+      } catch (jsonErr) {
+        console.error('Invalid analytics cache format, clearing:', jsonErr)
+        return null
       }
     }
   } catch (e) {
@@ -59,7 +75,7 @@ async function getCachedAnalytics(): Promise<CachedData | null> {
   return null
 }
 
-async function saveAnalyticsCache(data: Record<string, { totalViews: number; weeklyViews: number }>) {
+async function saveAnalyticsCache(data: RollingStats) {
   try {
     const cacheData: CachedData = {
       timestamp: Date.now(),
@@ -71,62 +87,96 @@ async function saveAnalyticsCache(data: Record<string, { totalViews: number; wee
   }
 }
 
-export async function fetchAllPostMetrics() {
+export async function fetchAllPostMetrics(forceRefresh = false): Promise<RollingStats> {
+  const emptyStats: RollingStats = { total: {}, weekly: {} }
+  
   if (!propertyId || !analyticsDataClient) {
-    return {}
+    return emptyStats
   }
 
-  const cached = await getCachedAnalytics()
-  if (cached) return cached.data
+  if (!forceRefresh) {
+    const cached = await getCachedAnalytics()
+    if (cached) return cached.data
+  }
 
   try {
-    const fetchRange = async (startDate: string) => {
-      const [response] = await analyticsDataClient!.runReport({
+    const fetchEventStats = async (startDate: string) => {
+      const response = await analyticsDataClient!.runReport({
         property: `properties/${propertyId}`,
         dateRanges: [{ startDate, endDate: 'today' }],
-        dimensions: [{ name: 'pagePath' }],
-        metrics: [{ name: 'screenPageViews' }],
+        dimensions: [
+          { name: 'pagePath' },
+          { name: 'eventName' }
+        ],
+        metrics: [{ name: 'eventCount' }],
         dimensionFilter: {
-          filter: {
-            fieldName: 'pagePath',
-            stringFilter: {
-              value: '^/posts/.*',
-              matchType: 'FULL_REGEXP',
-            },
-          },
+          andGroup: {
+            expressions: [
+              {
+                filter: {
+                  fieldName: 'pagePath',
+                  stringFilter: {
+                    value: '^/posts/.*',
+                    matchType: 'FULL_REGEXP',
+                  },
+                },
+              },
+              {
+                filter: {
+                  fieldName: 'eventName',
+                  inListFilter: {
+                    values: [
+                      'page_view', 
+                      'blog_view', 
+                      'scroll_depth_25',
+                      'scroll_depth_50', 
+                      'scroll_depth_75', 
+                      'scroll_depth_100',
+                      'blog_complete', 
+                      'time_spent'
+                    ]
+                  }
+                }
+              }
+            ]
+          }
         },
       })
       
-      const metrics: Record<string, number> = {}
-      response.rows?.forEach((row: any) => {
+      const metrics: Record<string, PostStats> = {}
+      const rows = response[0].rows || []
+      rows.forEach((row: any) => {
         const path = row.dimensionValues?.[0]?.value || ''
-        const views = parseInt(row.metricValues?.[0]?.value || '0')
-        if (path) metrics[path] = views
+        const eventName = row.dimensionValues?.[1]?.value || ''
+        const count = parseInt(row.metricValues?.[0]?.value || '0')
+        
+        if (path && eventName) {
+          if (!metrics[path]) metrics[path] = {}
+          metrics[path][eventName] = (metrics[path][eventName] || 0) + count
+        }
       })
       return metrics
     }
 
-    const [totalMetrics, weeklyMetrics] = await Promise.all([
-      fetchRange('2020-01-01'),
-      fetchRange('7daysAgo'),
+    const [total, weekly] = await Promise.all([
+      fetchEventStats('2020-01-01'),
+      fetchEventStats('7daysAgo'),
     ])
 
-    const allPaths = new Set([...Object.keys(totalMetrics), ...Object.keys(weeklyMetrics)])
-    const results: Record<string, { totalViews: number; weeklyViews: number }> = {}
-
-    allPaths.forEach((path) => {
-      results[path] = {
-        totalViews: totalMetrics[path] || 0,
-        weeklyViews: weeklyMetrics[path] || 0,
-      }
-    })
+    const results: RollingStats = { total, weekly }
 
     await saveAnalyticsCache(results)
     return results
   } catch (error) {
     console.error('GA4 All Metrics Fetch Error:', error)
-    return {}
+    return emptyStats
   }
+}
+
+// Wrapper for manual/admin refresh that bypasses cache
+export async function refreshAnalyticsCache(): Promise<RollingStats> {
+  console.log('Refreshing analytics cache from GA4...')
+  return await fetchAllPostMetrics(true)
 }
 
 export async function getGA4Metrics(dateRange = '30daysAgo') {

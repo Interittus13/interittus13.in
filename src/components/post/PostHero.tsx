@@ -37,12 +37,20 @@ export default function PostHero({ post }: { post: TPost }) {
           </>
         )}
 
-        {/* Views & Popularity */}
-        {post.metrics && (
-          <>
+        {/* Smart Engagement Signals */}
+        {post.engagement && (
+          <div className="flex items-center gap-3">
             <div className="w-1.5 h-1.5 rounded-full bg-zinc-200 dark:bg-zinc-700" />
-            <PostMetricBadge views={post.metrics.totalViews} isPopular={(post.metrics.totalViews || 0) > 100} />
-          </>
+            <div className="flex items-center gap-2">
+              <span className="text-[0.65rem] font-black text-orange-500 uppercase tracking-widest whitespace-nowrap">
+                {post.engagement.label}
+              </span>
+              <div className="w-1 h-1 rounded-full bg-zinc-200 dark:bg-zinc-800" />
+              <span className="text-[0.65rem] font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-[0.15em] lowercase">
+                {post.engagement.views} reads
+              </span>
+            </div>
+          </div>
         )}
       </div>
 

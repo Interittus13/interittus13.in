@@ -42,9 +42,8 @@ export default function BlogAnalytics({ slug }: BlogAnalyticsProps) {
       const milestones = [25, 50, 75, 100]
       milestones.forEach((milestone) => {
         if (scrollPercent >= milestone && !trackedDepths.current.has(milestone)) {
-          event('scroll_depth', {
-            blog_slug: slug,
-            percent: milestone,
+          event(`scroll_depth_${milestone}`, {
+            blog_slug: slug
           })
           trackedDepths.current.add(milestone)
         }

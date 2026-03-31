@@ -22,6 +22,21 @@ export async function GET(request: Request) {
     }
     
     const paginatedPosts = filteredPosts.slice(cursor, cursor + limit)
+    
+    // Fetch and assign engagement levels
+    try {
+      const { fetchAllPostMetrics } = require('@/src/lib/ga')
+      const { assignEngagementLevels } = require('@/src/lib/analytics')
+      const stats = await fetchAllPostMetrics()
+      const engagementLevels = assignEngagementLevels(paginatedPosts, stats.total, stats.weekly)
+      
+      paginatedPosts.forEach(post => {
+        post.engagement = engagementLevels[post.slug]
+      })
+    } catch (e) {
+      // Analytics fail gracefully
+    }
+
     const nextCursor = cursor + limit < filteredPosts.length ? cursor + limit : null
 
     return NextResponse.json({

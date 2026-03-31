@@ -113,18 +113,38 @@ export async function getPosts(): Promise<TPost[]> {
     return db - da
   })
 
-  // Try to augment with metrics if available
+  // Try to augment with metrics and engagement if available
   try {
     const { fetchAllPostMetrics } = require('../ga')
+    const { assignEngagementLevels } = require('../analytics')
     const metricsMap = await fetchAllPostMetrics()
+    
+    // 1. First assign raw metrics
     posts.forEach(post => {
       const path = `/posts/${post.slug}`
-      if (metricsMap[path]) {
-        post.metrics = metricsMap[path]
+      const total = metricsMap.total[path] || {}
+      const weekly = metricsMap.weekly[path] || {}
+      
+      const totalViews = total['blog_view'] || total['page_view'] || total['screenPageViews'] || 0
+      const weeklyViews = weekly['blog_view'] || weekly['page_view'] || weekly['screenPageViews'] || 0
+
+      if (totalViews > 0) {
+        post.metrics = {
+          totalViews,
+          weeklyViews
+        }
       }
     })
+
+    // 2. Then assign smart engagement levels
+    const engagementLevels = assignEngagementLevels(posts, metricsMap.total, metricsMap.weekly)
+    posts.forEach(post => {
+      post.engagement = engagementLevels[post.slug]
+    })
+
   } catch (e) {
     // Analytics failed, but we still return the posts
+    console.error('Data enrichment failed:', e)
   }
 
   return posts
