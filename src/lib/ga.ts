@@ -89,7 +89,7 @@ async function saveAnalyticsCache(data: RollingStats) {
 
 export async function fetchAllPostMetrics(forceRefresh = false): Promise<RollingStats> {
   const emptyStats: RollingStats = { total: {}, weekly: {} }
-  
+
   if (!propertyId || !analyticsDataClient) {
     return emptyStats
   }
@@ -126,14 +126,16 @@ export async function fetchAllPostMetrics(forceRefresh = false): Promise<Rolling
                   fieldName: 'eventName',
                   inListFilter: {
                     values: [
-                      'page_view', 
-                      'blog_view', 
+                      'page_view',
+                      'blog_view',
                       'scroll_depth_25',
-                      'scroll_depth_50', 
-                      'scroll_depth_75', 
+                      'scroll_depth_50',
+                      'scroll_depth_75',
                       'scroll_depth_100',
-                      'blog_complete', 
-                      'time_spent'
+                      'blog_complete',
+                      'time_spent_30',
+                      'time_spent_60',
+                      'time_spent_120'
                     ]
                   }
                 }
@@ -142,14 +144,14 @@ export async function fetchAllPostMetrics(forceRefresh = false): Promise<Rolling
           }
         },
       })
-      
+
       const metrics: Record<string, PostStats> = {}
       const rows = response[0].rows || []
       rows.forEach((row: any) => {
         const path = row.dimensionValues?.[0]?.value || ''
         const eventName = row.dimensionValues?.[1]?.value || ''
         const count = parseInt(row.metricValues?.[0]?.value || '0')
-        
+
         if (path && eventName) {
           if (!metrics[path]) metrics[path] = {}
           metrics[path][eventName] = (metrics[path][eventName] || 0) + count

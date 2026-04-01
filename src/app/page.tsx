@@ -3,6 +3,8 @@ import { filterPosts } from '@/src/lib/apis/filterPosts'
 import PostInfiniteList from '@/src/components/post/PostInfiniteList'
 import ListLayout from '@/src/components/layout/ListLayout'
 import { TrendingSection } from '@/src/components/post/TrendingSection'
+import { fetchAllPostMetrics } from '@/src/lib/ga'
+import { enrichPostsWithAnalytics } from '@/src/lib/analytics'
 import Image from 'next/image'
 import { me } from '@/src/config/me'
 import { getIconByName } from '@/src/lib/utils/iconMap'
@@ -21,6 +23,8 @@ export const metadata: Metadata = getMetadata({
 export default async function HomePage() {
   const posts = await getPosts()
   const filteredPosts = filterPosts(posts)
+  const stats = await fetchAllPostMetrics()
+  const enrichedPosts = enrichPostsWithAnalytics(filteredPosts, stats.total, stats.weekly)
 
   return (
     <main className="min-h-screen">
@@ -65,23 +69,34 @@ export default async function HomePage() {
                   )
                 })}
               </div>
+
+              {/* <div className="mt-8 flex items-center justify-center md:justify-start gap-3">
+                <a
+                  href="#latest-articles"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-zinc-200 dark:border-zinc-700 text-xs font-black uppercase tracking-widest text-zinc-700 dark:text-zinc-200 hover:border-orange-400 hover:text-orange-500 transition-colors"
+                >
+                  Jump to latest articles
+                  <span aria-hidden>↓</span>
+                </a>
+              </div> */}
             </div>
           </div>
 
         </section>
 
         {/* Trending Section */}
-        <TrendingSection posts={filteredPosts} />
+        <TrendingSection posts={enrichedPosts} />
 
         {/*Posts Section */}
-        <section className="w-full">
-          <div className="flex items-center gap-4 mb-10">
+        <section id="latest-articles" className="w-full scroll-mt-24">
+          <div className="flex items-end gap-4 mb-6">
             <h2 className="text-2xl font-black tracking-tight text-zinc-900 dark:text-zinc-100">
               Latest Articles
             </h2>
             <div className="h-1 flex-1 bg-zinc-100 dark:bg-zinc-800/50 rounded-full" />
           </div>
-          <PostInfiniteList initialPosts={filteredPosts} />
+          {/* <p className="text-sm text-zinc-500 dark:text-zinc-400 mb-8">Latest writing first, prioritized by freshness and reader engagement.</p> */}
+          <PostInfiniteList initialPosts={enrichedPosts} />
         </section>
       </ListLayout>
     </main>

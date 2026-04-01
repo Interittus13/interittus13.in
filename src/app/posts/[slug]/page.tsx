@@ -17,7 +17,7 @@ import PostCover from '@/src/components/post/PostCover'
 import PostTags from '@/src/components/post/PostTags'
 import BlogAnalytics from '@/src/components/post/BlogAnalytics'
 import { fetchAllPostMetrics } from '@/src/lib/ga'
-import { assignEngagementLevels } from '@/src/lib/analytics'
+import { enrichPostsWithAnalytics } from '@/src/lib/analytics'
 import { getRecommendedPosts } from '@/src/lib/recommendations'
 import { RecommendedPosts } from '@/src/components/post/RecommendedPosts'
 import InsightsBar from '@/src/components/post/InsightsBar'
@@ -54,53 +54,36 @@ export default async function PostPage({
   const allPosts = await getPosts()
   const filteredPosts = filterPosts(allPosts)
   const stats = await fetchAllPostMetrics()
-  
-  const engagementLevels = assignEngagementLevels(filteredPosts, stats.total, stats.weekly)
-  const pageIndex = filteredPosts.findIndex((p) => p.slug === slug)
-  const basePost = filteredPosts[pageIndex]
+  const enrichedPosts = enrichPostsWithAnalytics(filteredPosts, stats.total, stats.weekly)
 
-  if (!basePost) return <PostNotFound />
+  const pageIndex = enrichedPosts.findIndex((p) => p.slug === slug)
+  const post = enrichedPosts[pageIndex]
 
-  // Enrich post with engagement
-  const post = {
-    ...basePost,
-    engagement: engagementLevels[slug]
-  }
+  if (!post) return <PostNotFound />
 
   const [blocks, prevPost, nextPost] = await Promise.all([
     getPostBlocks(post.id),
-    Promise.resolve(pageIndex > 0 ? filteredPosts[pageIndex - 1] : null),
-    Promise.resolve(
-      pageIndex + 1 < filteredPosts.length ? filteredPosts[pageIndex + 1] : null
-    ),
+    Promise.resolve(pageIndex > 0 ? enrichedPosts[pageIndex - 1] : null),
+    Promise.resolve(pageIndex + 1 < enrichedPosts.length ? enrichedPosts[pageIndex + 1] : null),
   ])
 
-  // Advanced Recommendation Engine (60/40 weighted)
-  const recommendedBase = getRecommendedPosts(post, filteredPosts, stats.total, 3)
-  const recommended = recommendedBase.map(p => ({
-    ...p,
-    engagement: engagementLevels[p.slug]
-  }))
+  const recommended = getRecommendedPosts(post, enrichedPosts, stats.total, 3)
 
   return (
     <>
       <ReadingProgress />
       <BlogAnalytics slug={slug} />
       <main className="min-h-screen">
-        {/* Hero */}
         <PostHero post={post} />
 
-        {/* Cover Image */}
         {post.thumbnail && <PostCover post={post} />}
 
-        {/* Article body */}
         <section className="max-w-4xl mx-auto px-5 md:px-8 mt-8 md:mt-12">
-          {/* V3 Intelligent Insights Bar */}
           {post.engagement && (
-            <InsightsBar 
+            <InsightsBar
               views={post.engagement.views}
               readTime={post.engagement.readTime}
-              label={post.engagement.label}
+              label={post.engagement.globalLabel || post.engagement.label}
               secondarySignal={post.engagement.secondarySignal}
             />
           )}
@@ -108,36 +91,30 @@ export default async function PostPage({
           <ContentRenderer blocks={blocks} />
         </section>
 
-        {/* Tags */}
         {post.tags && post.tags.length > 0 && (
           <PostTags tags={post.tags} />
         )}
 
-        {/* Share */}
         <div className="max-w-4xl mx-auto px-5 md:px-8 mt-8 pt-8 border-t border-zinc-100 dark:border-zinc-800/50">
           <p className="text-xs font-black uppercase tracking-widest text-zinc-400 mb-4">Share</p>
           <Share />
         </div>
 
-        {/* Pagination */}
         <div className="max-w-5xl mx-auto px-5 md:px-8 mt-20">
           <Pagination pagination={{ prev: prevPost, next: nextPost }} />
         </div>
 
-        {/* Widgets */}
-        <div className="max-w-5xl mx-auto px-5 md:px-8 mt-24 mb-4 grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <WidgetMeMedium fix />
-          <WidgetOverViewMedium posts={filteredPosts} fix />
+        <div className="max-w-5xl mx-auto px-5 md:px-8 mb-20">
+          <RecommendedPosts posts={recommended} />
         </div>
 
-        {/* Comments */}
+        <div className="max-w-5xl mx-auto px-5 md:px-8 mt-12 mb-4 grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <WidgetMeMedium fix />
+          <WidgetOverViewMedium posts={enrichedPosts} fix />
+        </div>
+
         <div className="max-w-4xl mx-auto px-5 md:px-8 mt-12">
           <Comment />
-        </div>
-
-        {/* Recommended Posts (Intelligent Discovery) */}
-        <div className="max-w-5xl mx-auto px-5 md:px-8 mb-32">
-          <RecommendedPosts posts={recommended} />
         </div>
       </main>
     </>

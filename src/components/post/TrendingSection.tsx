@@ -7,21 +7,26 @@ interface TrendingSectionProps {
   posts: TPost[]
 }
 
-export const TrendingSection: React.FC<TrendingSectionProps> = ({ posts }) => {
-  // 1. Trending: Use momentum/velocity. 
-  // Fallback to top weekly performance if no explicit 'Trending' labels meet the strict threshold.
-  let trendingPosts = [...posts]
-    .filter(p => p.engagement?.label?.includes('Trending') || p.engagement?.label?.includes('Top'))
-  
-  if (trendingPosts.length === 0) {
-    trendingPosts = [...posts]
-      .filter(p => (p.metrics?.weeklyViews || 0) > 0)
-      .sort((a, b) => (b.metrics?.weeklyViews || 0) - (a.metrics?.weeklyViews || 0))
-  }
-  
-  trendingPosts = trendingPosts.slice(0, 3)
+const getWeeklyReadsText = (weeklyViews: number = 0) => {
+  if (weeklyViews <= 0) return 'New this week'
+  if (weeklyViews === 1) return '1 read this week'
+  return `${weeklyViews.toLocaleString()} reads this week`
+}
 
-  // 2. Hall of Fame: Highest overall total performance
+const getTrendingBadge = (post: TPost, index: number) => {
+  const weeklyViews = post.metrics?.weeklyViews || 0
+  if (weeklyViews > 0) return `🏆 Top ${index + 1} this week`
+  return post.engagement?.globalLabel || post.engagement?.label || 'Trending'
+}
+
+export const TrendingSection: React.FC<TrendingSectionProps> = ({ posts }) => {
+  // Always rank by actual weekly performance for this section.
+  // This avoids showing labels like "Top 4 this week" inside the top 3 cards.
+  const trendingPosts = [...posts]
+    .filter(p => (p.metrics?.weeklyViews || 0) > 0)
+    .sort((a, b) => (b.metrics?.weeklyViews || 0) - (a.metrics?.weeklyViews || 0))
+    .slice(0, 3)
+
   const topAllTime = [...posts]
     .filter(p => (p.metrics?.totalViews || 0) > 0)
     .sort((a, b) => (b.metrics?.totalViews || 0) - (a.metrics?.totalViews || 0))
@@ -31,7 +36,6 @@ export const TrendingSection: React.FC<TrendingSectionProps> = ({ posts }) => {
 
   return (
     <div className="mb-20 grid grid-cols-1 lg:grid-cols-12 gap-12" data-aos="fade-up">
-      {/* Trending Block */}
       <div className="lg:col-span-8">
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-3">
@@ -46,35 +50,39 @@ export const TrendingSection: React.FC<TrendingSectionProps> = ({ posts }) => {
               Trending <span className="text-orange-500">Now</span>
             </h2>
           </div>
+          <span className="hidden md:inline-flex text-[0.65rem] font-bold uppercase tracking-[0.15em] text-zinc-400 dark:text-zinc-500 border border-zinc-200 dark:border-zinc-800 rounded-full px-3 py-1">
+            Updated weekly
+          </span>
           <div className="h-px flex-1 bg-gradient-to-r from-zinc-100 to-transparent dark:from-zinc-800 ml-6 hidden md:block" />
         </div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {trendingPosts.map((post, i) => (
-            <Link 
-              key={post.id} 
+            <Link
+              key={post.id}
               href={`/posts/${post.slug}`}
+              aria-label={`Open trending post: ${post.title}`}
               className={`group relative p-8 rounded-[2.5rem] bg-white dark:bg-zinc-900 shadow-xl shadow-zinc-200/50 dark:shadow-none border border-transparent hover:border-zinc-200 dark:hover:border-zinc-700 transition-all duration-700 overflow-hidden ${i === 0 ? 'md:col-span-2' : ''}`}
             >
               <div className="relative z-20">
                 <div className="flex items-center gap-3 mb-3">
-                  <span className={`text-[0.6rem] font-black uppercase tracking-[0.2em] ${getCategoryTextColor(post.category?.[0] || 'Other')}`}>
+                  <span className={`text-[0.68rem] font-black uppercase tracking-[0.2em] ${getCategoryTextColor(post.category?.[0] || 'Other')}`}>
                     {post.category?.[0]}
                   </span>
                   <div className="w-1 h-1 rounded-full bg-zinc-200 dark:bg-zinc-800" />
-                  <span className="text-[0.6rem] font-black text-orange-500 uppercase tracking-widest">
-                    {post.engagement?.label || 'Trending'}
+                  <span className="text-[0.68rem] font-black text-orange-500 uppercase tracking-widest">
+                    {getTrendingBadge(post, i)}
                   </span>
                 </div>
                 <h3 className={`font-black text-zinc-900 dark:text-zinc-100 group-hover:text-orange-500 transition-colors duration-500 leading-tight mb-4 ${i === 0 ? 'text-2xl md:text-3xl lg:text-4xl' : 'text-xl'}`}>
                   {post.title}
                 </h3>
-                <div className="flex items-center gap-4 text-[0.65rem] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">
+                <div className="flex items-center gap-4 text-[0.75rem] font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">
                   <span className="flex items-center gap-1.5">
                     <svg className="w-3.5 h-3.5 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
                     </svg>
-                    +{post.metrics?.weeklyViews?.toLocaleString()} reads this week
+                    {getWeeklyReadsText(post.metrics?.weeklyViews)}
                   </span>
                 </div>
               </div>
@@ -86,37 +94,40 @@ export const TrendingSection: React.FC<TrendingSectionProps> = ({ posts }) => {
         </div>
       </div>
 
-      {/* Top 5 Hall of Fame */}
       <div className="lg:col-span-4">
         <div className="flex items-center gap-3 mb-8">
           <span className="text-2xl animate-pulse">🏅</span>
           <h2 className="text-2xl font-black tracking-tighter text-zinc-900 dark:text-zinc-100 italic">
             Hall of <span className="text-orange-500">Fame</span>
           </h2>
+          <span className="text-[0.65rem] font-bold uppercase tracking-[0.15em] text-zinc-400 dark:text-zinc-500">
+            All-time
+          </span>
         </div>
 
         <div className="space-y-4">
           {topAllTime.map((post, i) => (
-            <Link 
-              key={post.id} 
+            <Link
+              key={post.id}
               href={`/posts/${post.slug}`}
+              aria-label={`Open hall of fame post: ${post.title}`}
               className="flex items-center gap-5 p-5 rounded-[1.5rem] bg-zinc-50/50 dark:bg-zinc-900/50 border border-transparent hover:border-zinc-100 dark:hover:border-zinc-800 transition-all duration-500 group"
             >
               <div className="w-10 h-10 rounded-2xl bg-white dark:bg-zinc-900 flex items-center justify-center shrink-0 shadow-lg shadow-zinc-200/50 dark:shadow-none font-black text-xs text-zinc-400 group-hover:bg-orange-500 group-hover:text-white transition-all duration-500 italic">
                 {i + 1}
               </div>
-              <div className="flex flex-col gap-1">
+              <div className="flex flex-col gap-1 min-w-0">
                 <h3 className="text-sm font-black text-zinc-800 dark:text-zinc-200 group-hover:text-zinc-900 dark:group-hover:text-white transition-colors duration-500 line-clamp-1 leading-snug">
                   {post.title}
                 </h3>
-                <div className="flex items-center gap-3">
-                  <span className="text-[0.6rem] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-widest whitespace-nowrap">
+                <div className="flex items-center gap-3 flex-wrap">
+                  <span className="text-[0.68rem] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-widest whitespace-nowrap">
                     {post.engagement?.views || '0'} Reads
                   </span>
                   {post.engagement?.secondarySignal && (
                     <>
                       <div className="w-1 h-1 rounded-full bg-zinc-200 dark:bg-zinc-800" />
-                      <span className="text-[0.6rem] font-black text-orange-500 uppercase tracking-widest">
+                      <span className="text-[0.68rem] font-black text-orange-500 uppercase tracking-widest">
                         {post.engagement.secondarySignal}
                       </span>
                     </>

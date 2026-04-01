@@ -35,24 +35,24 @@ export const RecommendedPosts: React.FC<RecommendedPostsProps> = ({ posts }) => 
           const engagement = post.engagement
 
           return (
-            <Link 
-              key={post.id} 
-              href={`/posts/${post.slug}`} 
+            <Link
+              key={post.id}
+              href={`/posts/${post.slug}`}
               className="group relative flex flex-col bg-white dark:bg-zinc-900/50 rounded-[2.5rem] overflow-hidden border border-transparent hover:border-zinc-100 dark:hover:border-zinc-800 transition-all duration-700 hover:-translate-y-2 hover:shadow-2xl shadow-zinc-200/40"
             >
               <div className="relative aspect-[4/3] w-full overflow-hidden">
-                <ThemedImage 
-                  post={post} 
-                  className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-1000" 
+                <ThemedImage
+                  post={post}
+                  className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-1000"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-                
+
                 {/* Floating V3 Badge (Compact) */}
-                {engagement && engagement.label !== 'Fresh 🆕' && (
+                {engagement && (engagement.globalLabel || engagement.label) !== 'Fresh 🆕' && (
                   <div className="absolute top-4 left-4 z-20">
                     <div className="px-3 py-1.5 bg-black/40 backdrop-blur-md border border-white/10 rounded-xl flex items-center gap-1.5 shadow-lg">
                       <span className="text-[0.55rem] font-black text-white uppercase tracking-wider whitespace-nowrap">
-                        {engagement.label}
+                        {engagement.globalLabel || engagement.label}
                       </span>
                     </div>
                   </div>
@@ -77,7 +77,7 @@ export const RecommendedPosts: React.FC<RecommendedPostsProps> = ({ posts }) => 
                 <h3 className="text-xl font-black text-zinc-900 dark:text-zinc-100 group-hover:text-orange-500 transition-colors duration-500 line-clamp-2 leading-tight mb-3">
                   {post.title}
                 </h3>
-                
+
                 <p className="text-sm font-medium text-zinc-500 dark:text-zinc-400 line-clamp-2 opacity-70 group-hover:opacity-100 transition-opacity duration-500 leading-relaxed">
                   {post.summary}
                 </p>

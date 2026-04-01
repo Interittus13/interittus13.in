@@ -25,7 +25,8 @@ export type TPost = {
   };
   engagement?: {
     level: 'High' | 'Medium' | 'Low';
-    label: string;
+    label: string; // Backward-compatible default label (global label)
+    globalLabel?: string;
     secondarySignal?: string;
     views: string;
     readTime: string;
