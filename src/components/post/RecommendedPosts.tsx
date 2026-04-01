@@ -23,10 +23,7 @@ export const RecommendedPosts: React.FC<RecommendedPostsProps> = ({ posts }) => 
             Recommended <span className="text-orange-500">Reading</span>
           </h2>
         </div>
-        <div className="flex items-center gap-2 text-zinc-400 dark:text-zinc-500 text-xs font-bold italic">
           <span>Based on your interests and reader momentum</span>
-          <span className="text-orange-500">✨</span>
-        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -49,7 +46,7 @@ export const RecommendedPosts: React.FC<RecommendedPostsProps> = ({ posts }) => 
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
 
                 {/* Floating V3 Badge (Compact) */}
-                {engagement && resolveEngagementLabel(engagement, 'recommended') !== 'Fresh 🆕' && (
+                {engagement && resolveEngagementLabel(engagement, 'recommended') !== 'Fresh' && (
                   <div className="absolute top-4 left-4 z-20">
                     <div className="px-3 py-1.5 bg-black/40 backdrop-blur-md border border-white/10 rounded-xl flex items-center gap-1.5 shadow-lg">
                       <span className="text-[0.55rem] font-black text-white uppercase tracking-wider whitespace-nowrap">

@@ -28,7 +28,7 @@ export default async function TagsPage() {
              Discovery
            </p>
            <h1 className="text-5xl md:text-7xl font-black tracking-tighter text-zinc-900 dark:text-zinc-100 mb-6">
-             Tags <span className="text-pink-500">✨</span>
+             Tags <span className="text-pink-500 italic">Collection</span>
            </h1>
            <div className="h-1.5 w-24 bg-gradient-to-r from-pink-500 to-rose-400 mx-auto rounded-full shadow-lg shadow-pink-500/30" />
         </header>

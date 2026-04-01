@@ -26,8 +26,8 @@ export const PostMetricBadge: React.FC<PostMetricBadgeProps> = ({
       )}
       
       {isPopular && (
-        <span className="inline-flex items-center gap-1 text-[0.6rem] font-black text-white uppercase tracking-widest bg-orange-500 px-2.5 py-1 rounded-full shadow-lg shadow-orange-500/20 animate-pulse border border-orange-400/50">
-          🔥 Popular
+        <span className="inline-flex items-center gap-1 text-[0.6rem] font-black text-white uppercase tracking-widest bg-orange-500 px-2.5 py-1 rounded-full shadow-lg shadow-orange-500/20 border border-orange-400/50">
+          Popular
         </span>
       )}
     </div>

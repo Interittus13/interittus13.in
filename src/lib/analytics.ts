@@ -105,39 +105,61 @@ export function assignEngagementLevels(
     const viewSortedIndex = viewSorted.findIndex(s => s.slug === p.slug)
     const viewPercentile = (viewSortedIndex / totalPosts) * 100
 
-    let label = 'Fresh 🆕'
+    let postLabel = 'Fresh'
+    let recommendedLabel = 'Fresh'
+    let trendingLabel = 'Fresh'
     let level: 'High' | 'Medium' | 'Low' = 'Low'
 
+    // Logic for Post Hero (Authority & All-time status)
     if (isTop5) {
-      label = weeklyRank === 1 ? '🏆 Top 1 this week' : `🏆 Top ${weeklyRank} this week`
+      postLabel = weeklyRank === 1 ? 'No. 1 Most Read This Week' : `No. ${weeklyRank} This Week`
       level = 'High'
     } else if (isTrending) {
-      label = '🔥 Trending this week'
+      postLabel = 'Trending this week'
       level = 'High'
-    } else if (percentile <= 20) {
-      label = 'Must Read 🔥'
+    } else if (percentile <= 10) {
+      postLabel = 'Trending All-Time'
+      level = 'High'
+    } else if (percentile <= 30) {
+      postLabel = 'Verified Popular'
       level = 'High'
     } else if (percentile <= 50) {
-      label = 'Popular 📈'
+      postLabel = 'Popular'
       level = 'Medium'
     }
 
-    let secondarySignal = undefined
-    if (p.completionRate > 0.8 && p.metrics.views > 5) {
-      secondarySignal = 'Most completed'
-    } else if (viewPercentile <= 10 && p.metrics.views >= 10) {
-      secondarySignal = 'Highly read'
+    // Logic for Recommended (Quality & Completion signals)
+    if (p.completionRate >= 0.85 && p.metrics.views >= 5) {
+      recommendedLabel = `${Math.round(p.completionRate * 100)}% Finish Rate`
+    } else if (p.score > 0.8) {
+      recommendedLabel = 'Highly Recommended'
+    } else if (percentile <= 20) {
+      recommendedLabel = 'Must Read'
+    } else if (percentile <= 50) {
+      recommendedLabel = 'Deep Dive'
+    }
+
+    // Logic for Trending (Velocity & Recent growth)
+    if (weeklyRank === 1) {
+      trendingLabel = 'No. 1 Trending'
+    } else if (isTop5) {
+      trendingLabel = 'Trending Now'
+    } else if (isTrending) {
+      trendingLabel = 'Rising Fast'
+    } else if (p.weeklyViews > 2) {
+      trendingLabel = 'Growing Interest'
     }
 
     levels[p.slug] = {
       level,
-      label,
-      globalLabel: label,
+      label: postLabel, // fallback for global usage
+      globalLabel: postLabel,
       sectionLabels: {
-        post: label,
-        recommended: label,
+        post: postLabel,
+        recommended: recommendedLabel,
+        trending: trendingLabel,
       },
-      secondarySignal,
+      secondarySignal: p.completionRate > 0.9 ? 'Most completed' : undefined,
       views: formatViews(p.metrics.views),
       readTime: estimateReadTime(p.post.summary || '', p.post.title),
       score: p.score,

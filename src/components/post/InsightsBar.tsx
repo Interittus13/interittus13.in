@@ -16,7 +16,7 @@ export default function InsightsBar({
   secondarySignal 
 }: InsightsBarProps) {
   const isTrending = label?.includes('Trending')
-  const isTopRank = label?.includes('Top')
+  const isTopRank = label?.includes('Top') || label?.includes('No. 1')
 
   return (
     <div className="relative mb-12" data-aos="fade-up">
@@ -31,23 +31,12 @@ export default function InsightsBar({
         {(label || isTrending) && (
           <div className="flex items-center gap-3 pl-6 pr-4 py-3 md:py-4">
             <div className="relative">
-              <span className="text-2xl animate-bounce-slow inline-block">
-                {isTopRank ? '🏆' : isTrending ? '🔥' : '✨'}
-              </span>
-              {isTrending && (
-                <span className="absolute -top-1 -right-1 flex h-3 w-3">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-3 w-3 bg-orange-500"></span>
-                </span>
-              )}
-            </div>
-            <div className="flex flex-col">
-              <span className="text-[0.6rem] font-black text-orange-500 uppercase tracking-[0.2em] leading-none mb-1">
+              <span className="text-xs font-black text-orange-500 uppercase tracking-[0.2em] leading-none mb-1">
                 {isTrending ? 'Social Momentum' : isTopRank ? 'Reader Choice' : 'Fresh Insight'}
               </span>
-              <span className="text-sm font-black text-zinc-900 dark:text-zinc-100 tracking-tight whitespace-nowrap">
+              <div className="text-sm font-black text-zinc-900 dark:text-zinc-100 tracking-tight whitespace-nowrap">
                 {label}
-              </span>
+              </div>
             </div>
           </div>
         )}

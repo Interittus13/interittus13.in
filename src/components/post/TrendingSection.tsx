@@ -14,9 +14,7 @@ const getWeeklyReadsText = (weeklyViews: number = 0) => {
   return `${weeklyViews.toLocaleString()} reads this week`
 }
 
-const getTrendingBadge = (post: TPost, index: number) => {
-  const weeklyViews = post.metrics?.weeklyViews || 0
-  if (weeklyViews > 0) return `🏆 Top ${index + 1} this week`
+const getTrendingBadge = (post: TPost) => {
   return resolveEngagementLabel(post.engagement, 'trending')
 }
 
@@ -41,7 +39,7 @@ export const TrendingSection: React.FC<TrendingSectionProps> = ({ posts }) => {
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-3">
             <div className="relative">
-              <span className="text-2xl animate-bounce-slow inline-block">🔥</span>
+              <span className="text-sm font-black text-orange-500 uppercase tracking-[0.2em]">Live</span>
               <span className="absolute -top-1 -right-1 flex h-3 w-3">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-3 w-3 bg-orange-500"></span>
@@ -72,7 +70,7 @@ export const TrendingSection: React.FC<TrendingSectionProps> = ({ posts }) => {
                   </span>
                   <div className="w-1 h-1 rounded-full bg-zinc-200 dark:bg-zinc-800" />
                   <span className="text-[0.68rem] font-black text-orange-500 uppercase tracking-widest">
-                    {getTrendingBadge(post, i)}
+                    {getTrendingBadge(post)}
                   </span>
                 </div>
                 <h3 className={`font-black text-zinc-900 dark:text-zinc-100 group-hover:text-orange-500 transition-colors duration-500 leading-tight mb-4 ${i === 0 ? 'text-2xl md:text-3xl lg:text-4xl' : 'text-xl'}`}>
@@ -97,7 +95,6 @@ export const TrendingSection: React.FC<TrendingSectionProps> = ({ posts }) => {
 
       <div className="lg:col-span-4">
         <div className="flex items-center gap-3 mb-8">
-          <span className="text-2xl animate-pulse">🏅</span>
           <h2 className="text-2xl font-black tracking-tighter text-zinc-900 dark:text-zinc-100 italic">
             Hall of <span className="text-orange-500">Fame</span>
           </h2>

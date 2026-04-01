@@ -7,7 +7,7 @@ export function resolveEngagementLabel(
     engagement: EngagementData,
     section: SectionName
 ): string {
-    if (!engagement) return 'Fresh 🆕'
+    if (!engagement) return 'Fresh'
     return (
         engagement.sectionLabels?.[section] ||
         engagement.globalLabel ||
