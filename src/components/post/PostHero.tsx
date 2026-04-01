@@ -1,6 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { TPost } from '@/src/types'
+import { resolveEngagementLabel } from '@/src/lib/engagementLabels'
 import { getCategoryTextColor } from '@/src/lib/utils/categoryColors'
 import FormattedDate from '@/src/components/ui/FormattedDate'
 import { PostMetricBadge } from './PostMetricBadge'
@@ -43,7 +44,7 @@ export default function PostHero({ post }: { post: TPost }) {
             <div className="w-1.5 h-1.5 rounded-full bg-zinc-200 dark:bg-zinc-700" />
             <div className="flex items-center gap-2">
               <span className="text-[0.65rem] font-black text-orange-500 uppercase tracking-widest whitespace-nowrap">
-                {post.engagement.globalLabel || post.engagement.label}
+                {resolveEngagementLabel(post.engagement, 'post')}
               </span>
               <div className="w-1 h-1 rounded-full bg-zinc-200 dark:bg-zinc-800" />
               <span className="text-[0.65rem] font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-[0.15em] lowercase">
@@ -68,4 +69,3 @@ export default function PostHero({ post }: { post: TPost }) {
     </header>
   )
 }
-

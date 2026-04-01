@@ -27,6 +27,7 @@ export type TPost = {
     level: 'High' | 'Medium' | 'Low';
     label: string; // Backward-compatible default label (global label)
     globalLabel?: string;
+    sectionLabels?: Partial<Record<'post' | 'recommended' | 'trending', string>>;
     secondarySignal?: string;
     views: string;
     readTime: string;

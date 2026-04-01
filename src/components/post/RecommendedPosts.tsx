@@ -3,6 +3,7 @@ import { TPost } from '@/src/types'
 import Link from 'next/link'
 import ThemedImage from './ThemedImage'
 import { getCategoryTextColor } from '@/src/lib/utils/categoryColors'
+import { resolveEngagementLabel } from '@/src/lib/engagementLabels'
 
 interface RecommendedPostsProps {
   posts: TPost[]
@@ -48,11 +49,11 @@ export const RecommendedPosts: React.FC<RecommendedPostsProps> = ({ posts }) => 
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
 
                 {/* Floating V3 Badge (Compact) */}
-                {engagement && (engagement.globalLabel || engagement.label) !== 'Fresh 🆕' && (
+                {engagement && resolveEngagementLabel(engagement, 'recommended') !== 'Fresh 🆕' && (
                   <div className="absolute top-4 left-4 z-20">
                     <div className="px-3 py-1.5 bg-black/40 backdrop-blur-md border border-white/10 rounded-xl flex items-center gap-1.5 shadow-lg">
                       <span className="text-[0.55rem] font-black text-white uppercase tracking-wider whitespace-nowrap">
-                        {engagement.globalLabel || engagement.label}
+                        {resolveEngagementLabel(engagement, 'recommended')}
                       </span>
                     </div>
                   </div>
@@ -77,7 +78,6 @@ export const RecommendedPosts: React.FC<RecommendedPostsProps> = ({ posts }) => 
                 <h3 className="text-xl font-black text-zinc-900 dark:text-zinc-100 group-hover:text-orange-500 transition-colors duration-500 line-clamp-2 leading-tight mb-3">
                   {post.title}
                 </h3>
-
                 <p className="text-sm font-medium text-zinc-500 dark:text-zinc-400 line-clamp-2 opacity-70 group-hover:opacity-100 transition-opacity duration-500 leading-relaxed">
                   {post.summary}
                 </p>

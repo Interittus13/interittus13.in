@@ -21,6 +21,8 @@ import { enrichPostsWithAnalytics } from '@/src/lib/analytics'
 import { getRecommendedPosts } from '@/src/lib/recommendations'
 import { RecommendedPosts } from '@/src/components/post/RecommendedPosts'
 import InsightsBar from '@/src/components/post/InsightsBar'
+import { resolveEngagementLabel } from '@/src/lib/engagementLabels'
+import AdSlot from '@/src/components/ads/AdSlot'
 
 export const dynamic = 'force-dynamic'
 
@@ -83,7 +85,7 @@ export default async function PostPage({
             <InsightsBar
               views={post.engagement.views}
               readTime={post.engagement.readTime}
-              label={post.engagement.globalLabel || post.engagement.label}
+              label={resolveEngagementLabel(post.engagement, 'post')}
               secondarySignal={post.engagement.secondarySignal}
             />
           )}
@@ -98,6 +100,10 @@ export default async function PostPage({
         <div className="max-w-4xl mx-auto px-5 md:px-8 mt-8 pt-8 border-t border-zinc-100 dark:border-zinc-800/50">
           <p className="text-xs font-black uppercase tracking-widest text-zinc-400 mb-4">Share</p>
           <Share />
+        </div>
+
+        <div className="max-w-5xl mx-auto px-5 md:px-8 mt-10">
+          <AdSlot slot="postAfterContent" className="mb-10" />
         </div>
 
         <div className="max-w-5xl mx-auto px-5 md:px-8 mt-20">

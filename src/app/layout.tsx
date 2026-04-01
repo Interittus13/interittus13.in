@@ -1,11 +1,10 @@
 import type { Metadata, Viewport } from 'next'
-import { CONFIG } from '../config/blog'
-import Providers from '../components/Providers'
-import BlogLayout from '../components/layout/BlogLayout'
-import '../styles/globals.css'
-import GoogleAnalytics from '../components/analytics/GoogleAnalytics'
-
-import { getMetadata } from '../lib/utils/seo'
+import Providers from '@/src/components/Providers'
+import BlogLayout from '@/src/components/layout/BlogLayout'
+import GoogleAnalytics from '@/src/components/analytics/GoogleAnalytics'
+import GoogleAdSense from '@/src/components/ads/GoogleAdSense'
+import { getMetadata } from '@/src/lib/utils/seo'
+import '@/src/styles/globals.css'
 
 export const metadata: Metadata = getMetadata()
 
@@ -31,6 +30,7 @@ export default function RootLayout({
         </Providers>
 
         <GoogleAnalytics />
+        <GoogleAdSense />
       </body>
     </html>
   )

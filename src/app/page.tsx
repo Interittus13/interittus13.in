@@ -7,6 +7,7 @@ import { fetchAllPostMetrics } from '@/src/lib/ga'
 import { enrichPostsWithAnalytics } from '@/src/lib/analytics'
 import Image from 'next/image'
 import { me } from '@/src/config/me'
+import AdSlot from '@/src/components/ads/AdSlot'
 import { getIconByName } from '@/src/lib/utils/iconMap'
 import type { Metadata } from 'next'
 
@@ -86,6 +87,8 @@ export default async function HomePage() {
 
         {/* Trending Section */}
         <TrendingSection posts={enrichedPosts} />
+
+        <AdSlot slot="homeFeed" className="mb-14" />
 
         {/*Posts Section */}
         <section id="latest-articles" className="w-full scroll-mt-24">

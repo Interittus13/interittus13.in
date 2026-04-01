@@ -2,6 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import { TPost } from '@/src/types'
 import { getCategoryTextColor } from '@/src/lib/utils/categoryColors'
+import { resolveEngagementLabel } from '@/src/lib/engagementLabels'
 
 interface TrendingSectionProps {
   posts: TPost[]
@@ -16,7 +17,7 @@ const getWeeklyReadsText = (weeklyViews: number = 0) => {
 const getTrendingBadge = (post: TPost, index: number) => {
   const weeklyViews = post.metrics?.weeklyViews || 0
   if (weeklyViews > 0) return `🏆 Top ${index + 1} this week`
-  return post.engagement?.globalLabel || post.engagement?.label || 'Trending'
+  return resolveEngagementLabel(post.engagement, 'trending')
 }
 
 export const TrendingSection: React.FC<TrendingSectionProps> = ({ posts }) => {

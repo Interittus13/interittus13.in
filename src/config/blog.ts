@@ -2,6 +2,15 @@ import { getBaseUrl } from '../lib/utils/url'
 
 export const REVALIDATE = 60
 
+export const ADS_CONFIG = {
+  enabled: process.env.NEXT_PUBLIC_ENABLE_ADS === 'true',
+  clientId: process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID || '',
+  slots: {
+    homeFeed: process.env.NEXT_PUBLIC_ADSENSE_SLOT_HOME_FEED || '',
+    postAfterContent: process.env.NEXT_PUBLIC_ADSENSE_SLOT_POST_AFTER_CONTENT || '',
+  },
+}
+
 export const CONFIG = {
   BLOG_TITLE: 'interittus13',
   getBaseUrl,
@@ -22,3 +31,5 @@ export const CONFIG = {
   },
   REVALIDATE,
 }
+
+export const shouldRenderAds = ADS_CONFIG.enabled && !!ADS_CONFIG.clientId

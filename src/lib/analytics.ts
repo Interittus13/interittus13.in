@@ -133,6 +133,10 @@ export function assignEngagementLevels(
       level,
       label,
       globalLabel: label,
+      sectionLabels: {
+        post: label,
+        recommended: label,
+      },
       secondarySignal,
       views: formatViews(p.metrics.views),
       readTime: estimateReadTime(p.post.summary || '', p.post.title),
