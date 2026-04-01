@@ -20,8 +20,6 @@ import { fetchAllPostMetrics } from '@/src/lib/ga'
 import { enrichPostsWithAnalytics } from '@/src/lib/analytics'
 import { getRecommendedPosts } from '@/src/lib/recommendations'
 import { RecommendedPosts } from '@/src/components/post/RecommendedPosts'
-import InsightsBar from '@/src/components/post/InsightsBar'
-import { resolveEngagementLabel } from '@/src/lib/engagementLabels'
 import AdSlot from '@/src/components/ads/AdSlot'
 
 export const dynamic = 'force-dynamic'
@@ -80,16 +78,7 @@ export default async function PostPage({
 
         {post.thumbnail && <PostCover post={post} />}
 
-        <section className="max-w-4xl mx-auto px-5 md:px-8 mt-8 md:mt-12">
-          {post.engagement && (
-            <InsightsBar
-              views={post.engagement.views}
-              readTime={post.engagement.readTime}
-              label={resolveEngagementLabel(post.engagement, 'post')}
-              secondarySignal={post.engagement.secondarySignal}
-            />
-          )}
-
+        <section className="max-w-4xl mx-auto px-5 md:px-8 mt-6 md:mt-8">
           <ContentRenderer blocks={blocks} />
         </section>
 
