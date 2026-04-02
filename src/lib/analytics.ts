@@ -101,9 +101,10 @@ export function assignEngagementLevels(
     const isTrending = weeklyRank <= Math.ceil(totalPosts * 0.1) && p.weeklyViews > 2
 
     const totalSortedIndex = totalSorted.findIndex(s => s.slug === p.slug)
-    const percentile = (totalSortedIndex / totalPosts) * 100
+    const scorePercentile = (totalSortedIndex / totalPosts) * 100
     const viewSortedIndex = viewSorted.findIndex(s => s.slug === p.slug)
     const viewPercentile = (viewSortedIndex / totalPosts) * 100
+    const hasMeaningfulViews = p.metrics.views >= 5
 
     let postLabel = 'Fresh'
     let recommendedLabel = 'Fresh'
@@ -117,13 +118,13 @@ export function assignEngagementLevels(
     } else if (isTrending) {
       postLabel = 'Trending this week'
       level = 'High'
-    } else if (percentile <= 10) {
+    } else if (hasMeaningfulViews && viewPercentile <= 10) {
       postLabel = 'Trending All-Time'
       level = 'High'
-    } else if (percentile <= 30) {
+    } else if (hasMeaningfulViews && viewPercentile <= 30) {
       postLabel = 'Verified Popular'
       level = 'High'
-    } else if (percentile <= 50) {
+    } else if (hasMeaningfulViews && viewPercentile <= 50) {
       postLabel = 'Popular'
       level = 'Medium'
     }
@@ -133,9 +134,9 @@ export function assignEngagementLevels(
       recommendedLabel = `${Math.round(p.completionRate * 100)}% Finish Rate`
     } else if (p.score > 0.8) {
       recommendedLabel = 'Highly Recommended'
-    } else if (percentile <= 20) {
+    } else if (scorePercentile <= 20) {
       recommendedLabel = 'Must Read'
-    } else if (percentile <= 50) {
+    } else if (scorePercentile <= 50) {
       recommendedLabel = 'Deep Dive'
     }
 
