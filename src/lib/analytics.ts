@@ -46,26 +46,51 @@ export function deriveMetricsFromStats(
 }
 
 /**
+ * Wilson Score Interval (Lower Bound)
+ * Standardizes the "Quality" signal for small sample sizes.
+ * Reference: https://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval#Wilson_score_interval
+ */
+function calculateWilsonScore(numerator: number, denominator: number, z = 1.96): number {
+  if (denominator === 0) return 0
+  const n = denominator
+  const p = numerator / n
+  const score = (p + (z * z) / (2 * n) - z * Math.sqrt((p * (1 - p)) / n + (z * z) / (4 * n * n))) / (1 + (z * z) / n)
+  return score
+}
+
+/**
+ * Calculates a temporary boost for new posts to solve the "Cold Start" problem.
+ * Decays linearly from 1.5x to 1.0x over 7 days.
+ */
+function calculateFreshnessBoost(publishDate: string): number {
+  const pubDate = new Date(publishDate)
+  const daysOld = Math.max(0, (Date.now() - pubDate.getTime()) / (1000 * 60 * 60 * 24))
+  if (daysOld > 7) return 1
+  return 1 + (0.5 * (7 - daysOld)) / 7
+}
+
+/**
  * Normalizes and calculates the engagement score for a post.
  * Uses weights: Scroll(2), Completion(3), Avg Time(1.5)
- * Applies Time Decay based on post age.
+ * Applies Time Decay and Freshness Boost.
  */
 export function calculatePostScore(metrics: PostEngagementMetrics, publishDate: string) {
   const { views, scroll_75, completions, time_spent } = metrics
 
-  if (views === 0) return 0
+  // Base Quality Signal (Wilson-weighted rates)
+  const scrollScore = calculateWilsonScore(scroll_75, views)
+  const completionScore = calculateWilsonScore(completions, views)
+  const avgTimeMinutes = views > 0 ? (time_spent / views) / 60 : 0
 
-  const scrollRate = Math.min(1, scroll_75 / views)
-  const completionRate = Math.min(1, completions / views)
-  const avgTimeMinutes = (time_spent / views) / 60
+  const baseScore = (scrollScore * 2) + (completionScore * 3) + (avgTimeMinutes * 1.5)
 
-  const baseScore = (scrollRate * 2) + (completionRate * 3) + (avgTimeMinutes * 1.5)
-
+  // Time Signals
   const pubDate = new Date(publishDate)
   const daysOld = Math.max(0, (Date.now() - pubDate.getTime()) / (1000 * 60 * 60 * 24))
   const decayFactor = 1 / (1 + daysOld / 7)
+  const freshBoost = calculateFreshnessBoost(publishDate)
 
-  return baseScore * decayFactor
+  return baseScore * decayFactor * freshBoost
 }
 
 export function assignEngagementLevels(
@@ -75,14 +100,18 @@ export function assignEngagementLevels(
 ) {
   const enrichedPosts = posts.map(post => {
     const { metrics, weeklyViews } = deriveMetricsFromStats(post.slug, stats, statsWeekly)
-    const completionRate = metrics.views > 0 ? metrics.completions / metrics.views : 0
+    
+    // Use Wilson Score for robust Completion Rate (handles small samples)
+    const completionRateLowerBound = calculateWilsonScore(metrics.completions, metrics.views)
+    const actualCompletionRate = metrics.views > 0 ? metrics.completions / metrics.views : 0
 
     return {
       slug: post.slug,
       post,
       metrics,
       weeklyViews,
-      completionRate,
+      actualCompletionRate,
+      completionRateLowerBound,
       score: calculatePostScore(metrics, post.date.start_date),
       weeklyScore: weeklyViews + ((statsWeekly[`/posts/${post.slug}`]?.['blog_complete'] || 0) * 2),
     }
@@ -106,12 +135,29 @@ export function assignEngagementLevels(
     const viewPercentile = (viewSortedIndex / totalPosts) * 100
     const hasMeaningfulViews = p.metrics.views >= 5
 
-    let postLabel = 'Fresh'
-    let recommendedLabel = 'Fresh'
-    let trendingLabel = 'Fresh'
+    const pubDate = new Date(p.post.date.start_date)
+    const daysOld = Math.max(0, (Date.now() - pubDate.getTime()) / (1000 * 60 * 60 * 24))
+    const isNew = daysOld < 30
+    const isVeryNew = daysOld < 7
+
+    // Start with Baseline
+    let postLabel = isNew ? (isVeryNew ? 'Hot Release' : 'Fresh') : 'Discovery'
+    let recommendedLabel = isNew ? (isVeryNew ? 'New Event' : 'Recommended') : 'Discovery'
+    let trendingLabel = isNew ? (isVeryNew ? 'Rising Fast' : 'Growing Interest') : 'Discovery'
     let level: 'High' | 'Medium' | 'Low' = 'Low'
 
-    // Logic for Post Hero (Authority & All-time status)
+    // QUALITY-FIRST WATERFALL (Wilson Lower Bound > 0.6 indicates proven high engagement)
+    if (p.completionRateLowerBound >= 0.7 && p.metrics.views >= 5) {
+      recommendedLabel = `${Math.round(p.actualCompletionRate * 100)}% Finish Rate`
+      postLabel = 'Deep Engagement'
+      level = 'High'
+    } else if (p.score > 0.8) {
+      recommendedLabel = 'Highly Recommended'
+      postLabel = 'Must Read'
+      level = 'High'
+    }
+
+    // STATISTICAL RANKINGS
     if (isTop5) {
       postLabel = weeklyRank === 1 ? 'No. 1 Most Read This Week' : `No. ${weeklyRank} This Week`
       level = 'High'
@@ -129,38 +175,32 @@ export function assignEngagementLevels(
       level = 'Medium'
     }
 
-    // Logic for Recommended (Quality & Completion signals)
-    if (p.completionRate >= 0.85 && p.metrics.views >= 5) {
-      recommendedLabel = `${Math.round(p.completionRate * 100)}% Finish Rate`
-    } else if (p.score > 0.8) {
-      recommendedLabel = 'Highly Recommended'
-    } else if (scorePercentile <= 20) {
-      recommendedLabel = 'Must Read'
+    // RECOMMENDATION OVERLAYS (Refine Labels based on Score)
+    if (scorePercentile <= 20) {
+      recommendedLabel = 'Editor Choice'
     } else if (scorePercentile <= 50) {
       recommendedLabel = 'Deep Dive'
     }
 
-    // Logic for Trending (Velocity & Recent growth)
+    // TRENDING VELOCITY
     if (weeklyRank === 1) {
       trendingLabel = 'No. 1 Trending'
     } else if (isTop5) {
       trendingLabel = 'Trending Now'
     } else if (isTrending) {
       trendingLabel = 'Rising Fast'
-    } else if (p.weeklyViews > 2) {
-      trendingLabel = 'Growing Interest'
     }
 
     levels[p.slug] = {
       level,
-      label: postLabel, // fallback for global usage
+      label: postLabel, 
       globalLabel: postLabel,
       sectionLabels: {
         post: postLabel,
         recommended: recommendedLabel,
         trending: trendingLabel,
       },
-      secondarySignal: p.completionRate > 0.9 ? 'Most completed' : undefined,
+      secondarySignal: p.actualCompletionRate > 0.9 ? 'Most completed' : undefined,
       views: formatViews(p.metrics.views),
       readTime: estimateReadTime(p.post.summary || '', p.post.title),
       score: p.score,
