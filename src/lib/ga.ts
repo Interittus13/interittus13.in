@@ -32,7 +32,11 @@ if (fs.existsSync(keyFilePath)) {
 }
 
 
-const CACHE_FILE = path.join(process.cwd(), '.cache', 'analytics.json')
+const isVercel = process.env.VERCEL === '1'
+const CACHE_FILE = isVercel 
+  ? path.join('/tmp', 'analytics.json')
+  : path.join(process.cwd(), '.cache', 'analytics.json')
+
 const CACHE_TTL = 3600 * 1000 // 1 hour
 
 interface PostStats {
@@ -49,12 +53,28 @@ interface CachedData {
   data: RollingStats
 }
 
+let inMemoryCache: RollingStats | null = null
+
 async function getCachedAnalytics(): Promise<CachedData | null> {
+  // 1. Check In-memory first (fastest, serverless-friendly)
+  if (inMemoryCache) {
+    return {
+      timestamp: Date.now(), 
+      data: inMemoryCache
+    }
+  }
+
   try {
-    if (!fs.existsSync(path.dirname(CACHE_FILE))) {
-      fs.mkdirSync(path.dirname(CACHE_FILE), { recursive: true })
+    const dir = path.dirname(CACHE_FILE)
+    if (!fs.existsSync(dir)) {
+      try {
+        fs.mkdirSync(dir, { recursive: true })
+      } catch (e) {
+        // likely EROFS, ignore and proceed
+      }
       return null
     }
+
     if (fs.existsSync(CACHE_FILE)) {
       const content = fs.readFileSync(CACHE_FILE, 'utf-8').trim()
       if (!content) return null
@@ -62,6 +82,7 @@ async function getCachedAnalytics(): Promise<CachedData | null> {
       try {
         const parsed = JSON.parse(content) as CachedData
         if (Date.now() - parsed.timestamp < CACHE_TTL) {
+          inMemoryCache = parsed.data // Populate in-memory
           return parsed
         }
       } catch (jsonErr) {
@@ -76,14 +97,22 @@ async function getCachedAnalytics(): Promise<CachedData | null> {
 }
 
 async function saveAnalyticsCache(data: RollingStats) {
+  inMemoryCache = data // Always save to in-memory
+
   try {
+    const dir = path.dirname(CACHE_FILE)
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true })
+    }
+
     const cacheData: CachedData = {
       timestamp: Date.now(),
       data,
     }
     fs.writeFileSync(CACHE_FILE, JSON.stringify(cacheData))
   } catch (e) {
-    console.error('Error saving analytics cache:', e)
+    // Silently ignore write errors (e.g. EROFS on Vercel runtime)
+    // The in-memory cache will still serve the current process
   }
 }
 
