@@ -17,11 +17,10 @@ import { fetchAllPostMetrics } from '@/src/lib/ga'
 import { enrichPostsWithAnalytics } from '@/src/lib/analytics'
 
 export const dynamic = 'force-dynamic'
+
 import PostHero from '@/src/components/post/PostHero'
 import PostCover from '@/src/components/post/PostCover'
 import PostTags from '@/src/components/post/PostTags'
-import BlogAnalytics from '@/src/components/post/BlogAnalytics'
-export const dynamic = 'force-dynamic'
 
 export async function generateMetadata({
   params,
