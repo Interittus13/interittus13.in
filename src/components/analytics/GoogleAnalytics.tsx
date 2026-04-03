@@ -10,10 +10,11 @@ function AnalyticsContent() {
   const searchParams = useSearchParams()
 
   useEffect(() => {
-    if (pathname && searchParams) {
-      const url = pathname + searchParams.toString()
-      pageview(url, document.title)
-    }
+    if (!pathname) return
+
+    const query = searchParams?.toString()
+    const url = query ? `${pathname}?${query}` : pathname
+    pageview(url, document.title)
   }, [pathname, searchParams])
 
   return (
@@ -29,10 +30,10 @@ function AnalyticsContent() {
           __html: `
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
+            window.gtag = gtag;
             gtag('js', new Date());
             gtag('config', '${GA_TRACKING_ID}', {
-              page_path: window.location.pathname,
-              // debug_mode: 1,
+              send_page_view: false,
             });
           `,
         }}

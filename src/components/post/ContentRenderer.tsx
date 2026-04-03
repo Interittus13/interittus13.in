@@ -19,7 +19,7 @@ const ContentRenderer: React.FC<ContentRendererProps> = ({ blocks }) => {
 
   return (
     <div className="notion-content">
-      <NotionBlockRenderer blocks={blocks} />
+      <NotionBlockRenderer blocks={blocks} isRoot={true} />
     </div>
   )
 }

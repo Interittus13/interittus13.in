@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server'
 import { getPosts } from '@/src/lib/apis'
 import { filterPosts } from '@/src/lib/apis/filterPosts'
+import { fetchAllPostMetrics } from '@/src/lib/ga'
+import { enrichPostsWithAnalytics } from '@/src/lib/analytics'
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
@@ -11,7 +13,8 @@ export async function GET(request: Request) {
 
   try {
     const allPosts = await getPosts()
-    let filteredPosts = filterPosts(allPosts)
+    const stats = await fetchAllPostMetrics()
+    let filteredPosts = enrichPostsWithAnalytics(filterPosts(allPosts), stats.total, stats.weekly)
     
     if (category) {
       filteredPosts = filteredPosts.filter(post => (post.category || []).includes(category))

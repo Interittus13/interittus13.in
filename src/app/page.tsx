@@ -2,6 +2,8 @@ import { getPosts } from '@/src/lib/apis'
 import { filterPosts } from '@/src/lib/apis/filterPosts'
 import PostInfiniteList from '@/src/components/post/PostInfiniteList'
 import ListLayout from '@/src/components/layout/ListLayout'
+import { fetchAllPostMetrics } from '@/src/lib/ga'
+import { enrichPostsWithAnalytics } from '@/src/lib/analytics'
 import Image from 'next/image'
 import { me } from '@/src/config/me'
 import { getIconByName } from '@/src/lib/utils/iconMap'
@@ -20,6 +22,8 @@ export const metadata: Metadata = getMetadata({
 export default async function HomePage() {
   const posts = await getPosts()
   const filteredPosts = filterPosts(posts)
+  const stats = await fetchAllPostMetrics()
+  const enrichedPosts = enrichPostsWithAnalytics(filteredPosts, stats.total, stats.weekly)
 
   return (
     <main className="min-h-screen">
@@ -77,7 +81,7 @@ export default async function HomePage() {
             </h2>
             <div className="h-1 flex-1 bg-zinc-100 dark:bg-zinc-800/50 rounded-full" />
           </div>
-          <PostInfiniteList initialPosts={filteredPosts} />
+          <PostInfiniteList initialPosts={enrichedPosts} />
         </section>
       </ListLayout>
     </main>

@@ -47,3 +47,4 @@ yarn-error.log*
 **/public/worker-*.js.map
 **/public/sitemap.xml
 interittus-GA-key.json
+.cache/

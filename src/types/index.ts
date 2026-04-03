@@ -18,7 +18,21 @@ export type TPost = {
   coverBlur?: {
     blurLight?: string;
     blurDark?: string;
-  }
+  };
+  metrics?: {
+    totalViews: number;
+    weeklyViews: number;
+  };
+  engagement?: {
+    level: 'High' | 'Medium' | 'Low';
+    label: string; // Backward-compatible default label (global label)
+    globalLabel?: string;
+    sectionLabels?: Partial<Record<'post' | 'recommended' | 'trending', string>>;
+    secondarySignal?: string;
+    views: string;
+    readTime: string;
+    score: number;
+  };
 };
 
 export type TPosts = TPost[];

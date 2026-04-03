@@ -210,15 +210,22 @@ function Block({ block, isFirst }: { block: BlockObjectResponse; isFirst?: boole
     case 'quote': {
       const qb = (block as any).quote
       return (
-        <blockquote className="border-l-4 border-orange-400 pl-6 py-2 my-8 bg-orange-50/50 dark:bg-orange-900/10 rounded-r-xl">
-          <p className="text-xl md:text-2xl italic text-zinc-600 dark:text-zinc-400 leading-relaxed font-medium">
-            <RichTextContent richText={qb.rich_text} />
-          </p>
-          {children.length > 0 && (
-            <div className="mt-2">
-              <NotionBlockRenderer blocks={children} />
-            </div>
-          )}
+        <blockquote className="border-l-4 border-orange-400 pl-6 py-6 my-8 bg-orange-50/50 dark:bg-zinc-800/20 rounded-r-2xl relative overflow-hidden">
+          <div className="flex gap-4">
+             <span className="text-6xl md:text-7xl font-black text-zinc-900 dark:text-white leading-none opacity-100 flex-shrink-0 select-none">
+               &ldquo;
+             </span>
+             <div className="flex-1">
+               <p className="text-xl md:text-2xl italic text-zinc-700 dark:text-zinc-300 leading-relaxed font-medium">
+                 <RichTextContent richText={qb.rich_text} />
+               </p>
+               {children.length > 0 && (
+                 <div className="mt-4">
+                   <NotionBlockRenderer blocks={children} />
+                 </div>
+               )}
+             </div>
+          </div>
         </blockquote>
       )
     }
@@ -226,14 +233,18 @@ function Block({ block, isFirst }: { block: BlockObjectResponse; isFirst?: boole
     case 'callout': {
       const cb = (block as any).callout
       const emoji = cb.icon?.type === 'emoji' ? cb.icon.emoji : '💡'
+      const isQuoteIcon = emoji === '"' || emoji === '“' || emoji === '”' || emoji === '💬'
       const colorClass = calloutBgMap[cb.color ?? 'default'] ?? calloutBgMap.default
+      
       return (
-        <div className={`flex gap-4 p-5 my-6 rounded-2xl border ${colorClass}`}>
-          <span className="text-2xl flex-shrink-0 leading-none mt-0.5">{emoji}</span>
+        <div className={`flex gap-4 p-6 my-6 rounded-2xl border ${colorClass} relative overflow-hidden transition-all hover:bg-zinc-100/50 dark:hover:bg-zinc-800/60`}>
+          <span className={`${isQuoteIcon ? 'text-6xl font-black text-zinc-900 dark:text-white' : 'text-2xl'} flex-shrink-0 leading-none`}>
+            {emoji === '"' ? '“' : emoji}
+          </span>
           <div className="text-base md:text-lg text-zinc-700 dark:text-zinc-300 leading-relaxed">
             <RichTextContent richText={cb.rich_text} />
             {children.length > 0 && (
-              <div className="mt-2">
+              <div className="mt-4 border-l border-zinc-200 dark:border-zinc-700 pl-4">
                 <NotionBlockRenderer blocks={children} />
               </div>
             )}
@@ -512,9 +523,10 @@ interface RendererProps {
   blocks: BlockObjectResponse[]
   isTableContext?: boolean
   hasColumnHeader?: boolean
+  isRoot?: boolean
 }
 
-export function NotionBlockRenderer({ blocks, isTableContext, hasColumnHeader }: RendererProps) {
+export function NotionBlockRenderer({ blocks, isTableContext, hasColumnHeader, isRoot = false }: RendererProps) {
   const elements: React.ReactNode[] = []
   let i = 0
 
@@ -552,7 +564,7 @@ export function NotionBlockRenderer({ blocks, isTableContext, hasColumnHeader }:
       i++
     } else {
       // Set isFirst only for the very first block in the main content stream
-      const isFirst = !isTableContext && i === 0
+      const isFirst = isRoot && i === 0
       elements.push(<Block key={block.id} block={block} isFirst={isFirst} />)
       i++
     }

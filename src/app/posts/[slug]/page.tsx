@@ -12,6 +12,9 @@ import React from 'react'
 import ReadingProgress from '@/src/components/post/ReadingProgress'
 import { me } from '@/src/config/me'
 import { getMetadata } from '@/src/lib/utils/seo'
+import BlogAnalytics from '@/src/components/post/BlogAnalytics'
+import { fetchAllPostMetrics } from '@/src/lib/ga'
+import { enrichPostsWithAnalytics } from '@/src/lib/analytics'
 
 export const dynamic = 'force-dynamic'
 import PostHero from '@/src/components/post/PostHero'
@@ -59,8 +62,10 @@ export default async function PostPage({
   const { slug } = await params
   const allPosts = await getPosts()
   const filteredPosts = filterPosts(allPosts)
-  const pageIndex = filteredPosts.findIndex((p) => p.slug === slug)
-  const post = filteredPosts[pageIndex]
+  const stats = await fetchAllPostMetrics()
+  const enrichedPosts = enrichPostsWithAnalytics(filteredPosts, stats.total, stats.weekly)
+  const pageIndex = enrichedPosts.findIndex((p) => p.slug === slug)
+  const post = enrichedPosts[pageIndex]
 
   if (!post) return <PostNotFound />
 
@@ -75,6 +80,7 @@ export default async function PostPage({
   return (
     <>
       <ReadingProgress />
+      <BlogAnalytics slug={slug} />
       <main className="min-h-screen">
         {/* Hero */}
         <PostHero post={post} />
