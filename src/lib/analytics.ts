@@ -126,14 +126,16 @@ export function assignEngagementLevels(
 
   enrichedPosts.forEach((p) => {
     const weeklyRank = weeklySorted.findIndex(s => s.slug === p.slug) + 1
-    const isTop5 = weeklyRank <= 5 && p.weeklyViews > 0
-    const isTrending = weeklyRank <= Math.ceil(totalPosts * 0.1) && p.weeklyViews > 2
+    // Only rank if it has meaningful recent views (Threshold: > 10)
+    const isTop5 = weeklyRank <= 5 && p.weeklyViews >= 10
+    // Trending threshold: > 5 views in a week
+    const isTrending = weeklyRank <= Math.ceil(totalPosts * 0.1) && p.weeklyViews >= 5
 
     const totalSortedIndex = totalSorted.findIndex(s => s.slug === p.slug)
     const scorePercentile = (totalSortedIndex / totalPosts) * 100
     const viewSortedIndex = viewSorted.findIndex(s => s.slug === p.slug)
     const viewPercentile = (viewSortedIndex / totalPosts) * 100
-    const hasMeaningfulViews = p.metrics.views >= 5
+    const hasMeaningfulViews = p.metrics.views >= 10
 
     const pubDate = new Date(p.post.date.start_date)
     const daysOld = Math.max(0, (Date.now() - pubDate.getTime()) / (1000 * 60 * 60 * 24))

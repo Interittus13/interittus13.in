@@ -14,7 +14,6 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "postbuild": "next-sitemap --config next-sitemap.config.js",
     "analyze": "cross-env ANALYZE=true next build",
     "analyze:server": "cross-env BUNDLE_ANALYZE=server next build",
     "analyze:browser": "cross-env BUNDLE_ANALYZE=browser next build"
@@ -65,7 +64,6 @@
     "cross-env": "^7.0.3",
     "eslint": "^8.57.1",
     "eslint-config-next": "^15.3.1",
-    "next-sitemap": "^4.0.9",
     "notion-types": "^7.7.1",
     "postcss": "^8.5.8",
     "tailwindcss": "^4.2.1",
