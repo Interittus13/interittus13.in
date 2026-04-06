@@ -109,6 +109,7 @@ export default function PostInfiniteList({
                   <div className="flex-1" />
                   <PostMetricBadge 
                     views={post.metrics?.totalViews} 
+                    showCount={false}
                     isPopular={(post.metrics?.totalViews || 0) >= popularThreshold && (post.metrics?.totalViews || 0) > 10}
                   />
                 </div>

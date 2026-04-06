@@ -39,7 +39,7 @@ export const TrendingSection: React.FC<TrendingSectionProps> = ({ posts }) => {
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-3">
             <div className="relative">
-              <span className="text-sm font-black text-orange-500 uppercase tracking-[0.2em]">Live</span>
+              {/* <span className="text-sm font-black text-orange-500 uppercase tracking-[0.2em]">Live</span> */}
               <span className="absolute -top-1 -right-1 flex h-3 w-3">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-3 w-3 bg-orange-500"></span>
@@ -76,13 +76,8 @@ export const TrendingSection: React.FC<TrendingSectionProps> = ({ posts }) => {
                 <h3 className={`font-black text-zinc-900 dark:text-zinc-100 group-hover:text-orange-500 transition-colors duration-500 leading-tight mb-4 ${i === 0 ? 'text-2xl md:text-3xl lg:text-4xl' : 'text-xl'}`}>
                   {post.title}
                 </h3>
-                <div className="flex items-center gap-4 text-[0.75rem] font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">
-                  <span className="flex items-center gap-1.5">
-                    <svg className="w-3.5 h-3.5 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                    </svg>
-                    {getWeeklyReadsText(post.metrics?.weeklyViews)}
-                  </span>
+                <div className="flex items-center gap-4 text-[0.75rem] font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest invisible">
+                  {/* Hidden to maintain premium feel, rank is still reflected by position 01, 02, etc. */}
                 </div>
               </div>
               <div className="absolute -bottom-4 -right-4 opacity-[0.03] group-hover:opacity-[0.08] transition-opacity duration-700 pointer-events-none">

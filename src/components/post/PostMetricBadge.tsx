@@ -3,19 +3,21 @@ import React from 'react'
 interface PostMetricBadgeProps {
   views?: number
   isPopular?: boolean
+  showCount?: boolean
   className?: string
 }
 
 export const PostMetricBadge: React.FC<PostMetricBadgeProps> = ({ 
   views, 
   isPopular, 
+  showCount = true,
   className = '' 
 }) => {
   if (!views && !isPopular) return null
 
   return (
     <div className={`flex items-center gap-2 ${className}`}>
-      {views !== undefined && (
+      {views !== undefined && showCount && (
         <span className="inline-flex items-center gap-1 text-[0.6rem] font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest bg-zinc-100 dark:bg-zinc-800/50 px-2.5 py-1 rounded-full border border-zinc-200 dark:border-zinc-700/50 transition-colors">
           <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
