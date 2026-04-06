@@ -1,8 +1,9 @@
 import { MetadataRoute } from 'next'
 import { getPosts } from '@/src/lib/apis'
+import { CONFIG } from '@/src/config/blog'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = 'https://interittus13.in'
+  const baseUrl = CONFIG.getBaseUrl()
 
   // Fetch all posts from the API
   const allPosts = await getPosts()
