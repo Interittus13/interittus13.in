@@ -1,9 +1,8 @@
-'use client'
-
-import React from 'react'
+import React, { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import ImageGuard from '@/src/components/ui/ImageGuard'
+import ImageLightbox from '@/src/components/ui/ImageLightbox'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import type { BlockObjectResponse } from '@notionhq/client/build/src/api-endpoints'
@@ -95,6 +94,45 @@ const calloutBgMap: Record<string, string> = {
   default: 'bg-zinc-50 dark:bg-zinc-800/50 border-zinc-200 dark:border-zinc-700',
 }
 
+function ImageBlock({ url, alt, caption }: { url: string; alt: string; caption: string }) {
+  const [isOpen, setIsOpen] = useState(false)
+
+  return (
+    <>
+      <figure className="my-8">
+        <div 
+          className="relative w-full rounded-2xl overflow-hidden border border-zinc-200 dark:border-zinc-700/50 shadow-sm group/image cursor-zoom-in transition-transform duration-300 active:scale-[0.98]"
+          onClick={() => setIsOpen(true)}
+        >
+          <ImageGuard showInteractionLayer={false}>
+            <Image
+              src={url}
+              alt={alt}
+              width={1200}
+              height={800}
+              className="w-full h-auto object-cover transition-transform duration-500 group-hover/image:scale-[1.02]"
+              loading="lazy"
+              unoptimized
+            />
+          </ImageGuard>
+        </div>
+        {caption && (
+          <figcaption className="text-center text-sm text-zinc-400 mt-3 italic">
+            {caption}
+          </figcaption>
+        )}
+      </figure>
+
+      <ImageLightbox
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        src={url}
+        alt={alt || caption}
+      />
+    </>
+  )
+}
+
 // Single block renderer
 function Block({ block, isFirst }: { block: BlockObjectResponse; isFirst?: boolean }) {
   const children: BlockObjectResponse[] = (block as any).__children ?? []
@@ -114,7 +152,6 @@ function Block({ block, isFirst }: { block: BlockObjectResponse; isFirst?: boole
         </p>
       )
     }
-
     case 'heading_1': {
       const hb = (block as any).heading_1
       const id = hb.rich_text.map((t: RichText) => t.plain_text).join('').toLowerCase().replace(/\s+/g, '-')
@@ -302,35 +339,13 @@ function Block({ block, isFirst }: { block: BlockObjectResponse; isFirst?: boole
         </div>
       )
     }
-
     case 'image': {
       const img = (block as any).image
       const rawUrl = img.type === 'external' ? img.external.url : img.file?.url
       const url = normalizeSignedUrl(rawUrl)
       const caption = img.caption?.map((t: RichText) => t.plain_text).join('') ?? ''
       if (!url) return null
-      return (
-        <figure className="my-8">
-          <div className="relative w-full rounded-2xl overflow-hidden border border-zinc-200 dark:border-zinc-700/50 shadow-sm">
-            <ImageGuard>
-              <Image
-                src={url}
-                alt={caption || 'Blog image'}
-                width={1200}
-                height={800}
-                className="w-full h-auto object-cover"
-                loading="lazy"
-                unoptimized // Notion signed URLs often change
-              />
-            </ImageGuard>
-          </div>
-          {caption && (
-            <figcaption className="text-center text-sm text-zinc-400 mt-3 italic">
-              {caption}
-            </figcaption>
-          )}
-        </figure>
-      )
+      return <ImageBlock url={url} alt={img.caption?.[0]?.plain_text || 'Blog image'} caption={caption} />
     }
 
     case 'video': {
